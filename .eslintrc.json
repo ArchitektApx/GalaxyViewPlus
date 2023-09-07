@@ -1,0 +1,269 @@
+{
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es2021": true,
+    "jest": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "airbnb-base",
+    "airbnb-babel",
+    "plugin:import/recommended",
+    "plugin:no-unsanitized/DOM",
+    "plugin:optimize-regex/recommended",
+    "plugin:promise/recommended",
+    "plugin:regexp/recommended",
+    "plugin:security/recommended",
+    "plugin:sonarjs/recommended",
+    "plugin:unicorn/recommended",
+    "right-align"
+  ],
+  "globals": {
+    "__buildMode__": true,
+    "__isDevBuild__": true,
+    "__scriptName__": true,
+    "GM": true,
+    "GM_info": true
+  },
+  "ignorePatterns": [
+    "dist/",
+    "node_modules/",
+    "bin/",
+    "coverage/",
+    "GalaxyViewPlus.user.js",
+    "webpack.development.config.js",
+    "webpack.production.config.js"
+  ],
+  "overrides": [
+    {
+      "extends": [
+        "plugin:jest-formatting/recommended",
+        "plugin:jest/recommended",
+        "plugin:jest/style"
+      ],
+      "files": [
+        "tests/**"
+      ],
+      "plugins": [
+        "jest",
+        "jest-formatting"
+      ],
+      "rules": {
+        "no-unused-vars": "off"
+      }
+    }
+  ],
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "babelOptions": {
+      "plugins": [
+        "@babel/plugin-syntax-import-assertions"
+      ]
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "align-assignments",
+    "align-import",
+    "jest",
+    "jest-formatting",
+    "no-constructor-bind",
+    "no-loops",
+    "promise",
+    "regexp",
+    "sonarjs",
+    "sort-class-members",
+    "spellcheck"
+  ],
+  "rules": {
+    "babel/no-unused-expressions": [
+      "error",
+      {
+        "allowShortCircuit": true,
+        "allowTernary": true
+      }
+    ],
+    "babel/semi": [
+      "error",
+      "never"
+    ],
+    "babel/camelcase": "off",
+    "camelcase": "off",
+    "class-methods-use-this": "error",
+    "complexity": "error",
+    "consistent-return": "off",
+    "eqeqeq": "error",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "always"
+      }
+    ],
+    "linebreak-style": "off",
+    "lines-between-class-members": [
+      "error",
+      "always",
+      {
+        "exceptAfterSingleLine": true
+      }
+    ],
+    "max-len": [
+      "error",
+      {
+        "code": 100,
+        "ignoreComments": true,
+        "ignoreRegExpLiterals": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreTrailingComments": true,
+        "ignoreUrls": true
+      }
+    ],
+    "no-alert": "off",
+    "no-console": "off",
+    "no-constant-binary-expression": "error",
+    "no-constructor-bind/no-constructor-bind": "error",
+    "no-constructor-bind/no-constructor-state": "error",
+    "no-constructor-return": "off",
+    "no-eval": "error",
+    "no-extra-bind": "error",
+    "no-invalid-this": "error",
+    "no-loops/no-loops": "error",
+    "no-param-reassign": [
+      "error",
+      {
+        "props": false
+      }
+    ],
+    "no-unneeded-ternary": "error",
+    "no-unused-expressions": [
+      "error",
+      {
+        "allowShortCircuit": true,
+        "allowTernary": true
+      }
+    ],
+    "no-unused-vars": [
+      "error",
+      {
+        "varsIgnorePattern": "userInterface|iteratorInstance"
+      }
+    ],
+    "regexp/strict": "off",
+    "security/detect-object-injection": "off",
+    "semi": [
+      "error",
+      "never"
+    ],
+    "sort-class-members/sort-class-members": [
+      2,
+      {
+        "order": [
+          "[static-public-properties]",
+          "[static-private-properties]",
+          "[public-properties]",
+          "[private-properties]",
+          "[constructor]",
+          "[public-methods]",
+          "[private-methods]",
+          "[static-public-methods]",
+          "[static-private-methods]"
+        ],
+        "groups": {
+          "constructor": [
+            {
+              "type": "method",
+              "name": "constructor",
+              "static": false
+            }
+          ],
+          "static-public-properties": [
+            {
+              "name": "/^[^#].+/",
+              "type": "property",
+              "static": true,
+              "sort": "alphabetical"
+            }
+          ],
+          "static-private-properties": [
+            {
+              "name": "/^[#].+/",
+              "type": "property",
+              "static": true,
+              "sort": "alphabetical"
+            }
+          ],
+          "private-properties": [
+            {
+              "type": "property",
+              "name": "/^[#].+/",
+              "static": false,
+              "sort": "alphabetical"
+            }
+          ],
+          "public-properties": [
+            {
+              "type": "property",
+              "name": "/^[^#].+/",
+              "static": false,
+              "sort": "alphabetical"
+            }
+          ],
+          "private-methods": [
+            {
+              "type": "method",
+              "name": "/^[#].+/",
+              "static": false,
+              "sort": "alphabetical"
+            }
+          ],
+          "public-methods": [
+            {
+              "type": "method",
+              "name": "/^[^#].+/",
+              "static": false,
+              "sort": "alphabetical"
+            }
+          ],
+          "static-private-methods": [
+            {
+              "type": "method",
+              "name": "/^[#].+/",
+              "static": true,
+              "sort": "alphabetical"
+            }
+          ],
+          "static-public-methods": [
+            {
+              "type": "method",
+              "name": "/^[^#].+/",
+              "static": true,
+              "sort": "alphabetical"
+            }
+          ]
+        }
+      }
+    ],
+    "spellcheck/spell-checker": [
+      "off",
+      {
+        "minLength": 4
+      }
+    ],
+    "unicorn/filename-case": [
+      "error",
+      {
+        "cases": {
+          "camelCase": true,
+          "pascalCase": true
+        }
+      }
+    ],
+    "unicorn/no-array-for-each": "off",
+    "unicorn/no-null": "off",
+    "unicorn/no-static-only-class": "off"
+  }
+}

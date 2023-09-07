@@ -46,6 +46,15 @@ export default class RankRecolor {
     currentElement.parentNode.append(rankElement)
   }
 
+  static getParams(config, statInstance) {
+    return {
+      params: {
+        rank  : RankRecolor.getRankSelectorData(config),
+        stats : statInstance,
+      },
+    }
+  }
+
   static getRankSelectorData(featureConfig) {
     if (!featureConfig) { return }
 

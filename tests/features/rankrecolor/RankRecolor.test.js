@@ -220,4 +220,23 @@ describe('RankRecolor', () => {
       expect(rankSelectorData).toEqual([])
     })
   })
+
+  describe('getParams', () => {
+    it('should return params object with correct rank and stats', () => {
+      const mockConfig = [
+        { feature: 'rankSelector', data: [] },
+      ]
+
+      const mockStatsInstance = {}
+
+      const parameters = RankRecolor.getParams(mockConfig, mockStatsInstance)
+
+      expect(parameters).toEqual({
+        params: {
+          rank  : [],
+          stats : mockStatsInstance,
+        },
+      })
+    })
+  })
 })

@@ -8,23 +8,17 @@ export default class Iterator {
   static selector = 'a.tooltip_sticky > span.galaxy-username'
   static #logName = 'IteratorModule'
 
-  constructor({ features: featureConfig }, statInstance) {
+  constructor({ features: config }, stats) {
     Iterator.#log('Starting feature iterator ', 'debug')
 
     this.featureMap = {
-      rangeInfo       : { Class: RangeInfo,       params: RangeInfo.getCurrentGalaxyAndSystem() },
       inactiveRecolor : { Class: InactiveRecolor, params: undefined },
+      rangeInfo       : { Class: RangeInfo,       params: RangeInfo.getCurrentGalaxyAndSystem() },
+      rankRecolor     : { Class: RankRecolor,     params: RankRecolor.getParams(config, stats) },
       userRecolor     : { Class: UsernameRecolor, params: undefined },
-      rankRecolor     : {
-        Class  : RankRecolor,
-        params : {
-          rank  : RankRecolor.getRankSelectorData(featureConfig),
-          stats : statInstance,
-        },
-      },
     }
 
-    this.invokeFeatures(featureConfig)
+    this.invokeFeatures(config)
 
     Iterator.#log('Finished running feature iterator', 'debug')
   }

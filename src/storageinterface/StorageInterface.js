@@ -1,3 +1,4 @@
+import LogLevel   from '../enum/LogLevel.js'
 import StaticData from '../staticdata/StaticData.js'
 
 export default class StorageInterface {
@@ -15,7 +16,7 @@ export default class StorageInterface {
 
       return true
     } catch (error) {
-      StorageInterface.#log('Failed to delete a key from Storage', 'error', error)
+      StorageInterface.#log('Failed to delete a key from Storage', LogLevel.ERROR, error)
 
       return false
     }
@@ -25,7 +26,7 @@ export default class StorageInterface {
     try {
       return JSON.parse(localStorage.getItem(key) || '{}')
     } catch (error) {
-      StorageInterface.#log('Failed to get a key from Storage', 'error', error)
+      StorageInterface.#log('Failed to get a key from Storage', LogLevel.ERROR, error)
 
       return false
     }
@@ -37,15 +38,20 @@ export default class StorageInterface {
 
       return true
     } catch (error) {
-      StorageInterface.#log('Failed to save a key from Storage', 'error', error)
+      StorageInterface.#log('Failed to save a key from Storage', LogLevel.ERROR, error)
 
       return false
     }
   }
 
-  static writeLog(message, type = 'log', module = '', errorObject = '') {
+  static writeLog(message, level = LogLevel.INFO, module = '', errorObject = '') {
     const timestamp  = new Date(Date.now()).toISOString()
-    const logMessage = `[${ __scriptName__ }_${ module } ${ timestamp }] [${ type }]: ${ message }`
+    const logMessage = `[${ __scriptName__ }_${ module } ${ timestamp }] [${ level }]: ${ message }`
+
+    if (level === LogLevel.ERROR) {
+      console.error(logMessage)
+      console.error(errorObject)
+    }
 
     try {
       let logMessages = StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.DEBUG_LOG)
@@ -54,22 +60,18 @@ export default class StorageInterface {
       logMessages.push(logMessage)
 
       if (logMessages.length > StaticData.DEBUG_LOG_MAX_ENTRIES) {
-        logMessages.shift()
+        // remove oldest entries
+        logMessages = logMessages.slice(-StaticData.DEBUG_LOG_MAX_ENTRIES)
       }
 
       StorageInterface.setStorageItem(StaticData.STORAGE_KEYS.DEBUG_LOG, logMessages)
-
-      if (type === 'error') {
-        console.log(`[${ __scriptName__ }${ module } ${ timestamp }] [${ type }]: ${ message }`)
-        console.error(errorObject)
-      }
     } catch (error) {
       console.error('Critical error in writeLog:', error)
     }
   }
 
   // static private methods
-  static #log(message, level, error) {
+  static #log(message, level = LogLevel.INFO, error = '') {
     StorageInterface.writeLog(message, level, StorageInterface.#logName, error)
   }
 }

@@ -1,3 +1,4 @@
+import LogLevel             from '../enum/LogLevel.js'
 import StaticData           from '../staticdata/StaticData.js'
 import StorageInterface     from '../storageinterface/StorageInterface.js'
 import Validator            from '../validator/Validator.js'
@@ -37,7 +38,7 @@ export default class ConfigManager {
       !Object.keys(this.commandMap).includes(actionType)
       || this.commandMap[actionType].class === undefined
     ) {
-      ConfigManager.#log(`Invalid Config Manager Command ${ actionType }`, 'error')
+      ConfigManager.#log(`Invalid Config Manager Command ${ actionType }`, LogLevel.ERROR)
 
       return
     }
@@ -60,13 +61,13 @@ export default class ConfigManager {
       const storageKeys  = StaticData.STORAGE_KEYS
       const storedConfig = StorageInterface.getStorageItem(storageKeys.USER_CONFIG, '{}')
 
-      ConfigManager.#log('loaded config from storage', 'debug')
+      ConfigManager.#log('loaded config from storage', LogLevel.DEBUG)
 
       if (Object.keys(storedConfig).length === 0 && storedConfig.constructor === Object) {
         // no existing config found
         this.#runningConfig = StaticData.DEFAULT_CONFIG
 
-        ConfigManager.#log('config does not exist. loading default config.', 'warn')
+        ConfigManager.#log('config does not exist. loading default config.', LogLevel.WARN)
         this.#saveConfig()
       } else if (Validator.validateConfig(
         storedConfig,
@@ -77,23 +78,23 @@ export default class ConfigManager {
         this.#runningConfig = storedConfig
       } else {
         // existing config is invalid
-        ConfigManager.#log('config is empty, deprecated or invalid. starting repair', 'warn')
+        ConfigManager.#log('config is empty, deprecated or invalid. starting repair', LogLevel.WARN)
         this.#runningConfig = Validator.migrateConfig(storedConfig, StaticData.DEFAULT_CONFIG)
 
-        ConfigManager.#log('migration/repair finished successfully. saving new config', 'debug')
+        ConfigManager.#log('migration/repair finished successfully. saving new config', LogLevel.DEBUG)
         this.#saveConfig()
       }
     } catch (error) {
-      ConfigManager.#log('Error loading configuration:', 'error', error)
-      ConfigManager.#log('Loading default configuration', 'warn')
-      ConfigManager.#log('if this keeps happening restore to overwrite the broken config.', 'warn')
+      ConfigManager.#log('Error loading configuration:', LogLevel.ERROR, error)
+      ConfigManager.#log('Loading default configuration', LogLevel.WARN)
+      ConfigManager.#log('if this keeps happening restore to overwrite the broken config.', LogLevel.WARN)
 
       this.#runningConfig = StaticData.DEFAULT_CONFIG
     }
   }
 
   #resetConfig() {
-    ConfigManager.#log('Restoring default config', 'debug')
+    ConfigManager.#log('Restoring default config', LogLevel.DEBUG)
     this.#runningConfig = StaticData.DEFAULT_CONFIG
     this.#saveConfig()
     document.location.reload()
@@ -129,15 +130,11 @@ export default class ConfigManager {
 
       command.execute()
     } catch (error) {
-      ConfigManager.#log(`Error executing command ${ CommandClass.name }:`, 'error', error)
+      ConfigManager.#log(`Error executing command ${ CommandClass.name }:`, LogLevel.ERROR, error)
     }
   }
 
-  static #log(message, level, error = '') {
-    if (level === 'error' && error !== '') {
-      StorageInterface.writeLog(message, level, ConfigManager.#logName, error)
-    }  else {
-      StorageInterface.writeLog(message, level, ConfigManager.#logName)
-    }
+  static #log(message, level = LogLevel.INFO, error = '') {
+    StorageInterface.writeLog(message, level, ConfigManager.#logName, error)
   }
 }

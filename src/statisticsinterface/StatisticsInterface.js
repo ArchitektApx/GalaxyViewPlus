@@ -1,3 +1,4 @@
+import LogLevel         from '../enum/LogLevel.js'
 import StaticData       from '../staticdata/StaticData.js'
 import StorageInterface from '../storageinterface/StorageInterface.js'
 import Validator        from '../validator/Validator.js'
@@ -55,9 +56,9 @@ export default class StatisticsInterface {
     ) {
       this.statsData      = statsData
       this.statsAvailable = true
-      StatisticsInterface.#log('StatsData successfully loaded from storage', 'debug')
+      StatisticsInterface.#log('StatsData successfully loaded from storage', LogLevel.DEBUG)
     } else {
-      StatisticsInterface.#log('StatsData will be refreshed', 'debug')
+      StatisticsInterface.#log('StatsData will be refreshed', LogLevel.DEBUG)
       await this.#fetchAndProcessStats()
     }
   }
@@ -69,7 +70,7 @@ export default class StatisticsInterface {
     }
 
     StorageInterface.setStorageItem(StaticData.STORAGE_KEYS.UPDATE_STATUS, updateStatus)
-    StatisticsInterface.#log('Parsing StatsData', 'debug')
+    StatisticsInterface.#log('Parsing StatsData', LogLevel.DEBUG)
 
     const result = {}
 
@@ -105,7 +106,7 @@ export default class StatisticsInterface {
     updateStatus.status    = StatisticsInterface.STATUS_FINISHED
     updateStatus.timestamp = Validator.getTimestamp()
     StorageInterface.setStorageItem(StaticData.STORAGE_KEYS.UPDATE_STATUS, updateStatus)
-    StatisticsInterface.#log('StatsData was parsed and written to storage', 'debug')
+    StatisticsInterface.#log('StatsData was parsed and written to storage', LogLevel.DEBUG)
   }
 
   async #fetchAndProcessStats() {
@@ -123,28 +124,28 @@ export default class StatisticsInterface {
   }
 
   #handleErrorInFetching(response) {
-    StatisticsInterface.#log('Error while downloading StatsData:', 'warn')
-    StatisticsInterface.#log('Response was:', 'warn', response)
+    StatisticsInterface.#log('Error while downloading StatsData:', LogLevel.WARN)
+    StatisticsInterface.#log('Response was:', LogLevel.WARN, response)
 
     const statsData = StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.STATS_DATA) || {}
 
     if (Object.keys(statsData).length === 0) {
-      StatisticsInterface.#log('No old StatsData found in storage', 'debug')
+      StatisticsInterface.#log('No old StatsData found in storage', LogLevel.DEBUG)
 
       return
     }
 
-    StatisticsInterface.#log('Old StatsData found in storage', 'debug')
+    StatisticsInterface.#log('Old StatsData found in storage', LogLevel.DEBUG)
     this.statsData      = statsData
     this.statsAvailable = true
   }
 
   #processStatsData(response) {
-    StatisticsInterface.#log('StatsData was successfully downloaded', 'debug')
+    StatisticsInterface.#log('StatsData was successfully downloaded', LogLevel.DEBUG)
 
     const statsObject = JSON.parse(response.responseText)
 
-    StatisticsInterface.#log('Starting StatsData parsing', 'debug')
+    StatisticsInterface.#log('Starting StatsData parsing', LogLevel.DEBUG)
     this.#extractFromStatsObject(statsObject)
   }
 
@@ -173,7 +174,7 @@ export default class StatisticsInterface {
     )
   }
 
-  static #log(message, level, error) {
+  static #log(message, level = LogLevel.INFO, error = '') {
     StorageInterface.writeLog(message, level, StatisticsInterface.#logName, error)
   }
 }

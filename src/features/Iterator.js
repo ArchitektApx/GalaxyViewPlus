@@ -1,3 +1,4 @@
+import LogLevel         from '../enum/LogLevel.js'
 import StorageInterface from '../storageinterface/StorageInterface.js'
 import InactiveRecolor  from './inactiverecolor/InactiveRecolor.js'
 import RangeInfo        from './rangeinfo/RangeInfo.js'
@@ -9,7 +10,7 @@ export default class Iterator {
   static #logName = 'IteratorModule'
 
   constructor({ features: config }, stats) {
-    Iterator.#log('Starting feature iterator ', 'debug')
+    Iterator.#log('Starting feature iterator ', LogLevel.DEBUG)
 
     this.featureMap = {
       inactiveRecolor : { Class: InactiveRecolor, params: undefined },
@@ -20,7 +21,7 @@ export default class Iterator {
 
     this.invokeFeatures(config)
 
-    Iterator.#log('Finished running feature iterator', 'debug')
+    Iterator.#log('Finished running feature iterator', LogLevel.DEBUG)
   }
 
   // prublic methods
@@ -45,7 +46,7 @@ export default class Iterator {
   }
 
   // static private methods
-  static #log(message, level, error) {
+  static #log(message, level = LogLevel.INFO, error = '') {
     StorageInterface.writeLog(message, level, Iterator.#logName, error)
   }
 }

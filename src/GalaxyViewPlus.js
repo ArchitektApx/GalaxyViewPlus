@@ -1,4 +1,5 @@
 import ConfigManager       from './configmanager/ConfigManager.js'
+import LogLevel            from './enum/LogLevel.js'
 import GeneralSettings     from './features/GeneralSettings.js'
 import Iterator            from './features/Iterator.js'
 import StatisticsInterface from './statisticsinterface/StatisticsInterface.js'
@@ -9,7 +10,7 @@ export default class GalaxyViewPlus {
   static async run() {
     const startTime = Date.now()
 
-    StorageInterface.writeLog('Starting script', 'info', 'Main')
+    StorageInterface.writeLog('Starting script', LogLevel.INFO, 'Main')
 
     const configManager       = new ConfigManager()
     const statisticsInterface = new StatisticsInterface()
@@ -21,7 +22,7 @@ export default class GalaxyViewPlus {
 
     GeneralSettings.execute(configManager.getCurrentConfig(), startTime)
 
-    StorageInterface.writeLog('Finished script', 'info', 'Main')
+    StorageInterface.writeLog('Finished script', LogLevel.INFO, 'Main')
   }
 }
 

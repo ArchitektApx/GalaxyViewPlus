@@ -15,22 +15,11 @@ export default class ConfigManager {
   #runningConfig
 
   constructor() {
-    if (ConfigManager.#instance) {
-      return ConfigManager.#instance
-    }
-
+    if (ConfigManager.#instance) { return ConfigManager.#instance }
     ConfigManager.#instance = this
-    this.#loadConfig()
 
-    // map actionCommands to their class and what input of the ConfigManagerClass they need to execute
-    this.commandMap = {
-      changeData    : { class: ChangeDataCommand,    systemInput: this.#runningConfig },
-      changeSorting : { class: ChangeSortingCommand, systemInput: this.#runningConfig },
-      changeStatus  : { class: ChangeStatusCommand,  systemInput: this.#runningConfig },
-      removeRow     : { class: RemoveRowCommand,     systemInput: this.#runningConfig },
-      resetConfig   : { class: ResetConfigCommand,   systemInput: this.#resetConfig.bind(this) },
-      saveConfig    : { class: SaveConfigCommand,    systemInput: this.#updateConfig.bind(this) },
-    }
+    this.#loadConfig()
+    this.#initCommands()
   }
 
   actionCallback(actionType, inputData) {
@@ -38,14 +27,11 @@ export default class ConfigManager {
       !Object.keys(this.commandMap).includes(actionType)
       || this.commandMap[actionType].class === undefined
     ) {
-      ConfigManager.#log(`Invalid Config Manager Command ${ actionType }`, LogLevel.ERROR)
-
+      ConfigManager.log(`Invalid Command ${ actionType }`, LogLevel.ERROR)
       return
     }
 
-    const cmdClass = this.commandMap[actionType].class
-
-    ConfigManager.#executeCommand(cmdClass, this.commandMap[actionType].systemInput, inputData)
+    this.#executeCommand(actionType, inputData)
   }
 
   getActionCallback() {
@@ -56,66 +42,69 @@ export default class ConfigManager {
     return this.#runningConfig
   }
 
-  #loadConfig() {
+  #executeCommand(actionType, inputData) {
+    const CommandClass = this.commandMap[actionType].class
+    const commandArguments  = [ this.commandMap[actionType].systemInput, inputData ]
+    const command = new CommandClass(...commandArguments)
+
     try {
-      const storageKeys  = StaticData.STORAGE_KEYS
-      const storedConfig = StorageInterface.getStorageItem(storageKeys.USER_CONFIG, '{}')
-
-      ConfigManager.#log('loaded config from storage', LogLevel.DEBUG)
-
-      if (Object.keys(storedConfig).length === 0 && storedConfig.constructor === Object) {
-        // no existing config found
-        this.#runningConfig = StaticData.DEFAULT_CONFIG
-
-        ConfigManager.#log('config does not exist. loading default config.', LogLevel.WARN)
-        this.#saveConfig()
-      } else if (Validator.validateConfig(
-        storedConfig,
-        StaticData.DEFAULT_CONFIG,
-        StaticData.USER_DEFINED_FEATURE_PROPERTIES
-      )) {
-        // existing config found
-        this.#runningConfig = storedConfig
-      } else {
-        // existing config is invalid
-        ConfigManager.#log('config is empty, deprecated or invalid. starting repair', LogLevel.WARN)
-        this.#runningConfig = Validator.migrateConfig(storedConfig, StaticData.DEFAULT_CONFIG)
-
-        ConfigManager.#log('migration/repair finished successfully. saving new config', LogLevel.DEBUG)
-        this.#saveConfig()
-      }
+      command.execute()
     } catch (error) {
-      ConfigManager.#log('Error loading configuration:', LogLevel.ERROR, error)
-      ConfigManager.#log('Loading default configuration', LogLevel.WARN)
-      ConfigManager.#log('if this keeps happening restore to overwrite the broken config.', LogLevel.WARN)
-
-      this.#runningConfig = StaticData.DEFAULT_CONFIG
+      ConfigManager.log(`Error executing command ${ CommandClass.name }:`, LogLevel.ERROR, error)
     }
   }
 
-  #resetConfig() {
-    ConfigManager.#log('Restoring default config', LogLevel.DEBUG)
-    this.#runningConfig = StaticData.DEFAULT_CONFIG
+  #initCommands() {
+    this.commandMap = {
+      changeData    : { class: ChangeDataCommand,    systemInput: this.#runningConfig },
+      changeSorting : { class: ChangeSortingCommand, systemInput: this.#runningConfig },
+      changeStatus  : { class: ChangeStatusCommand,  systemInput: this.#runningConfig },
+      removeRow     : { class: RemoveRowCommand,     systemInput: this.#runningConfig },
+      resetConfig   : { class: ResetConfigCommand,   systemInput: this.#resetConfig.bind(this) },
+      saveConfig    : { class: SaveConfigCommand,    systemInput: this.#updateConfig.bind(this) },
+    }
+  }
+
+  #loadConfig() {
+    ConfigManager.log('loading config from storage', LogLevel.DEBUG)
+    const storageKeys  = StaticData.STORAGE_KEYS
+    const storedConfig = StorageInterface.getStorageItem(storageKeys.USER_CONFIG, '{}')
+
+    if (Object.keys(storedConfig).length === 0) {
+      ConfigManager.log('config is empty. loading default config.', LogLevel.WARN)
+      this.#runningConfig = StaticData.DEFAULT_CONFIG
+      this.#saveConfig()
+      return
+    }
+
+    if (Validator.validateConfig(storedConfig)) {
+      ConfigManager.log('using valid config from storage', LogLevel.DEBUG)
+      this.#runningConfig = storedConfig
+      return
+    }
+
+    // config exists but is not valid
+    ConfigManager.log('config is invalid or needs an update. starting migration', LogLevel.WARN)
+    this.#runningConfig = Validator.migrateConfig(storedConfig, StaticData.DEFAULT_CONFIG)
     this.#saveConfig()
-    document.location.reload()
+  }
+
+  #resetConfig() {
+    ConfigManager.log('Restoring default config', LogLevel.WARN)
+    this.#runningConfig = StaticData.DEFAULT_CONFIG
+
+    this.#saveConfig()
   }
 
   #saveConfig() {
     StorageInterface.setStorageItem(StaticData.STORAGE_KEYS.USER_CONFIG, this.#runningConfig)
+    document.location.reload()
   }
 
   #updateConfig() {
-    // validate if the current config is valid
-    if (Validator.validateConfig(
-      this.#runningConfig,
-      StaticData.DEFAULT_CONFIG,
-      StaticData.USER_DEFINED_FEATURE_PROPERTIES
-    )) {
-      this.#saveConfig()
-      document.location.reload()
-    } else {
-      alert('etzadla iwas stimmd mid deina Gonfig nedd häddix8 ghabd')
-    }
+    Validator.validateConfig(this.#runningConfig)
+      ? this.#saveConfig()
+      : alert('etzadla iwas stimmd mid deina Gonfig nedd häddix8 ghabd')
   }
 
   // this method is only used for tests to reset the singleton instance
@@ -124,17 +113,7 @@ export default class ConfigManager {
     ConfigManager.#instance = undefined
   }
 
-  static #executeCommand(CommandClass, ...arguments_) {
-    try {
-      const command = new CommandClass(...arguments_)
-
-      command.execute()
-    } catch (error) {
-      ConfigManager.#log(`Error executing command ${ CommandClass.name }:`, LogLevel.ERROR, error)
-    }
-  }
-
-  static #log(message, level = LogLevel.INFO, error = '') {
+  static log(message, level = LogLevel.INFO, error = '') {
     StorageInterface.writeLog(message, level, ConfigManager.#logName, error)
   }
 }

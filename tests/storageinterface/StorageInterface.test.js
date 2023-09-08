@@ -139,6 +139,32 @@ describe('StorageInterface', () => {
       expect(logs[StaticData.DEBUG_LOG_MAX_ENTRIES - 1]).toContain('Test log 20')
     })
 
+    it('should have static log method that calls its logwrite method StorageInterface.writeLog', () => {
+      jest.spyOn(StorageInterface, 'writeLog').mockImplementation(() => {})
+      StorageInterface.log('test', LogLevel.DEBUG)
+
+      expect(StorageInterface.writeLog).toHaveBeenCalled()
+    })
+
+    it('should use Loglevel enum as default', () => {
+      jest.spyOn(StorageInterface, 'writeLog').mockImplementation(() => {})
+      StorageInterface.log('test')
+      expect(StorageInterface.writeLog).toHaveBeenCalledWith('test', 'info', 'StorageInterface', '')
+    })
+
+    it('should use its own class name for logging', () => {
+      jest.spyOn(StorageInterface, 'writeLog').mockImplementation(() => {})
+      StorageInterface.log('test', LogLevel.ERROR)
+      expect(StorageInterface.writeLog).toHaveBeenCalledWith('test', 'error', 'StorageInterface', '')
+    })
+
+    it('should use the provided error object for logging', () => {
+      jest.spyOn(StorageInterface, 'writeLog').mockImplementation(() => {})
+      const error = new Error('test error')
+      StorageInterface.log('test', LogLevel.ERROR, error)
+      expect(StorageInterface.writeLog).toHaveBeenCalledWith('test', 'error', 'StorageInterface', error)
+    })
+
     afterAll(() => {
     // Restore the original localStorage
       delete global.localStorage

@@ -10,7 +10,7 @@ export default class Iterator {
   static #logName = 'IteratorModule'
 
   constructor({ features: config }, stats) {
-    Iterator.#log('Starting feature iterator ', LogLevel.DEBUG)
+    Iterator.log('Starting feature iterator ', LogLevel.DEBUG)
 
     this.featureMap = {
       inactiveRecolor : { Class: InactiveRecolor, params: undefined },
@@ -21,7 +21,7 @@ export default class Iterator {
 
     this.invokeFeatures(config)
 
-    Iterator.#log('Finished running feature iterator', LogLevel.DEBUG)
+    Iterator.log('Finished running feature iterator', LogLevel.DEBUG)
   }
 
   // prublic methods
@@ -45,8 +45,7 @@ export default class Iterator {
     })
   }
 
-  // static private methods
-  static #log(message, level = LogLevel.INFO, error = '') {
+  static log(message, level = LogLevel.INFO, error = '') {
     StorageInterface.writeLog(message, level, Iterator.#logName, error)
   }
 }

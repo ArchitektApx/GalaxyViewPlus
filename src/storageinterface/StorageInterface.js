@@ -16,7 +16,7 @@ export default class StorageInterface {
 
       return true
     } catch (error) {
-      StorageInterface.#log('Failed to delete a key from Storage', LogLevel.ERROR, error)
+      StorageInterface.log('Failed to delete a key from Storage', LogLevel.ERROR, error)
 
       return false
     }
@@ -26,10 +26,14 @@ export default class StorageInterface {
     try {
       return JSON.parse(localStorage.getItem(key) || '{}')
     } catch (error) {
-      StorageInterface.#log('Failed to get a key from Storage', LogLevel.ERROR, error)
+      StorageInterface.log('Failed to get a key from Storage', LogLevel.ERROR, error)
 
       return false
     }
+  }
+
+  static log(message, level = LogLevel.INFO, error = '') {
+    StorageInterface.writeLog(message, level, StorageInterface.#logName, error)
   }
 
   static setStorageItem(key, value) {
@@ -38,7 +42,7 @@ export default class StorageInterface {
 
       return true
     } catch (error) {
-      StorageInterface.#log('Failed to save a key from Storage', LogLevel.ERROR, error)
+      StorageInterface.log('Failed to save a key from Storage', LogLevel.ERROR, error)
 
       return false
     }
@@ -49,7 +53,7 @@ export default class StorageInterface {
     const logMessage = `[${ __scriptName__ }_${ module } ${ timestamp }] [${ level }]: ${ message }`
 
     if (level === LogLevel.ERROR) {
-      console.error(logMessage)
+      console.log(logMessage)
       console.error(errorObject)
     }
 
@@ -68,10 +72,5 @@ export default class StorageInterface {
     } catch (error) {
       console.error('Critical error in writeLog:', error)
     }
-  }
-
-  // static private methods
-  static #log(message, level = LogLevel.INFO, error = '') {
-    StorageInterface.writeLog(message, level, StorageInterface.#logName, error)
   }
 }

@@ -1,5 +1,5 @@
-import { experiments }  from 'webpack'
 import ConfigManager    from '../../src/configmanager/ConfigManager.js'
+import LogLevel         from '../../src/enum/LogLevel.js'
 import StaticData       from '../../src/staticdata/StaticData.js'
 import StorageInterface from '../../src/storageinterface/StorageInterface.js'
 import Validator        from '../../src/validator/Validator.js'
@@ -67,8 +67,9 @@ describe('ConfigManager', () => {
 
       manager.actionCallback('invalidAction', {})
       expect(StorageInterface.writeLog).toHaveBeenCalledWith(
-        expect.stringContaining('Invalid Config Manager Command invalidAction'),
+        expect.stringContaining('Invalid Command invalidAction'),
         'error',
+        'ConfigManager',
         ''
       )
     })
@@ -139,16 +140,6 @@ describe('ConfigManager', () => {
       expect(manager.getCurrentConfig()).toEqual({ migrated: 'config' })
     })
 
-    it('should handle errors and load default config', () => {
-      jest.spyOn(StorageInterface, 'getStorageItem').mockImplementation(() => {
-        throw new Error('Error loading config')
-      })
-
-      const manager = new ConfigManager()
-
-      expect(manager.getCurrentConfig()).toEqual(StaticData.DEFAULT_CONFIG)
-    })
-
     it('should reset the stored config when #resetConfig is invoked', () => {
       // get a config that will be reset
       jest.spyOn(StorageInterface, 'getStorageItem').mockReturnValue({ some: 'config' })
@@ -214,6 +205,29 @@ describe('ConfigManager', () => {
       expect(StorageInterface.setStorageItem).not.toHaveBeenCalled()
       expect(document.location.reload).not.toHaveBeenCalled()
       expect(global.alert).toHaveBeenCalled()
+    })
+  })
+
+  describe('logging', () => {
+    it('should have static log method that calls StorageInterface.writeLog', () => {
+      ConfigManager.log('test', LogLevel.DEBUG)
+      expect(StorageInterface.writeLog).toHaveBeenCalled()
+    })
+
+    it('should use Loglevel enum as default', () => {
+      ConfigManager.log('test')
+      expect(StorageInterface.writeLog).toHaveBeenCalledWith('test', 'info', 'ConfigManager', '')
+    })
+
+    it('should use its own class name for logging', () => {
+      ConfigManager.log('test', LogLevel.ERROR)
+      expect(StorageInterface.writeLog).toHaveBeenCalledWith('test', 'error', 'ConfigManager', '')
+    })
+
+    it('should use the provided error object for logging', () => {
+      const error   = new Error('test error')
+      ConfigManager.log('test', LogLevel.ERROR, error)
+      expect(StorageInterface.writeLog).toHaveBeenCalledWith('test', 'error', 'ConfigManager', error)
     })
   })
 })

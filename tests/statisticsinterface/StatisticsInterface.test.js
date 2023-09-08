@@ -159,6 +159,11 @@ describe('StatisticsInterface', () => {
   })
 
   describe('logging', () => {
+    it('should have static log method that calls StorageInterface.writeLog', () => {
+      StatisticsInterface.log('test', LogLevel.DEBUG)
+      expect(StorageInterfaceMock.writeLog).toHaveBeenCalled()
+    })
+
     it('should call writeLog when data is loaded from storage', async () => {
       const mockStatus = {
         status    : StatisticsInterface.STATUS_FINISHED,
@@ -172,6 +177,22 @@ describe('StatisticsInterface', () => {
         .mockImplementationOnce(() => mockStatsData)
       await instance.initialize()
       expect(StorageInterfaceMock.writeLog).toHaveBeenCalled()
+    })
+
+    it('should use Loglevel enum as default', () => {
+      StatisticsInterface.log('test')
+      expect(StorageInterfaceMock.writeLog).toHaveBeenCalledWith('test', 'info', 'StatisticsInterface', '')
+    })
+
+    it('should use its own class name for logging', () => {
+      StatisticsInterface.log('test', LogLevel.ERROR)
+      expect(StorageInterfaceMock.writeLog).toHaveBeenCalledWith('test', 'error', 'StatisticsInterface', '')
+    })
+
+    it('should use the provided error object for logging', () => {
+      const error   = new Error('test error')
+      StatisticsInterface.log('test', LogLevel.ERROR, error)
+      expect(StorageInterfaceMock.writeLog).toHaveBeenCalledWith('test', 'error', 'StatisticsInterface', error)
     })
   })
 

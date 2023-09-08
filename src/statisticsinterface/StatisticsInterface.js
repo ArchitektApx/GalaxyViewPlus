@@ -56,21 +56,21 @@ export default class StatisticsInterface {
     ) {
       this.statsData      = statsData
       this.statsAvailable = true
-      StatisticsInterface.#log('StatsData successfully loaded from storage', LogLevel.DEBUG)
+      StatisticsInterface.log('StatsData successfully loaded from storage', LogLevel.DEBUG)
     } else {
-      StatisticsInterface.#log('StatsData will be refreshed', LogLevel.DEBUG)
+      StatisticsInterface.log('StatsData will be refreshed', LogLevel.DEBUG)
       await this.#fetchAndProcessStats()
     }
   }
 
   #extractFromStatsObject(statsObject) {
     const updateStatus = {
-      timestamp : Validator.getTimestamp(),
       status    : StatisticsInterface.STATUS_IN_PROGRESS,
+      timestamp : Validator.getTimestamp(),
     }
 
     StorageInterface.setStorageItem(StaticData.STORAGE_KEYS.UPDATE_STATUS, updateStatus)
-    StatisticsInterface.#log('Parsing StatsData', LogLevel.DEBUG)
+    StatisticsInterface.log('Parsing StatsData', LogLevel.DEBUG)
 
     const result = {}
 
@@ -87,14 +87,14 @@ export default class StatisticsInterface {
         defensiveRank,
       }) => {
         result[playerId] = ({
-          playerName,
           allianceId,
           allianceName,
+          buildingRank,
+          defensiveRank,
+          fleetRank,
+          playerName,
           rank,
           researchRank,
-          buildingRank,
-          fleetRank,
-          defensiveRank,
         })
       }
     )
@@ -106,7 +106,7 @@ export default class StatisticsInterface {
     updateStatus.status    = StatisticsInterface.STATUS_FINISHED
     updateStatus.timestamp = Validator.getTimestamp()
     StorageInterface.setStorageItem(StaticData.STORAGE_KEYS.UPDATE_STATUS, updateStatus)
-    StatisticsInterface.#log('StatsData was parsed and written to storage', LogLevel.DEBUG)
+    StatisticsInterface.log('StatsData was parsed and written to storage', LogLevel.DEBUG)
   }
 
   async #fetchAndProcessStats() {
@@ -124,28 +124,28 @@ export default class StatisticsInterface {
   }
 
   #handleErrorInFetching(response) {
-    StatisticsInterface.#log('Error while downloading StatsData:', LogLevel.WARN)
-    StatisticsInterface.#log('Response was:', LogLevel.WARN, response)
+    StatisticsInterface.log('Error while downloading StatsData:', LogLevel.WARN)
+    StatisticsInterface.log('Response was:', LogLevel.WARN, response)
 
     const statsData = StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.STATS_DATA) || {}
 
     if (Object.keys(statsData).length === 0) {
-      StatisticsInterface.#log('No old StatsData found in storage', LogLevel.DEBUG)
+      StatisticsInterface.log('No old StatsData found in storage', LogLevel.DEBUG)
 
       return
     }
 
-    StatisticsInterface.#log('Old StatsData found in storage', LogLevel.DEBUG)
+    StatisticsInterface.log('Old StatsData found in storage', LogLevel.DEBUG)
     this.statsData      = statsData
     this.statsAvailable = true
   }
 
   #processStatsData(response) {
-    StatisticsInterface.#log('StatsData was successfully downloaded', LogLevel.DEBUG)
+    StatisticsInterface.log('StatsData was successfully downloaded', LogLevel.DEBUG)
 
     const statsObject = JSON.parse(response.responseText)
 
-    StatisticsInterface.#log('Starting StatsData parsing', LogLevel.DEBUG)
+    StatisticsInterface.log('Starting StatsData parsing', LogLevel.DEBUG)
     this.#extractFromStatsObject(statsObject)
   }
 
@@ -153,6 +153,10 @@ export default class StatisticsInterface {
   // eslint-disable-next-line no-underscore-dangle
   static _resetInstance() {
     StatisticsInterface.#instance = undefined
+  }
+
+  static log(message, level = LogLevel.INFO, error = '') {
+    StorageInterface.writeLog(message, level, StatisticsInterface.#logName, error)
   }
 
   // static private methods
@@ -172,9 +176,5 @@ export default class StatisticsInterface {
       (status.status === StatisticsInterface.STATUS_FINISHED)
       && (status.timestamp > lastIntervalTime)
     )
-  }
-
-  static #log(message, level = LogLevel.INFO, error = '') {
-    StorageInterface.writeLog(message, level, StatisticsInterface.#logName, error)
   }
 }

@@ -2,7 +2,8 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable quotes */
 /* eslint-disable babel/quotes */
-import Validator from '../../src/validator/Validator.js'
+import StaticData from '../../src/staticdata/StaticData.js'
+import Validator  from '../../src/validator/Validator.js'
 
 describe('Validator', () => {
   describe('escapeString', () => {
@@ -355,7 +356,27 @@ describe('Validator', () => {
       }
 
       expect(Validator.validateConfig(configObject, defaultConfig, [ 'data' ])).toBe(true)
-      expect(Validator.validateConfig(configObject, defaultConfig)).toBe(false)  // mismatching data
+    })
+
+    it('should use default values if parameters are not provided', () => {
+      const configObject  = { features: [ { feature: 'feature1', data: 'oldData' } ] }
+      const defaultConfig = { features: [ { feature: 'feature1', data: 'defaultData' } ] }
+
+      StaticData.DEFAULT_CONFIG = defaultConfig
+
+      expect(Validator.validateConfig(configObject)).toBe(true)
+    })
+
+    it('should return false if config object does not match default config', () => {
+      const configObject = {
+        features: [ { feature: 'feature1', data: 'oldData' } ],
+      }
+
+      const defaultConfig = {
+        features: [ { feature: 'feature2', data: 'defaultData' } ],
+      }
+
+      expect(Validator.validateConfig(configObject, defaultConfig, [ 'data' ])).toBe(false)
     })
   })
 })

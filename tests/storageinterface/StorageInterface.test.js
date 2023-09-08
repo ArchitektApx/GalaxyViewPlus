@@ -1,5 +1,6 @@
 /* eslint-disable no-loops/no-loops */
 /* eslint-disable sonarjs/no-duplicate-string */
+import LogLevel         from '../../src/enum/LogLevel.js'
 import StaticData       from '../../src/staticdata/StaticData.js'
 import StorageInterface from '../../src/storageinterface/StorageInterface.js'
 
@@ -121,7 +122,7 @@ describe('StorageInterface', () => {
     })
 
     it('should log error in console', () => {
-      StorageInterface.writeLog('Test error', 'error', '', new Error('TestError'))
+      StorageInterface.writeLog('Test error', LogLevel.ERROR, '', new Error('TestError'))
       expect(console.log).toHaveBeenCalledWith(expect.stringContaining('Test error'))
       expect(console.error).toHaveBeenCalledWith(new Error('TestError'))
     })

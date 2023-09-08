@@ -1,4 +1,5 @@
 /* eslint-disable no-new */
+import LogLevel         from '../../src/enum/LogLevel.js'
 import Iterator         from '../../src/features/Iterator.js'
 import InactiveRecolor  from '../../src/features/inactiverecolor/InactiveRecolor.js'
 import RangeInfo        from '../../src/features/rangeinfo/RangeInfo.js'
@@ -56,7 +57,7 @@ describe('Iterator', () => {
     new Iterator({ features: featureConfig }, {})
 
     expect(StorageInterface.writeLog).toHaveBeenCalledTimes(2)
-    expect(StorageInterface.writeLog).toHaveBeenCalledWith('Starting feature iterator ', 'debug', 'IteratorModule', undefined)
-    expect(StorageInterface.writeLog).toHaveBeenCalledWith('Finished running feature iterator', 'debug', 'IteratorModule', undefined)
+    expect(StorageInterface.writeLog).toHaveBeenCalledWith('Starting feature iterator ', LogLevel.DEBUG, 'IteratorModule', '')
+    expect(StorageInterface.writeLog).toHaveBeenCalledWith('Finished running feature iterator', LogLevel.DEBUG, 'IteratorModule', '')
   })
 })

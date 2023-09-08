@@ -1,5 +1,6 @@
 import GalaxyViewPlus      from '../src/GalaxyViewPlus.js'
 import ConfigManager       from '../src/configmanager/ConfigManager.js'
+import LogLevel            from '../src/enum/LogLevel.js'
 import GeneralSettings     from '../src/features/GeneralSettings.js'
 import Iterator            from '../src/features/Iterator.js'
 import StatisticsInterface from '../src/statisticsinterface/StatisticsInterface.js'
@@ -24,12 +25,12 @@ describe('GalaxyViewPlus Script Execution', () => {
     await GalaxyViewPlus.run()
 
     // Assuming you've imported the mock instances or the mocked modules at the top
-    expect(StorageInterface.writeLog).toHaveBeenNthCalledWith(1, 'Starting script', 'info', 'Main')
+    expect(StorageInterface.writeLog).toHaveBeenNthCalledWith(1, 'Starting script', LogLevel.INFO, 'Main')
     expect(StatisticsInterface.prototype.initialize).toHaveBeenCalledTimes(1)
     expect(ConfigManager).toHaveBeenCalledTimes(1)
     expect(UserInterface).toHaveBeenCalledTimes(1)
     expect(Iterator).toHaveBeenCalledTimes(1)
     expect(GeneralSettings.execute).toHaveBeenCalledTimes(1)
-    expect(StorageInterface.writeLog).toHaveBeenNthCalledWith(2, 'Finished script', 'info', 'Main')
+    expect(StorageInterface.writeLog).toHaveBeenNthCalledWith(2, 'Finished script', LogLevel.INFO, 'Main')
   })
 })

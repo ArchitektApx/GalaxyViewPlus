@@ -69,7 +69,7 @@ describe('ConfigManager', () => {
       expect(StorageInterface.writeLog).toHaveBeenCalledWith(
         expect.stringContaining('Invalid Config Manager Command invalidAction'),
         'error',
-        expect.anything()
+        ''
       )
     })
 

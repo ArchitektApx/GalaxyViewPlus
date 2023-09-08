@@ -1,6 +1,7 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable unicorn/no-useless-undefined */
 /* eslint-disable no-underscore-dangle */
+import LogLevel             from '../../src/enum/LogLevel.js'
 import StaticData           from '../../src/staticdata/StaticData.js'
 import StatisticsInterface  from '../../src/statisticsinterface/StatisticsInterface.js'
 import StatsDataFetcherMock from '../../src/statisticsinterface/StatsDataFetcher.js'
@@ -190,8 +191,8 @@ describe('StatisticsInterface', () => {
 
       await instance.initialize()
 
-      expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(1, 'StatsData will be refreshed', 'debug', 'StatisticsInterface', undefined)
-      expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(2, 'Error while downloading StatsData:', 'warn', 'StatisticsInterface', undefined)
+      expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(1, 'StatsData will be refreshed', LogLevel.DEBUG, 'StatisticsInterface', '')
+      expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(2, 'Error while downloading StatsData:', LogLevel.WARN, 'StatisticsInterface', '')
     })
 
     it('should handle status not being 200', async () => {
@@ -212,8 +213,8 @@ describe('StatisticsInterface', () => {
 
       await instance.initialize()
 
-      expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(1, 'StatsData will be refreshed', 'debug', 'StatisticsInterface', undefined)
-      expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(2, 'Error while downloading StatsData:', 'warn', 'StatisticsInterface', undefined)
+      expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(1, 'StatsData will be refreshed', LogLevel.DEBUG, 'StatisticsInterface', '')
+      expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(2, 'Error while downloading StatsData:', LogLevel.WARN, 'StatisticsInterface', '')
     })
 
     it('should handle using old data when fetch fails', async () => {
@@ -235,9 +236,9 @@ describe('StatisticsInterface', () => {
         .mockImplementationOnce(() => mockStatsData)
 
       await instance.initialize()
-      expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(1, 'StatsData will be refreshed', 'debug', 'StatisticsInterface', undefined)
-      expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(2, 'Error while downloading StatsData:', 'warn', 'StatisticsInterface', undefined)
-      expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(4, 'Old StatsData found in storage', 'debug', 'StatisticsInterface', undefined)
+      expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(1, 'StatsData will be refreshed', LogLevel.DEBUG, 'StatisticsInterface', '')
+      expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(2, 'Error while downloading StatsData:', LogLevel.WARN, 'StatisticsInterface', '')
+      expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(4, 'Old StatsData found in storage', LogLevel.DEBUG, 'StatisticsInterface', '')
       expect(instance.statsData).toEqual(mockStatsData)
       expect(instance.statsAvailable).toBeTruthy()
     })

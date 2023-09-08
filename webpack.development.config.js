@@ -10,7 +10,7 @@ const scriptName         = 'GalaxyViewPlus'
 const pathOut            = path.resolve('./', 'dist')
 const entryPoint         = path.resolve('./', 'src', `${ scriptName }.js`)
 const tamperMonkeyHeader = {
-  name        : scriptName,
+  name        : `${scriptName}_DevBuild`,
   version     : packagejson.version,
   description : packagejson.description,
   author      : packagejson.author,

@@ -41,6 +41,7 @@ export default class RankRecolor {
   getRankTypeAndDisplayName() {
     // Find the checked row, or use a default if not found
     const { value = 'rank', displayName = 'Gesamt' } = this.rankTypeData.find(row => row.checked === true) || {}
+
     this.rankType        = value
     this.rankDisplayName = displayName
   }

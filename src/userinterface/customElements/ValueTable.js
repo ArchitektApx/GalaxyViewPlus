@@ -16,12 +16,12 @@ export default class ValueTableElement {
     this.valueDefault   = config.valueDefault
 
     this.element = TableElementFactory.create('table', {
-      id        : `${ this.prefix }-tablecontainer`,
-      classList : [
+      classList: [
         `${ this.prefix }`,
         `${ config.dataType }`,
       ],
-      children: [
+      id       : `${ this.prefix }-tablecontainer`,
+      children : [
         this.buildTableHeader('valuetable-header', [
           config.keyDisplayName,
           config.valueDisplayName,
@@ -49,8 +49,8 @@ export default class ValueTableElement {
 
   buildTableBody(config, configCallback) {
     return TableElementFactory.create('tbody', {
-      id        : `${ this.prefix }-tablebody`,
       classList : 'valuetable-body',
+      id        : `${ this.prefix }-tablebody`,
       children  : config.data.map(row => ValueTableElement.buildTableRow(
         this.prefix,
         config.keyInputType,
@@ -64,11 +64,11 @@ export default class ValueTableElement {
 
   buildTableHeader(classList, thNames = [ '', '', '' ], thIds = [ 'key', 'value', 'delete' ]) {
     return TableElementFactory.create('thead', {
-      id        : `${ this.prefix }-tableheader`,
       classList : 'valuetable-header',
+      id        : `${ this.prefix }-tableheader`,
       children  : TableElementFactory.create('tr', {
-        id        : `${ this.prefix }row`,
         classList : `${ classList } ${ classList }-row`,
+        id        : `${ this.prefix }row`,
         children  : [ 0, 1, 2 ].map(index => TableElementFactory.create('th', {
           id          : `${ this.prefix }cell-${ thIds[index] }`,
           textContent : thNames[index],
@@ -95,8 +95,8 @@ export default class ValueTableElement {
       children: [
         ValueTableElement.buildInputElement(
           inputType, {
-            id        : `${ prefix }-${ keyOrValue }-${ value }`,
             classList : `${ prefix }-${ keyOrValue }`,
+            id        : `${ prefix }-${ keyOrValue }-${ value }`,
             name      : `${ keyOrValue }input`,
             value     : value,
           }, configCallback
@@ -108,12 +108,12 @@ export default class ValueTableElement {
   static buildInputElement(type, { name, value, id, classList }, configCallback) {
     return InputElementFactory.create(
       type, {
+        attributes     : { 'data-lastvalue': value },
+        classList      : classList,
+        eventListeners : CallbackWrapperFactory.create('InputPairWrapper', configCallback),
+        id             : id,
         name           : name,
         value          : value,
-        id             : id,
-        classList      : classList,
-        attributes     : { 'data-lastvalue': value },
-        eventListeners : CallbackWrapperFactory.create('InputPairWrapper', configCallback),
       }, true
     )
   }

@@ -81,7 +81,7 @@ describe('Iterator', () => {
     })
 
     it('should use the provided error object for logging', () => {
-      const error   = new Error('test error')
+      const error = new Error('test error')
       Iterator.log('test', LogLevel.ERROR, error)
       expect(StorageInterface.writeLog).toHaveBeenCalledWith('test', 'error', 'IteratorModule', error)
     })

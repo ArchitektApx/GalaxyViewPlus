@@ -8,8 +8,7 @@ export default class InputWrapper extends BaseWrapper {
 
   buildWrapperObject(inputCallback) {
     return {
-      eventType : this.eventType,
-      callback  : (event_) => {
+      callback: (event_) => {
         const data = BaseWrapper.extractInputData(event_.target)
 
         inputCallback('changeData', data)
@@ -17,6 +16,7 @@ export default class InputWrapper extends BaseWrapper {
         // update data-lastvalue attribute for next callback
         BaseWrapper.refreshLastValue(event_)
       },
+      eventType: this.eventType,
     }
   }
 }

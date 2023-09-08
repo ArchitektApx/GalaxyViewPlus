@@ -8,12 +8,12 @@ export default class ResetConfigWrapper extends BaseWrapper {
 
   buildWrapperObject(inputCallback) {
     return {
-      eventType : this.eventType,
-      callback  : (event_) => {
+      callback: (event_) => {
         const data = BaseWrapper.extractInputData(event_.target)
 
         inputCallback('resetConfig', data)
       },
+      eventType: this.eventType,
     }
   }
 }

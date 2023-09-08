@@ -11,204 +11,209 @@ export default class StaticData {
     configVersion : '1.0.5',
     features      : [
       {
-        feature          : 'userRecolor',
-        displayName      : 'Usernamen Färben',
-        description      : 'Färbt den Usernamen des Users ein.',
         active           : true,
-        htmlPrefix       : 'userRecolor',
         dataType         : 'ValueTable',
-        keyName          : 'Username',
+        description      : 'Färbt den Usernamen des Users ein.',
+        displayName      : 'Usernamen Färben',
+        feature          : 'userRecolor',
+        htmlPrefix       : 'userRecolor',
+        keyDefault       : 'BeispielUserName',
         keyDescription   : 'Der Username des Users',
         keyDisplayName   : 'Username',
         keyInputType     : 'text',
-        keyDefault       : 'BeispielUserName',
-        valueName        : 'Farbe',
+        keyName          : 'Username',
+        sortData         : true,
+        valueDefault     : '#ffa700',
         valueDescription : 'Die Farbe welche für den Usernamen verwendet wird',
         valueDisplayName : 'Farbe',
         valueInputType   : 'color',
-        valueDefault     : '#ffa700',
-        data             : [
+        valueName        : 'Farbe',
+
+        data: [
           { key: 'BeispielUserName', value: '#ffa700' },
         ],
-        sortData: true,
       },
       {
-        feature          : 'rankRecolor',
-        displayName      : 'Rank Färben',
-        description      : 'Färbt den Rank des Users ein.',
         active           : true,
-        htmlPrefix       : 'rankRecolor',
         dataType         : 'ValueTable',
-        keyName          : 'Rank',
+        description      : 'Färbt den Rank des Users ein.',
+        displayName      : 'Rank Färben',
+        feature          : 'rankRecolor',
+        htmlPrefix       : 'rankRecolor',
+        keyDefault       : 0,
         keyDescription   : 'Der Rang ab welchem die Farbe angewant wird',
         keyDisplayName   : 'Rank',
         keyInputType     : 'number',
-        keyDefault       : 0,
-        valueName        : 'Farbe',
+        keyName          : 'Rank',
+        sortData         : true,
+        valueDefault     : '#2cba00',
         valueDescription : 'Die Farbe welche für den Rang verwendet wird',
         valueDisplayName : 'Farbe',
         valueInputType   : 'color',
-        valueDefault     : '#2cba00',
-        data             : [
+        valueName        : 'Farbe',
+
+        data: [
           { key: 0, value: '#2cba00' }, // green
           { key: 200, value: '#a3ff00' }, // light green
           { key: 500, value: '#fff400' }, // yellow
           { key: 600, value: '#ffa700' }, // orange
           { key: 700, value: '#ff0000' }, // red
         ],
-        sortData: true,
       },
       {
-        feature     : 'inactiveRecolor',
-        displayName : 'Inaktive Färben',
-        description : 'Färbt inaktive User ein.',
         active      : false,
-        htmlPrefix  : 'inactiveRecolor',
         dataType    : 'ValueList',
-        data        : [
+        description : 'Färbt inaktive User ein.',
+        displayName : 'Inaktive Färben',
+        feature     : 'inactiveRecolor',
+        htmlPrefix  : 'inactiveRecolor',
+
+        data: [
           {
-            key              : 'inactiveColor',
-            valueDescription : 'Inaktiv (i)',
             displayName      : 'Inaktiv (i)',
             inputType        : 'color',
+            key              : 'inactiveColor',
             value            : '#f70fff',
+            valueDescription : 'Inaktiv (i)',
           },
           {
-            key              : 'longInactiveColor',
-            valueDescription : 'Lange Inaktiv (i l)',
             displayName      : 'Lange i (i l)',
             inputType        : 'color',
+            key              : 'longInactiveColor',
             value            : '#ff00ff',
+            valueDescription : 'Lange Inaktiv (i l)',
           },
         ],
       },
       {
-        feature     : 'rangeInfo',
-        displayName : 'RangeInfo',
-        description : 'Zeigt die Anzahl der Planeten/Monde im Umkreis des aktuellen Systems an. Achtung: funktioniert nur wenn Planeten/Mond Infos durch Syncs/Json/CSV vorhanden sind!',
         active      : true,
-        htmlPrefix  : 'rangeInfo',
         dataType    : 'ValueList',
-        data        : [
+        description : 'Zeigt die Anzahl der Planeten/Monde im Umkreis des aktuellen Systems an. Achtung: funktioniert nur wenn Planeten/Mond Infos durch Syncs/Json/CSV vorhanden sind!',
+        displayName : 'RangeInfo',
+        feature     : 'rangeInfo',
+        htmlPrefix  : 'rangeInfo',
+
+        data: [
           {
-            key              : 'nearRange',
-            valueDescription : 'Anzahl der System vor/nach dem aktuellen welche überprüft werden.',
             displayName      : 'Radius',
             inputType        : 'number',
+            key              : 'nearRange',
             value            : 20,
+            valueDescription : 'Anzahl der System vor/nach dem aktuellen welche überprüft werden.',
           },
           {
-            key              : 'minSys',
-            valueDescription : 'Das erste System in der Galaxy. Mach etzadla kein Unfug häddix8 ghabt!',
             displayName      : 'Min. Sys.',
             inputType        : 'number',
+            key              : 'minSys',
             value            : 1,
+            valueDescription : 'Das erste System in der Galaxy. Mach etzadla kein Unfug häddix8 ghabt!',
           },
           {
-            key              : 'maxSys',
-            valueDescription : 'Das letzte System in der Galaxy. Mach etzadla kein Unfug häddix8 ghabt!',
             displayName      : 'Max. Sys.',
             inputType        : 'number',
+            key              : 'maxSys',
             value            : 400,
+            valueDescription : 'Das letzte System in der Galaxy. Mach etzadla kein Unfug häddix8 ghabt!',
           },
         ],
       },
       {
-        feature     : 'rankSelector',
-        displayName : 'Rangtyp (für Rank färben) wählen',
-        description : 'Verändert den Rang welcher im Galaxy View angezeigt wird',
         active      : false,
-        htmlPrefix  : 'rankSelector',
         dataType    : 'ValueList',
-        data        : [
+        description : 'Verändert den Rang welcher im Galaxy View angezeigt wird',
+        displayName : 'Rangtyp (für Rank färben) wählen',
+        feature     : 'rankSelector',
+        htmlPrefix  : 'rankSelector',
+
+        data: [
           {
-            key              : 'rankSelect',
-            valueDescription : 'rankSelect',
+            checked          : true,
             displayName      : 'Gesamt',
             inputType        : 'radio',
+            key              : 'rankSelect',
             value            : 'rank',
-            checked          : true,
+            valueDescription : 'rankSelect',
           },
           {
-            key              : 'rankSelect',
-            valueDescription : 'rankSelect',
+            checked          : false,
             displayName      : 'Gebäude',
             inputType        : 'radio',
+            key              : 'rankSelect',
             value            : 'buildingRank',
-            checked          : false,
+            valueDescription : 'rankSelect',
           },
           {
-            key              : 'rankSelect',
-            valueDescription : 'rankSelect',
+            checked          : false,
             displayName      : 'Forschung',
             inputType        : 'radio',
+            key              : 'rankSelect',
             value            : 'researchRank',
-            checked          : false,
+            valueDescription : 'rankSelect',
           },
           {
-            key              : 'rankSelect',
-            valueDescription : 'rankSelect',
+            checked          : false,
             displayName      : 'Flotte',
             inputType        : 'radio',
+            key              : 'rankSelect',
             value            : 'fleetRank',
-            checked          : false,
+            valueDescription : 'rankSelect',
           },
           {
-            key              : 'rankSelect',
-            valueDescription : 'rankSelect',
+            checked          : false,
             displayName      : 'Verteidigung',
             inputType        : 'radio',
+            key              : 'rankSelect',
             value            : 'defensiveRank',
-            checked          : false,
+            valueDescription : 'rankSelect',
           },
         ],
       },
       {
-        feature     : 'generalsettings',
-        displayName : 'Generelle Einstellungen',
-        description : 'Einstellungen die sich nicht auf Spieler sondern das Skript ansich beziehen.',
         active      : true,
-        htmlPrefix  : 'generalsettings',
         dataType    : 'ValueList',
-        data        : [
+        description : 'Einstellungen die sich nicht auf Spieler sondern das Skript ansich beziehen.',
+        displayName : 'Generelle Einstellungen',
+        feature     : 'generalsettings',
+        htmlPrefix  : 'generalsettings',
+
+        data: [
           {
-            key              : 'syncbutton',
-            valueDescription : 'Shortcut der den Sync Button auf die e-Taste legt',
+            checked          : true,
             displayName      : 'Sync shortcut auf E',
             inputType        : 'checkbox',
+            key              : 'syncbutton',
             value            : 'syncbutton',
-            checked          : true,
+            valueDescription : 'Shortcut der den Sync Button auf die e-Taste legt',
           },
           {
-            key              : 'debugInfo',
-            valueDescription : 'Zeigt Informationen über das Script an',
+            checked          : true,
             displayName      : 'Debug Infos anzeigen',
             inputType        : 'checkbox',
+            key              : 'debugInfo',
             value            : 'debugInfo',
-            checked          : true,
+            valueDescription : 'Zeigt Informationen über das Script an',
           },
           {
-            key              : 'debugLog',
-            valueDescription : 'Zeigt Log Informationen der Module an',
+            checked          : true,
             displayName      : 'Debug Log anzeigen',
             inputType        : 'checkbox',
+            key              : 'debugLog',
             value            : 'debugLog',
-            checked          : true,
+            valueDescription : 'Zeigt Log Informationen der Module an',
           },
           {
-            key              : 'configOpen',
-            valueDescription : 'Öffnet die Config beim Start',
+            checked          : false,
             displayName      : 'Config offen halten',
             inputType        : 'checkbox',
+            key              : 'configOpen',
             value            : 'configOpen',
-            checked          : false,
+            valueDescription : 'Öffnet die Config beim Start',
           },
         ],
       },
     ],
     userInterface: {
-      title : 'Galaxy View Plus Config',
-      css   : `
+      css: `
                 .settings-interface-wrapper {
                     margin-top: 10px;
                     margin-bottom: 10px;
@@ -286,6 +291,7 @@ export default class StaticData {
                     text-align: center;
                 } 
                 `,
+      title: 'Galaxy View Plus Config',
     },
   }
 
@@ -299,11 +305,11 @@ export default class StaticData {
 
   // keys of all settings saved to storage
   static STORAGE_KEYS = {
-    USER_CONFIG    : 'GalaxyViewPlus_Config',
     CLEANUP_STATUS : 'GalaxyViewPlus_CleanupStatus',
-    UPDATE_STATUS  : 'GalaxyViewPlus_UpdateStatus',
-    STATS_DATA     : 'GalaxyViewPlus_StatsData',
     DEBUG_LOG      : 'GalaxyViewPlus_DebugLog',
+    STATS_DATA     : 'GalaxyViewPlus_StatsData',
+    UPDATE_STATUS  : 'GalaxyViewPlus_UpdateStatus',
+    USER_CONFIG    : 'GalaxyViewPlus_Config',
   }
 
   static STORAGE_TYPE = 'localStorage' // allowed values are localStorage or GM

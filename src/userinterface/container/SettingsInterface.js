@@ -25,17 +25,17 @@ export default class SettingsInterface {
 
     const footer     = MiscElementFactory.create('div', { id: 'settings-interface-footer' })
     const SaveButton = ButtonElementFactory.create('save', {
-      id             : 'save-button',
-      textContent    : 'Speichern',
       classList      : 'settings-save-button',
       eventListeners : CallbackWrapperFactory.create('SaveConfigWrapper', actionCallback),
+      id             : 'save-button',
+      textContent    : 'Speichern',
     })
 
     const ResetButton = ButtonElementFactory.create('reset', {
-      id             : 'reset-button',
-      textContent    : 'Zurücksetzen',
       classList      : 'settings-reset-button',
       eventListeners : CallbackWrapperFactory.create('ResetConfigWrapper', actionCallback),
+      id             : 'reset-button',
+      textContent    : 'Zurücksetzen',
     })
 
     footer.append(SaveButton)

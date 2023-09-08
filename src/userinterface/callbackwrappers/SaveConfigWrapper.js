@@ -8,12 +8,12 @@ export default class SaveConfigWrapper extends BaseWrapper {
 
   buildWrapperObject(inputCallback) {
     return {
-      eventType : this.eventType,
-      callback  : (event_) => {
+      callback: (event_) => {
         const data = BaseWrapper.extractInputData(event_.target)
 
         inputCallback('saveConfig', data)
       },
+      eventType: this.eventType,
     }
   }
 }

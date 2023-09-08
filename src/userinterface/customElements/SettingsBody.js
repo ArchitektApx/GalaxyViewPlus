@@ -7,8 +7,8 @@ export default class SettingsBody {
     this.baseClass = 'feature-body'
     this.element   = MiscElementFactory.create('div',
       {
-        id        : `${ this.prefix }-body-container`,
         classList : `${ this.baseClass }-container`,
+        id        : `${ this.prefix }-body-container`,
       })
 
     if (!config.active) { this.element.classList.add('hidden') }

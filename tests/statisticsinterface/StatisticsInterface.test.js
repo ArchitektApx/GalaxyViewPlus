@@ -190,7 +190,7 @@ describe('StatisticsInterface', () => {
     })
 
     it('should use the provided error object for logging', () => {
-      const error   = new Error('test error')
+      const error = new Error('test error')
       StatisticsInterface.log('test', LogLevel.ERROR, error)
       expect(StorageInterfaceMock.writeLog).toHaveBeenCalledWith('test', 'error', 'StatisticsInterface', error)
     })

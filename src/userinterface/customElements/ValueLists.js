@@ -8,12 +8,12 @@ export default class ValueListElement {
     this.prefix = `${ config.htmlPrefix }`
 
     this.element = TableElementFactory.create('table', {
-      id        : `${ this.prefix }-tablecontainer`,
-      classList : [
+      classList: [
         `${ this.prefix }`,
         `${ config.dataType }`,
       ],
-      children: this.#buildListRows(config, config.dataType, configCallback),
+      id       : `${ this.prefix }-tablecontainer`,
+      children : this.#buildListRows(config, config.dataType, configCallback),
     })
   }
 
@@ -27,21 +27,21 @@ export default class ValueListElement {
     return [
       TableElementFactory.create('td', {
         children: MiscElementFactory.create('label', {
+          classList   : `${ this.prefix }-${ dataRow.key }-label`,
           forId       : `${ this.prefix }-input-${ dataRow.key }`,
           textContent : dataRow.displayName,
           title       : dataRow.valueDescription,
-          classList   : `${ this.prefix }-${ dataRow.key }-label`,
         }),
       }),
       TableElementFactory.create('td', {
         children: [ InputElementFactory.create(dataRow.inputType, {
-          name           : `${ dataRow.key }`,
-          id             : `${ this.prefix }-input-${ dataRow.key }`,
-          value          : dataRow.value,
-          classList      : `${ this.prefix }-${ dataRow.key }-input`,
           attributes     : { 'data-lastvalue': dataRow.value },
-          eventListeners : CallbackWrapperFactory.create('InputWrapper', configCallback),
           checked        : dataRow.checked,
+          classList      : `${ this.prefix }-${ dataRow.key }-input`,
+          eventListeners : CallbackWrapperFactory.create('InputWrapper', configCallback),
+          id             : `${ this.prefix }-input-${ dataRow.key }`,
+          name           : `${ dataRow.key }`,
+          value          : dataRow.value,
         }, true) ],
       }),
     ]
@@ -49,8 +49,8 @@ export default class ValueListElement {
 
   #buildListRows(config, classList, configCallback) {
     return config.data.map(row => TableElementFactory.create('tr', {
-      id        : `${ this.prefix }-row`,
       classList : `${ classList } ${ classList }-row`,
+      id        : `${ this.prefix }-row`,
       children  : this.#buildListRowCells(row, configCallback),
     }))
   }

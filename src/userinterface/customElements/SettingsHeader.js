@@ -8,17 +8,17 @@ export default class SettingsHeader {
     this.baseClass = 'feature-header'
     this.element   = MiscElementFactory.create('div',
       {
-        id        : `${ this.prefix }container`,
         classList : [ `${ this.baseClass }-container` ],
+        id        : `${ this.prefix }container`,
       })
 
     this.element.append(
       MiscElementFactory.create('p',
         {
+          attributes  : { title: config.description },
+          classList   : `${ this.baseClass }-title`,
           id          : `${ this.prefix }title`,
           textContent : config.displayName,
-          classList   : `${ this.baseClass }-title`,
-          attributes  : { title: config.description },
         })
     )
 
@@ -37,12 +37,12 @@ export default class SettingsHeader {
     this.element.append(
       InputElementFactory.create('checkbox',
         {
-          checked        : config.active,
-          name           : `${ this.prefix }status-checkbox`,
-          id             : `${ this.prefix }status-checkbox`,
-          classList      : [ `${ this.baseClass }-statusCheckbox` ],
           attributes     : { 'data-lastvalue': config.active },
+          checked        : config.active,
+          classList      : [ `${ this.baseClass }-statusCheckbox` ],
           eventListeners : CallbackWrapperFactory.create('ActiveCheckBoxWrapper', configCallback),
+          id             : `${ this.prefix }status-checkbox`,
+          name           : `${ this.prefix }status-checkbox`,
         })
     )
 
@@ -57,12 +57,12 @@ export default class SettingsHeader {
       this.element.append(
         InputElementFactory.create('checkbox',
           {
-            checked        : config.sortData,
-            name           : `${ this.prefix }sort-checkbox`,
-            id             : `${ this.prefix }sort-checkbox`,
-            classList      : [ `${ this.baseClass }-sortCheckbox` ],
             attributes     : { 'data-lastvalue': config.active },
+            checked        : config.sortData,
+            classList      : [ `${ this.baseClass }-sortCheckbox` ],
             eventListeners : CallbackWrapperFactory.create('SortCheckboxWrapper', configCallback),
+            id             : `${ this.prefix }sort-checkbox`,
+            name           : `${ this.prefix }sort-checkbox`,
           })
       )
     }

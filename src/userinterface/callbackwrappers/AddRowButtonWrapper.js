@@ -9,12 +9,12 @@ export default class AddRowButtonWrapper extends BaseWrapper {
 
   buildWrapperObject(addRowFunction, configCallback) {
     return {
-      eventType : this.eventType,
-      callback  : (event_) => {
+      callback: (event_) => {
         const { target: { parentElement: { children: [ , tbody ] } } } = event_
 
         addRowFunction(tbody, configCallback)
       },
+      eventType: this.eventType,
     }
   }
 }

@@ -97,7 +97,7 @@ export default class RangeInfo {
 
   static getNearbyCounts(coords, totalRange, currentGalaxy) {
     // convert regex iterator to array
-    const coordsAsArray = [ ...coords ].map(([ , gala, sys, , moon ]) => ({ gala, sys, moon }))
+    const coordsAsArray = [ ...coords ].map(([ , gala, sys, , moon ]) => ({ gala, moon, sys }))
 
     let nearPlanets = -1 // -1 to account for current planet
     let nearMoons   = 0
@@ -113,6 +113,6 @@ export default class RangeInfo {
 
     if (nearPlanets === -1) { nearPlanets = 0 }
 
-    return { nearPlanets, nearMoons }
+    return { nearMoons, nearPlanets }
   }
 }

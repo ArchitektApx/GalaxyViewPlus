@@ -8,14 +8,14 @@ export default class InputPairWrapper extends BaseWrapper {
 
   buildWrapperObject(inputCallback) {
     return {
-      eventType : this.eventType,
-      callback  : (event_) => {
+      callback: (event_) => {
         const data = BaseWrapper.extractInputPairData(event_)
 
         inputCallback('changeData', data)
         // update data-lastvalue attribute for next callback
         BaseWrapper.refreshLastValue(event_)
       },
+      eventType: this.eventType,
     }
   }
 }

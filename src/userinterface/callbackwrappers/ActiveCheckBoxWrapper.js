@@ -8,8 +8,7 @@ export default class ActiveCheckBoxWrapper extends BaseWrapper {
 
   buildWrapperObject(inputCallback) {
     return {
-      eventType : this.eventType,
-      callback  : (event_) => {
+      callback: (event_) => {
         const data = BaseWrapper.extractInputData(event_.target)
 
         inputCallback('changeStatus', data)
@@ -26,6 +25,7 @@ export default class ActiveCheckBoxWrapper extends BaseWrapper {
             : body.classList.add('hidden')
         }
       },
+      eventType: this.eventType,
     }
   }
 }

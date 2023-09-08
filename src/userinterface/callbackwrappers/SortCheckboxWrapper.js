@@ -8,14 +8,14 @@ export default class SortCheckboxWrapper extends BaseWrapper {
 
   buildWrapperObject(inputCallback) {
     return {
-      eventType : this.eventType,
-      callback  : (event_) => {
+      callback: (event_) => {
         const data = BaseWrapper.extractInputData(event_.target)
 
         inputCallback('changeSorting', data)
         // update data-lastvalue attribute for next callback
         BaseWrapper.refreshLastValue(event_)
       },
+      eventType: this.eventType,
     }
   }
 }

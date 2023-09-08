@@ -43,9 +43,9 @@ export default class ConfigManager {
   }
 
   #executeCommand(actionType, inputData) {
-    const CommandClass = this.commandMap[actionType].class
-    const commandArguments  = [ this.commandMap[actionType].systemInput, inputData ]
-    const command = new CommandClass(...commandArguments)
+    const CommandClass     = this.commandMap[actionType].class
+    const commandArguments = [ this.commandMap[actionType].systemInput, inputData ]
+    const command          = new CommandClass(...commandArguments)
 
     try {
       command.execute()

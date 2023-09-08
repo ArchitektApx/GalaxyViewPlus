@@ -20,11 +20,11 @@ describe('StaticData', () => {
 
   it('should have the correct keys for STORAGE_KEYS', () => {
     const expectedKeys = [
-      'USER_CONFIG',
       'CLEANUP_STATUS',
-      'UPDATE_STATUS',
-      'STATS_DATA',
       'DEBUG_LOG',
+      'STATS_DATA',
+      'UPDATE_STATUS',
+      'USER_CONFIG',
     ]
 
     expect(Object.keys(StaticData.STORAGE_KEYS)).toEqual(expectedKeys)

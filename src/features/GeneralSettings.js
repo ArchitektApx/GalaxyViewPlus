@@ -10,10 +10,10 @@ export default class GeneralSettings {
     if (!settings) { return } // Return early if the settings are not found
 
     const classMap = {
-      syncbutton : { Class: SyncButtonShortcut,   params: undefined },
+      configOpen : { Class: ConfigOpen,           params: undefined },
       debugInfo  : { Class: DebugInfo,            params: startTime },
       debugLog   : { Class: DebugLog,             params: undefined },
-      configOpen : { Class: ConfigOpen,           params: undefined },
+      syncbutton : { Class: SyncButtonShortcut,   params: undefined },
     }
 
     settings.data.forEach((setting) => {

@@ -32,13 +32,13 @@ export default class DebugInfo {
     const config      = StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.USER_CONFIG)
 
     return {
-      scriptVersion        : GM.info.script.version,
-      defaultConfigVersion : StaticData.DEFAULT_CONFIG.configVersion,
       currentConfigVersion : config.configVersion,
+      defaultConfigVersion : StaticData.DEFAULT_CONFIG.configVersion,
+      executionTime        : `${ elapsed }ms`,
+      scriptVersion        : GM.info.script.version,
       statsDataCount       : `${ Object.keys(statsData).length } Players`,
       statsUpdateStatus    : statsUpdate.status,
       statsUpdateTimestamp : new Date(statsUpdate.timestamp).toISOString(),
-      executionTime        : `${ elapsed }ms`,
     }
   }
 }

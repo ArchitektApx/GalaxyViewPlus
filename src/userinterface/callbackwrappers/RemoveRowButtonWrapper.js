@@ -8,14 +8,14 @@ export default class RemoveRowButtonWrapper extends BaseWrapper {
 
   buildWrapperObject(inputCallback) {
     return {
-      eventType : this.eventType,
-      callback  : (event_) => {
+      callback: (event_) => {
         const row  = BaseWrapper.extractParentRowFromCellEvent(event_)
         const data = BaseWrapper.extractInputPairData(event_)
 
         inputCallback('removeRow', data)
         row.remove()
       },
+      eventType: this.eventType,
     }
   }
 }

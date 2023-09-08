@@ -225,7 +225,7 @@ describe('ConfigManager', () => {
     })
 
     it('should use the provided error object for logging', () => {
-      const error   = new Error('test error')
+      const error = new Error('test error')
       ConfigManager.log('test', LogLevel.ERROR, error)
       expect(StorageInterface.writeLog).toHaveBeenCalledWith('test', 'error', 'ConfigManager', error)
     })

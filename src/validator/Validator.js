@@ -1,3 +1,5 @@
+import StaticData from '../staticdata/StaticData.js'
+
 export default class Validator {
   // static methods for validating
   // config data, user inputs and values fetched from the page.
@@ -98,7 +100,11 @@ export default class Validator {
     return colorRegex.test(color)
   }
 
-  static validateConfig(configObject, defaultConfig, ignorePaths = []) {
+  static validateConfig(
+    configObject,
+    defaultConfig = StaticData.DEFAULT_CONFIG,
+    ignorePaths = StaticData.USER_DEFINED_FEATURE_PROPERTIES
+  ) {
     // validate if a config object is valid (=everything besides user data matches the default config)
     const filteredRunningConfig = Validator.getFilteredObject(configObject, ignorePaths)
     const filteredDefaultConfig = Validator.getFilteredObject(defaultConfig, ignorePaths)

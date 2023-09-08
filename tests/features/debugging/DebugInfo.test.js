@@ -89,13 +89,13 @@ describe('DebugInfo', () => {
     expect(debugInfoElement.props.id).toBe('debug-info')
 
     const expectedInfo = {
-      scriptVersion        : '1.0.0',
-      defaultConfigVersion : '1.0.0',
       currentConfigVersion : '2.0.0',
+      defaultConfigVersion : '1.0.0',
+      executionTime        : `${ mockElapsedTime }ms`,
+      scriptVersion        : '1.0.0',
       statsDataCount       : '2 Players',
       statsUpdateStatus    : 'success',
       statsUpdateTimestamp : new Date(mockData.GalaxyViewPlus_UpdateStatus.timestamp).toISOString(),
-      executionTime        : `${ mockElapsedTime }ms`,
     }
 
     Object.keys(expectedInfo).forEach((key, index) => {

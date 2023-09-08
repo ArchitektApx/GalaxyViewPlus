@@ -24,12 +24,14 @@ describe('RankRecolor', () => {
   ]
 
   const mockRankParameters = {
-    rank: [
-      { checked: false, value: 'rank', displayName: 'Gesamt' },
-      { checked: true, value: 'testRank', displayName: 'TestRank' },
-    ],
-    stats: {
-      getPlayerRank: jest.fn(),
+    params: {
+      rank: [
+        { checked: false, value: 'rank', displayName: 'Gesamt' },
+        { checked: true, value: 'testRank', displayName: 'TestRank' },
+      ],
+      stats: {
+        getPlayerRank: jest.fn(),
+      },
     },
   }
 
@@ -52,6 +54,13 @@ describe('RankRecolor', () => {
 
     it('should set default rank type and display name if no parameters passed', () => {
       const instance = new RankRecolor(mockData)
+
+      expect(instance.rankType).toBe('rank')
+      expect(instance.rankDisplayName).toBe('Gesamt')
+    })
+
+    it('should set defaut rank type and dispayname if rank / stats parameter have wrong type', () => {
+      const instance = new RankRecolor(mockData, { params: { rank: 'test', stats: 'test' } })
 
       expect(instance.rankType).toBe('rank')
       expect(instance.rankDisplayName).toBe('Gesamt')
@@ -83,7 +92,7 @@ describe('RankRecolor', () => {
         },
       }
 
-      mockRankParameters.stats.getPlayerRank.mockReturnValue(1)
+      mockRankParameters.params.stats.getPlayerRank.mockReturnValue(1)
 
       instance.execute(mockCurrentElement)
 
@@ -98,7 +107,7 @@ describe('RankRecolor', () => {
     it('should use fallback method if statsinterface is default value from constructor', () => {
       const instance = new RankRecolor(mockData)
 
-      expect(instance.statsInterfaceInstance).toEqual({})
+      expect(instance.statsInstance).toEqual({})
 
       const mockCurrentElement = {
         childNodes: [
@@ -136,7 +145,7 @@ describe('RankRecolor', () => {
       }
 
       // Mock player rank that is bigger than the biggest rank in rankData
-      instance.statsInterfaceInstance.getPlayerRank.mockReturnValue(9999)
+      instance.statsInstance.getPlayerRank.mockReturnValue(9999)
 
       instance.execute(mockCurrentElement)
 
@@ -162,7 +171,7 @@ describe('RankRecolor', () => {
       }
 
       // Mock player rank that is smaller than the smallest rank in rankData
-      instance.statsInterfaceInstance.getPlayerRank.mockReturnValue(0)
+      instance.statsInstance.getPlayerRank.mockReturnValue(0)
 
       instance.execute(mockCurrentElement)
 

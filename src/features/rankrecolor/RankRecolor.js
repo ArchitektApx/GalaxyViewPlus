@@ -2,17 +2,9 @@ import MiscElementFactory from '../../userinterface/factories/MiscElementFactory
 
 export default class RankRecolor {
   constructor(configData = [], { params: parameters } = {}) {
-    // make sure parameters behave as we expect
-    this.rankRecolorData        = Array.isArray(configData) ? configData : []
-    this.statsInterfaceInstance = typeof parameters.stats === 'object' ? parameters.stats : {}
-
-    const rank = Array.isArray(parameters.rank) ? parameters.rank : []
-
-    // Find the checked row, or use a default if not found
-    const { value = 'rank', displayName = 'Gesamt' } = rank.find(row => row.checked === true) || {}
-
-    this.rankType        = value
-    this.rankDisplayName = displayName
+    // parse parameters to make sure we have the expected types
+    this.parseParameters(configData, parameters)
+    this.getRankTypeAndDisplayName()
   }
 
   execute(currentElement) {
@@ -23,7 +15,7 @@ export default class RankRecolor {
     let userRank
 
     try {
-      userRank = this.statsInterfaceInstance.getPlayerRank(playerIDInt, this.rankType)
+      userRank = this.statsInstance.getPlayerRank(playerIDInt, this.rankType)
     } catch {
       userRank             = RankRecolor.userRankFallback(currentElement)
       this.rankDisplayName = 'Gesamt'
@@ -44,6 +36,35 @@ export default class RankRecolor {
     }
 
     currentElement.parentNode.append(rankElement)
+  }
+
+  getRankTypeAndDisplayName() {
+    // Find the checked row, or use a default if not found
+    const { value = 'rank', displayName = 'Gesamt' } = this.rankTypeData.find(row => row.checked === true) || {}
+    this.rankType        = value
+    this.rankDisplayName = displayName
+  }
+
+  parseParameters(configData, parameters) {
+    // make sure input parameters behave as we expect even if deliberatly set to false values
+    this.rankRecolorData = RankRecolor.forceArray(configData)
+    console.log(`rankrecolordata is: ${  this.rankRecolorData }`)
+    this.statsInstance = RankRecolor.forceObject(RankRecolor.forceOptionalProperty(parameters, 'stats', {}))
+    console.log(`statsinstance is: ${  this.statsInstance }`)
+    this.rankTypeData = RankRecolor.forceArray(RankRecolor.forceOptionalProperty(parameters, 'rank', []))
+    console.log(`ranktypedata is: ${  this.rankTypeData }`)
+  }
+
+  static forceArray(input) {
+    return Array.isArray(input) ? input : []
+  }
+
+  static forceObject(input) {
+    return typeof input === 'object' ? input : {}
+  }
+
+  static forceOptionalProperty(input, property, fallback) {
+    return input?.[property] || fallback
   }
 
   static getParams(config, statInstance) {

@@ -1,7 +1,7 @@
 import MiscElementFactory from '../../userinterface/factories/MiscElementFactory.js'
 
 export default class RankRecolor {
-  constructor(configData = [], parameters = {}) {
+  constructor(configData = [], { params: parameters } = {}) {
     // make sure parameters behave as we expect
     this.rankRecolorData        = Array.isArray(configData) ? configData : []
     this.statsInterfaceInstance = typeof parameters.stats === 'object' ? parameters.stats : {}

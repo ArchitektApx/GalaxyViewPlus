@@ -64,11 +64,6 @@ describe('Element', () => {
       expect(mockElement.id).toBe('test-id')
     })
 
-    it('should not set the id if it is empty', () => {
-      elementInstance.getElement()
-      expect(mockElement.id).toBeUndefined()
-    })
-
     it('should set attributes if provided', () => {
       elementInstance.attributes = { 'data-test': 'test' }
       elementInstance.getElement()

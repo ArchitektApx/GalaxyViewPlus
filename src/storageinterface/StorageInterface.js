@@ -1,4 +1,5 @@
 import LogLevel   from '../enum/LogLevel.js'
+import Mindash    from '../mindash/Mindash.js'
 import StaticData from '../staticdata/StaticData.js'
 
 export default class StorageInterface {
@@ -58,9 +59,11 @@ export default class StorageInterface {
     }
 
     try {
-      let logMessages = StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.DEBUG_LOG)
+      let logMessages = Mindash.defaultTo(
+        StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.DEBUG_LOG),
+        []
+      )
 
-      if (Array.isArray(logMessages) === false) { logMessages = [] }
       logMessages.push(logMessage)
 
       if (logMessages.length > StaticData.DEBUG_LOG_MAX_ENTRIES) {

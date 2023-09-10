@@ -1,4 +1,5 @@
 import LogLevel         from '../enum/LogLevel.js'
+import Mindash          from '../mindash/Mindash.js'
 import StorageInterface from '../storageinterface/StorageInterface.js'
 import InactiveRecolor  from './inactiverecolor/InactiveRecolor.js'
 import RangeInfo        from './rangeinfo/RangeInfo.js'
@@ -26,23 +27,23 @@ export default class Iterator {
 
   // prublic methods
   invokeFeatures(featureConfig) {
-    // const positions = document.querySelectorAll("a.tooltip_sticky:has(span.galaxy-username)")
-    // FF doesn't support :has() yet :(
-    const positions = [ ...document.querySelectorAll(Iterator.selector) ].map(elm => elm.parentNode)
+    const positions = Mindash.mapAny(
+      [ ...document.querySelectorAll(Iterator.selector) ],
+      x => x.parentNode
+    )
 
-    const featureInstances = featureConfig.map(config => (
-      // feature class exists and is active
-      (this.featureMap[config.feature] && config.active)
-        ? new this.featureMap[config.feature].Class(
-          config.data, this.featureMap[config.feature].params
-        )
-        : undefined
+    // filter out inactive/invalid and create instances
+    featureConfig.filter(config => (
+      this.featureMap[config.feature] && config.active
     ))
-
-    // invoke instances on each player
-    featureInstances.forEach((instance) => {
-      if (instance) { positions.forEach(position => instance.execute(position)) }
-    })
+    .map(config => (
+      new this.featureMap[config.feature].Class(
+        config.data, this.featureMap[config.feature].params
+      )
+    ))
+    .forEach(instance => (
+      positions.forEach(position => instance.execute(position))
+    ))
   }
 
   static log(message, level = LogLevel.INFO, error = '') {

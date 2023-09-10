@@ -177,8 +177,9 @@ describe('Typedash', () => {
       expect(Typedash.isType(false, [])).toBe(false)
     })
 
-    it('should default to string type if none provided', () => {
-      expect(Typedash.isType('apple')).toBe(true)
+    it('should default to undefined type if none provided', () => {
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      expect(Typedash.isType(undefined)).toBe(true)
       expect(Typedash.isType(5)).toBe(false)
     })
   })

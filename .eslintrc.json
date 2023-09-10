@@ -16,8 +16,7 @@
     "plugin:regexp/recommended",
     "plugin:security/recommended",
     "plugin:sonarjs/recommended",
-    "plugin:unicorn/recommended",
-    "right-align"
+    "plugin:unicorn/recommended"
   ],
   "globals": {
     "__buildMode__": true,
@@ -50,7 +49,8 @@
         "jest-formatting"
       ],
       "rules": {
-        "no-unused-vars": "off"
+        "no-unused-vars": "off",
+        "sort-keys-plus/sort-keys": "off"
       }
     }
   ],
@@ -75,9 +75,30 @@
     "regexp",
     "sonarjs",
     "sort-class-members",
-    "spellcheck"
+    "spellcheck",
+    "sort-keys-plus"
   ],
   "rules": {
+    "align-import/align-import": [
+      "error"
+    ],
+    "align-assignments/align-assignments": [
+      "error",
+      {
+        "requiresOnly": false
+      }
+    ],
+    "array-bracket-spacing": [
+      "error",
+      "always"
+    ],
+    "arrow-parens": [
+      "error",
+      "as-needed",
+      {
+        "requireForBlockBody": true
+      }
+    ],
     "babel/no-unused-expressions": [
       "error",
       {
@@ -92,14 +113,59 @@
     "babel/camelcase": "off",
     "camelcase": "off",
     "class-methods-use-this": "error",
-    "complexity": "error",
+    "complexity": [
+      "error",
+      {
+        "max": 5
+      }
+    ],
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "never",
+        "imports": "always-multiline",
+        "objects": "always-multiline"
+      }
+    ],
     "consistent-return": "off",
     "eqeqeq": "error",
+    "func-names": [
+      "error",
+      "as-needed"
+    ],
+    "function-paren-newline": [
+      "error",
+      "consistent"
+    ],
+    "function-call-argument-newline": [
+      "error",
+      "consistent"
+    ],
     "import/extensions": [
       "error",
       "ignorePackages",
       {
         "js": "always"
+      }
+    ],
+    "key-spacing": [
+      "error",
+      {
+        "singleLine": {
+          "beforeColon": false,
+          "afterColon": true
+        },
+        "multiLine": {
+          "beforeColon": false,
+          "afterColon": true
+        },
+        "align": {
+          "beforeColon": true,
+          "afterColon": true,
+          "on": "colon"
+        }
       }
     ],
     "linebreak-style": "off",
@@ -132,12 +198,14 @@
     "no-extra-bind": "error",
     "no-invalid-this": "error",
     "no-loops/no-loops": "error",
+    "no-multi-spaces": "off",
     "no-param-reassign": [
       "error",
       {
         "props": false
       }
     ],
+    "no-plusplus": "off",
     "no-unneeded-ternary": "error",
     "no-unused-expressions": [
       "error",
@@ -151,6 +219,38 @@
       {
         "varsIgnorePattern": "userInterface|iteratorInstance"
       }
+    ],
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "object-curly-newline": [
+      "error",
+      {
+        "ObjectExpression": {
+          "multiline": true,
+          "consistent": true
+        },
+        "ObjectPattern": {
+          "multiline": true,
+          "consistent": true
+        }
+      }
+    ],
+    "object-shorthand": [
+      "error",
+      "consistent"
+    ],
+    "quotes": [
+      "error",
+      "single",
+      {
+        "avoidEscape": true
+      }
+    ],
+    "quote-props": [
+      "error",
+      "consistent-as-needed"
     ],
     "regexp/strict": "off",
     "security/detect-object-injection": "off",
@@ -247,10 +347,76 @@
         }
       }
     ],
+    "sort-keys-plus/sort-keys": [
+      "error",
+      "asc",
+      {
+        "natural": true,
+        "allowLineSeparatedGroups": true,
+        "overrides": [
+          {
+            "order": [
+              "classList",
+              "id",
+              "children"
+            ]
+          },
+          {
+            "properties": [
+              "children"
+            ],
+            "order": [
+              "classList",
+              "id",
+              "children"
+            ]
+          }
+        ]
+      }
+    ],
+    "space-in-parens": [
+      "error",
+      "never"
+    ],
     "spellcheck/spell-checker": [
       "off",
       {
         "minLength": 4
+      }
+    ],
+    "template-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "import/order": [
+      "error",
+      {
+        "alphabetize": {
+          "order": "asc"
+        },
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling"
+        ]
+      }
+    ],
+    "indent": [
+      "error",
+      2,
+      {
+        "MemberExpression": "off",
+        "SwitchCase": 1,
+        "FunctionExpression": {
+          "parameters": "first"
+        },
+        "CallExpression": {
+          "arguments": "first"
+        },
+        "ArrayExpression": "first",
+        "ObjectExpression": "first"
       }
     ],
     "unicorn/filename-case": [

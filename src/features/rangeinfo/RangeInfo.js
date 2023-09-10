@@ -48,12 +48,12 @@ export default class RangeInfo {
     const rangeBefore = rangeStart <= this.currentSystem
       ? this.getCircularNumberRange(rangeStart, this.currentSystem)
       : [ ...this.getCircularNumberRange(rangeStart, this.maxSys + 1),
-        ...this.getCircularNumberRange(this.minSys, this.currentSystem) ]
+          ...this.getCircularNumberRange(this.minSys, this.currentSystem) ]
 
     const rangeAfter = rangeEnd >= this.currentSystem
       ? this.getCircularNumberRange(this.currentSystem, rangeEnd + 1)
       : [ ...this.getCircularNumberRange(this.currentSystem, this.maxSys + 1),
-        ...this.getCircularNumberRange(this.minSys, rangeEnd + 1) ]
+          ...this.getCircularNumberRange(this.minSys, rangeEnd + 1) ]
 
     return [ ...rangeBefore, ...rangeAfter ]
   }

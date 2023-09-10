@@ -6,20 +6,24 @@ export default class SettingsHeader {
   constructor(config, configCallback) {
     this.prefix    = `${ config.htmlPrefix }-header-`
     this.baseClass = 'feature-header'
-    this.element   = MiscElementFactory.create('div',
+    this.element   = MiscElementFactory.create(
+      'div',
       {
         classList : [ `${ this.baseClass }-container` ],
         id        : `${ this.prefix }container`,
-      })
+      }
+    )
 
     this.element.append(
-      MiscElementFactory.create('p',
+      MiscElementFactory.create(
+        'p',
         {
           attributes  : { title: config.description },
           classList   : `${ this.baseClass }-title`,
           id          : `${ this.prefix }title`,
           textContent : config.displayName,
-        })
+        }
+      )
     )
 
     this.element.append(
@@ -27,15 +31,18 @@ export default class SettingsHeader {
     )
 
     this.element.append(
-      MiscElementFactory.create('label',
+      MiscElementFactory.create(
+        'label',
         {
           forId       : `${ this.prefix }-status-checkbox`,
           textContent : 'Aktiv:',
-        })
+        }
+      )
     )
 
     this.element.append(
-      InputElementFactory.create('checkbox',
+      InputElementFactory.create(
+        'checkbox',
         {
           attributes     : { 'data-lastvalue': config.active },
           checked        : config.active,
@@ -43,19 +50,23 @@ export default class SettingsHeader {
           eventListeners : CallbackWrapperFactory.create('ActiveCheckBoxWrapper', configCallback),
           id             : `${ this.prefix }status-checkbox`,
           name           : `${ this.prefix }status-checkbox`,
-        })
+        }
+      )
     )
 
     if (config.sortData) {
       this.element.append(
-        MiscElementFactory.create('label',
+        MiscElementFactory.create(
+          'label',
           {
             forId       : `${ this.prefix }sort-checkbox`,
             textContent : 'Sortieren:',
-          })
+          }
+        )
       )
       this.element.append(
-        InputElementFactory.create('checkbox',
+        InputElementFactory.create(
+          'checkbox',
           {
             attributes     : { 'data-lastvalue': config.active },
             checked        : config.sortData,
@@ -63,7 +74,8 @@ export default class SettingsHeader {
             eventListeners : CallbackWrapperFactory.create('SortCheckboxWrapper', configCallback),
             id             : `${ this.prefix }sort-checkbox`,
             name           : `${ this.prefix }sort-checkbox`,
-          })
+          }
+        )
       )
     }
   }

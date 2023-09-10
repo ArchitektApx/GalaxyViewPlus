@@ -5,11 +5,13 @@ export default class SettingsBody {
   constructor(config, configCallback) {
     this.prefix    = `${ config.htmlPrefix }`
     this.baseClass = 'feature-body'
-    this.element   = MiscElementFactory.create('div',
+    this.element   = MiscElementFactory.create(
+      'div',
       {
         classList : `${ this.baseClass }-container`,
         id        : `${ this.prefix }-body-container`,
-      })
+      }
+    )
 
     if (!config.active) { this.element.classList.add('hidden') }
 

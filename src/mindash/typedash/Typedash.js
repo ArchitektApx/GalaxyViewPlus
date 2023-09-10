@@ -120,12 +120,9 @@ export default class Typedash {
    * @param {string} [type='string'] - The type to check against.
    * @returns {boolean} - True if the type of the input matches the provided type.
    */
-  static isType(input, typeSample = 'string') {
-    if (input === null
-     || input === undefined
-     || typeSample === null
-     || typeSample === undefined
-    ) {
+  static isType(input, typeSample) {
+    // check if anything is null or undefined
+    if (Typedash.isThisOrThat(input, null) || Typedash.isThisOrThat(typeSample, null)) {
       return input === typeSample
     }
     return input.constructor === typeSample.constructor

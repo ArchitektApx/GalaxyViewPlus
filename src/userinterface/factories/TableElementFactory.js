@@ -6,7 +6,6 @@ export default class TableElementFactory {
 
     if (!types.includes(type)) {
       console.error(`TableElement type '${ type }' is not supported.`)
-
       return
     }
 

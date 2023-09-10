@@ -1,3 +1,4 @@
+import Mindash    from '../mindash/Mindash.js'
 import StaticData from '../staticdata/StaticData.js'
 
 export default class Validator {
@@ -130,9 +131,7 @@ export default class Validator {
       return object
     }
 
-    const keysToRemove = (Array.isArray(featureProperties)
-      ? featureProperties
-      : [ featureProperties ])
+    const keysToRemove = Mindash.forceArray(featureProperties)
 
     const clone   = Validator.getObjectDeepCopy(object)
     const cleaned = clone.features.map((feature) => {

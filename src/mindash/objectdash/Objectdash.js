@@ -72,7 +72,7 @@ export default class Objectdash {
     let current = object
 
     keys.slice(0, -1).forEach((key, index) => {
-      if (!current[key] || typeof current[key] !== 'object') {
+      if (!Typedash.isType(current[key], {})) {
         const nextKey = keys[index + 1]
         current[key]  = current[key] || (/^\d+$/.test(nextKey) ? [] : {})
       }

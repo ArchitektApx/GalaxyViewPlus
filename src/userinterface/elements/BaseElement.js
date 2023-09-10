@@ -26,10 +26,7 @@ export default class Element {
   }
 
   getElement() {
-    // set id if it is not empty
-    if (this.id !== '') {
-      this.element.id = this.id
-    }
+    this.element.id = this.id
 
     // not falsy or empty object/array
     if (Mindash.isSomething(this.classList)) {
@@ -71,18 +68,17 @@ export default class Element {
   }
 
   #attachElement(childElement, method) {
-    if (!(childElement instanceof Element || childElement instanceof HTMLElement)) {
-      console.error(`${ method } expects an instance of Element`)
-      return
-    }
-
     if (childElement instanceof Element) {
       this.element[method](childElement.getElement())
+      return
     }
 
     if (childElement instanceof HTMLElement) {
       this.element[method](childElement)
+      return
     }
+
+    console.error(`${ method } expects an instance of Element`)
   }
 
   #setAttributes() {

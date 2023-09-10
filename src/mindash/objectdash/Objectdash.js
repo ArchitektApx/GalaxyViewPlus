@@ -34,6 +34,24 @@ export default class Objectdash {
   }
 
   /**
+   * Ensures the given input contains both of the two provided properties.
+   * @param {*} input - Any input object
+   * @returns {boolean} - True if the input contains both of the two provided properties.
+   */
+  static hasThisAndThatProp(input, this_, that_) {
+    return Object.keys(input).includes(this_) && Object.keys(input).includes(that_)
+  }
+
+  /**
+   * Ensures the given input contains at lest one of the two provided properties.
+   * @param {*} input - Any input object
+   * @returns {boolean} - True if the input contains at least one of the two provided properties.
+   */
+  static hasThisOrThatProp(input, this_, that_) {
+    return Object.keys(input).includes(this_) || Object.keys(input).includes(that_)
+  }
+
+  /**
    * Merges two objects.
    * @param {Object} object1 - First object.
    * @param {Object} object2 - Second object.

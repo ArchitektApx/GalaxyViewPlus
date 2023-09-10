@@ -32,6 +32,17 @@ export default class Arraydash {
   }
 
   /**
+   * Maps the input using the provided callback.
+   * @param {Array|Object} input - The array or object to search with find.
+   * @param {Function} callback - Callback function for finding.
+   * @param {boolean} [spreadObject=false] - Whether to spread objects before running find.
+   * @returns {Array} - The mapped array.
+   */
+  static findAny(input, callback, spreadObject = false) {
+    return Arraydash.arrayAction('find', input, callback, spreadObject)
+  }
+
+  /**
    * Iterates over the input using the provided callback.
    * @param {Array|Object} input - The array or object to iterate over.
    * @param {Function} callback - Callback function for iteration.

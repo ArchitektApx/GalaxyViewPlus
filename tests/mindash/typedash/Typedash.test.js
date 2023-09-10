@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import Typedash from '../../../src/mindash/typedash/Typedash.js'
 
 describe('Typedash', () => {
@@ -36,6 +37,18 @@ describe('Typedash', () => {
     it('should return false for objects with non-zero length', () => {
       expect(Typedash.hasZeroLength([ 'apple' ])).toBe(false)
       expect(Typedash.hasZeroLength('apple')).toBe(false)
+    })
+  })
+
+  describe('isArrayOrObject', () => {
+    it('should return true for arrays and objects', () => {
+      expect(Typedash.isArrayOrObject([])).toBe(true)
+      expect(Typedash.isArrayOrObject({})).toBe(true)
+    })
+
+    it('should return false for non-arrays and non-objects', () => {
+      expect(Typedash.isArrayOrObject('apple')).toBe(false)
+      expect(Typedash.isArrayOrObject(5)).toBe(false)
     })
   })
 
@@ -90,6 +103,17 @@ describe('Typedash', () => {
     })
   })
 
+  describe('isThisAndThat', () => {
+    it('should return true if input matches both of the two provided values', () => {
+      expect(Typedash.isThisAndThat('apple', 'apple', 'apple')).toBe(true)
+    })
+
+    it('should return false otherwise', () => {
+      expect(Typedash.isThisAndThat('apple', 'apple', 'orange')).toBe(false)
+      expect(Typedash.isThisAndThat('orange', 'apple', 'orange')).toBe(false)
+    })
+  })
+
   describe('isThisOrThat', () => {
     it('should return true if input matches either of the two provided values', () => {
       expect(Typedash.isThisOrThat('apple', 'apple', 'orange')).toBe(true)
@@ -99,12 +123,58 @@ describe('Typedash', () => {
     it('should return false otherwise', () => {
       expect(Typedash.isThisOrThat('banana', 'apple', 'orange')).toBe(false)
     })
+
+    it('should handle null, undefined and falsy values', () => {
+      expect(Typedash.isThisOrThat(null, 'apple', 'orange')).toBe(false)
+      expect(Typedash.isThisOrThat(undefined, 'apple', 'orange')).toBe(false)
+      expect(Typedash.isThisOrThat(0, 'apple', 'orange')).toBe(false)
+      expect(Typedash.isThisOrThat(false, 'apple', 'orange')).toBe(false)
+    })
+  })
+
+  describe('isThisOrThatType', () => {
+    it('should return true if input type matches either of the two provided types', () => {
+      expect(Typedash.isThisOrThatType('apple', 'string', 1)).toBe(true)
+      expect(Typedash.isThisOrThatType(5, 'string', 1)).toBe(true)
+      expect(Typedash.isThisOrThatType([ 1, 2, 3 ], [], {})).toBe(true)
+      expect(Typedash.isThisOrThatType({ test: 'test' }, [], {})).toBe(true)
+    })
+
+    it('should return false otherwise', () => {
+      expect(Typedash.isThisOrThatType('apple', 1, {})).toBe(false)
+      expect(Typedash.isThisOrThatType(5, [], {})).toBe(false)
+      expect(Typedash.isThisOrThatType([ 1, 2, 3 ], 1, 'string')).toBe(false)
+      expect(Typedash.isThisOrThatType({ test: 'test' }, 'string', 1)).toBe(false)
+    })
+
+    it('should handle null, undefined and falsy values', () => {
+      expect(Typedash.isThisOrThatType(null, [], {})).toBe(false)
+      expect(Typedash.isThisOrThatType(undefined, [], {})).toBe(false)
+      expect(Typedash.isThisOrThatType(0, [], {})).toBe(false)
+      expect(Typedash.isThisOrThatType(false, [], {})).toBe(false)
+    })
   })
 
   describe('isType', () => {
     it('should return true if input type matches the provided type', () => {
       expect(Typedash.isType('apple', 'string')).toBe(true)
-      expect(Typedash.isType(5, 'number')).toBe(true)
+      expect(Typedash.isType(5, 1)).toBe(true)
+      expect(Typedash.isType([ 1, 2, 3 ], [])).toBe(true)
+      expect(Typedash.isType({ test: 'test' },  {})).toBe(true)
+    })
+
+    it('should return false otherwise', () => {
+      expect(Typedash.isType('apple', 0)).toBe(false)
+      expect(Typedash.isType(5, 'string')).toBe(false)
+      expect(Typedash.isType([ 1, 2, 3 ], {})).toBe(false)
+      expect(Typedash.isType({ test: 'test' },  [])).toBe(false)
+    })
+
+    it('should handle null, undefined and falsy values', () => {
+      expect(Typedash.isType(null, {})).toBe(false)
+      expect(Typedash.isType(undefined, {})).toBe(false)
+      expect(Typedash.isType(0, 'number')).toBe(false)
+      expect(Typedash.isType(false, [])).toBe(false)
     })
 
     it('should default to string type if none provided', () => {

@@ -34,6 +34,35 @@ describe('Objectdash', () => {
     })
   })
 
+  describe('hasThisAndThatProp', () => {
+    it('should return true if the object has both properties', () => {
+      const object = { a: 1, b: 2 }
+      expect(Objectdash.hasThisAndThatProp(object, 'a', 'b')).toBe(true)
+    })
+
+    it('should return false if the object does not have both properties', () => {
+      const object = { a: 1 }
+      expect(Objectdash.hasThisAndThatProp(object, 'a', 'b')).toBe(false)
+    })
+  })
+
+  describe('hasThisOrThatProp', () => {
+    it('should return true if the object has both properties', () => {
+      const object = { a: 1, b: 2 }
+      expect(Objectdash.hasThisOrThatProp(object, 'a', 'b')).toBe(true)
+    })
+
+    it('should return true if the object has one of the properties', () => {
+      const object = { a: 1 }
+      expect(Objectdash.hasThisOrThatProp(object, 'a', 'b')).toBe(true)
+    })
+
+    it('should return false if the object has none of the properties', () => {
+      const object = { c: 1 }
+      expect(Objectdash.hasThisOrThatProp(object, 'a', 'b')).toBe(false)
+    })
+  })
+
   describe('mergeObjects', () => {
     it('should merge two simple objects', () => {
       const object1 = { a: 1 }

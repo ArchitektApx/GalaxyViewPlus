@@ -31,6 +31,15 @@ export default class Typedash {
   }
 
   /**
+   * Checks if the input is an array or object.
+   * @param {*} input - Any input value.
+   * @returns {boolean} - True if input is an array or object, otherwise false.
+   */
+  static isArrayOrObject(input) {
+    return Array.isArray(input) || Typedash.isType(input, {})
+  }
+
+  /**
    * Checks if the input is an empty array.
    * @param {*} input - Any input value.
    * @returns {boolean} - True if input is an empty array, otherwise false.
@@ -73,6 +82,17 @@ export default class Typedash {
   }
 
   /**
+   * Checks if the input matches both of the two provided values.
+   * @param {*} input - Any input value.
+   * @param {*} this_ - First value to check against.
+   * @param {*} that_ - Second value to check against.
+   * @returns {boolean} - True if input matches both this_ and that_, otherwise false.
+   */
+  static isThisAndThat(input, this_, that_) {
+    return input === this_ && input === that_
+  }
+
+  /**
    * Checks if the input matches either of the two provided values.
    * @param {*} input - Any input value.
    * @param {*} this_ - First value to check against.
@@ -84,14 +104,31 @@ export default class Typedash {
   }
 
   /**
+   * Checks if the type of the input matches either of the two provided types.
+   * @param {*} input - Any input value.
+   * @param {string} this_ - a object/instance of the type, [] works for arrays, {} for objects etc.
+   * @param {string} that_ - a object/instance of the type, [] works for arrays, {} for objects etc.
+   * @returns {boolean} - True if the type of the input matches either of the two provided types.
+   */
+  static isThisOrThatType(input, this_, that_) {
+    return Typedash.isType(input, this_) || Typedash.isType(input, that_)
+  }
+
+  /**
    * Checks if the type of the input matches the provided type.
    * @param {*} input - Any input value.
    * @param {string} [type='string'] - The type to check against.
    * @returns {boolean} - True if the type of the input matches the provided type.
    */
-  static isType(input, type = 'string') {
-    // eslint-disable-next-line babel/valid-typeof
-    return typeof input === type
+  static isType(input, typeSample = 'string') {
+    if (input === null
+     || input === undefined
+     || typeSample === null
+     || typeSample === undefined
+    ) {
+      return input === typeSample
+    }
+    return input.constructor === typeSample.constructor
   }
 
   /**
@@ -141,12 +178,10 @@ export default class Typedash {
    * @returns {Array} - The prepared input.
    */
   static prepareInput(input, spreadObject = false) {
-    let output = Typedash.defaultTo(input, [])
-
-    if (spreadObject && typeof input === 'object' && !Array.isArray(input)) {
-      output = Object.entries(input)
+    if (spreadObject && typeof input === 'object' && input !== null) {
+      // return Object.entries(input).map(([ key, value ]) => ({ key, value }))
+      return Object.entries(input)
     }
-
-    return Typedash.forceArray(output)
+    return Typedash.forceArray(Typedash.defaultTo(input, []))
   }
 }

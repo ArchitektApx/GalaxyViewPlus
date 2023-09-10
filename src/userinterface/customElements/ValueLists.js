@@ -3,7 +3,20 @@ import InputElementFactory    from '../factories/InputElementFactory.js'
 import MiscElementFactory     from '../factories/MiscElementFactory.js'
 import TableElementFactory    from '../factories/TableElementFactory.js'
 
+// defines a table for the 'ValueList' dataType of the feature config
+/**
+ * The ValueListElement class is used to display the value list.
+ * @class
+ */
 export default class ValueListElement {
+  /**
+   * Creates a new ValueListElement instance.
+   * @public
+   * @param {object} config - The config
+   * @param {Function} configCallback - The config callback
+   * @returns {ValueListElement} - The ValueListElement instance
+   * @example
+   */
   constructor(config, configCallback) {
     this.prefix = `${ config.htmlPrefix }`
 
@@ -18,11 +31,23 @@ export default class ValueListElement {
   }
 
   // public methods
+  /**
+   * Returns the element.
+   * @returns {HTMLElement} - The element
+   * @public
+   */
   getElement() {
     return this.element
   }
 
   // private methods
+  /**
+   * Builds a table row cell
+   * @param {object} dataRow - The data row
+   * @param {Function} configCallback - The config callback
+   * @returns {HTMLElement} - The table row cell
+   * @private
+   */
   #buildListRowCells(dataRow, configCallback) {
     return [
       TableElementFactory.create('td', {
@@ -47,6 +72,14 @@ export default class ValueListElement {
     ]
   }
 
+  /**
+   * Builds the table rows
+   * @param {object} config - The config
+   * @param {string} classList - The class list
+   * @param {Function} configCallback - The config callback
+   * @returns {HTMLElement[]} - The table rows
+   * @private
+   */
   #buildListRows(config, classList, configCallback) {
     return config.data.map(row => TableElementFactory.create('tr', {
       classList : `${ classList } ${ classList }-row`,

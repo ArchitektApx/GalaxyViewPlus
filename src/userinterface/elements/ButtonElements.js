@@ -1,7 +1,21 @@
 import Mindash from '../../mindash/Mindash.js'
 import Element from './BaseElement.js'
 
+/**
+ * The ButtonElement class is used to create a button element.
+ * @class
+ */
 export default class ButtonElement extends Element {
+  /**
+   * Creates a new ButtonElement instance.
+   * @param {object} options - The options
+   * @param {object} options.attributes - The attributes
+   * @param {Array} options.classList - The classList
+   * @param {object} options.eventListeners - The eventListeners
+   * @param {string} options.id - The id
+   * @param {string} options.textContent - The textContent
+   * @returns {ButtonElement} - The ButtonElement instance
+   */
   constructor(options = {}) {
     const {
       attributes     = {},

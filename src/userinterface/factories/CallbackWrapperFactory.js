@@ -18,7 +18,18 @@ const wrapperClasses = {
   SortCheckboxWrapper    : { class: SortCheckboxWrapper,    event: 'click'  },
 }
 
+/**
+ * CallbackWrapperFactory - Factory to create CallbackWrapper instances.
+ * @class
+ */
 export default class CallbackWrapperFactory {
+  /**
+   * Creates a new CallbackWrapper instance.
+   * @public
+   * @param {string} type - The type of the CallbackWrapper
+   * @param {Function} inputCallback - The input callback
+   * @returns {*} - The CallbackWrapper object generated from the type and inputCallback
+   */
   static create(type, inputCallback) {
     const wrapperConfig = wrapperClasses[type]
 

@@ -1,7 +1,24 @@
 import Mindash from '../../mindash/Mindash.js'
 import Element from './BaseElement.js'
 
+/**
+ * The InputElement class is used to create an input element.
+ * @class
+ */
 export default class InputElement extends Element {
+  /**
+   * Creates a new InputElement instance.
+   * @param {string} type - The type
+   * @param {object} options - The options
+   * @param {object} options.attributes - The attributes
+   * @param {boolean} options.checked - The checked
+   * @param {Array} options.classList - The classList
+   * @param {object} options.eventListeners - The eventListeners
+   * @param {string} options.id - The id
+   * @param {string} options.name - The name
+   * @param {string} options.value - The value
+   * @returns {InputElement} - The InputElement instance
+   */
   constructor(type = 'text', options = {}) {
     const {
       attributes     = {},

@@ -32,7 +32,7 @@ export default class Validator {
   /**
    * returns a filtered deep copy of an object
    * @param {object} object - The object to copy
-   * @param ignorePaths - The paths to ignore within the features (user defined)
+   * @param {Array} ignorePaths - The paths to ignore within the features (user defined)
    * @returns {object} - The copied object
    * @static
    * @public

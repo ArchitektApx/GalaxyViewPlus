@@ -1,6 +1,16 @@
 import ButtonElement from '../elements/ButtonElements.js'
 
+/**
+ * The ButtonElementFactory class is used to create button elements.
+ * @class
+ */
 export default class ButtonElementFactory {
+  /**
+   * Creates a new ButtonElementFactory instance.
+   * @param {string} type - The type of the button element
+   * @param {object} options - The options of the button element
+   * @returns {ButtonElement|undefined} - The ButtonElement generated from the type and options
+   */
   static create(type, options = {}) {
     const buttonDefaults = {
       addRow    : { classList: [ 'add-row-btn' ],      textContent: 'Hinzufügen'   },

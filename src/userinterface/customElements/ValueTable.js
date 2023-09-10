@@ -7,7 +7,19 @@ import TableElementFactory    from '../factories/TableElementFactory.js'
 // a table with a header where each row has the input for the key in the first column and the input for the value in the second column
 // used to match one user defined value to another
 // third column is a delete button to remove the row as this dataType allows custom amounts of rows
+
+/**
+ * The ValueTableElement class is used to display the value table.
+ * @class
+ */
 export default class ValueTableElement {
+  /**
+   * Creates a new ValueTableElement instance.
+   * @public
+   * @param {object} config - The config
+   * @param {Function} configCallback - The config callback
+   * @returns {ValueTableElement} - The ValueTableElement instance
+   */
   constructor(config, configCallback) {
     this.prefix         = `${ config.htmlPrefix }`
     this.keyInputType   = config.keyInputType
@@ -33,6 +45,13 @@ export default class ValueTableElement {
     })
   }
 
+  /**
+   * Adds a row with default values to the table.
+   * @param {HTMLElement} tbodyReference - The tbody reference
+   * @param {Function} configCallback - The config callback
+   * @returns {void}
+   * @public
+   */
   addDefaultTableRow(tbodyReference, configCallback) {
     // used by the add button to add a row with default values
     tbodyReference.append(
@@ -47,6 +66,13 @@ export default class ValueTableElement {
     )
   }
 
+  /**
+   * Builds the table body.
+   * @param {object} config - The config
+   * @param {Function} configCallback - The config callback
+   * @returns {HTMLElement} - The table body
+   * @public
+   */
   buildTableBody(config, configCallback) {
     return TableElementFactory.create('tbody', {
       classList : 'valuetable-body',
@@ -62,6 +88,14 @@ export default class ValueTableElement {
     })
   }
 
+  /**
+   * Builds the table header.
+   * @param {string} classList - The class list
+   * @param {string[]} thNames - The table header names
+   * @param {string[]} thIds - The table header ids
+   * @returns {HTMLElement} - The table header
+   * @public
+   */
   buildTableHeader(classList, thNames = [ '', '', '' ], thIds = [ 'key', 'value', 'delete' ]) {
     return TableElementFactory.create('thead', {
       classList : 'valuetable-header',
@@ -77,11 +111,22 @@ export default class ValueTableElement {
     })
   }
 
-  // public methods
+  /**
+   * Returns the element.
+   * @returns {HTMLElement} - The element
+   * @public
+   */
   getElement() {
     return this.element
   }
 
+  /**
+   * Returns the table body.
+   * @param {Function}addRowFunction - The add row function
+   * @param {object} configCallback - The config callback
+   * @returns {HTMLElement} - The table body
+   * @public
+   */
   static buildAddRowButton(addRowFunction, configCallback) {
     const callbacks = { addRow: addRowFunction, delButton: configCallback }
 
@@ -90,6 +135,17 @@ export default class ValueTableElement {
     })
   }
 
+  /**
+   * Returns the table body.
+   * @param {string} prefix - The prefix
+   * @param {string} inputType - The input type
+   * @param {string} keyOrValue - The key or value
+   * @param {string} value - The value
+   * @param {Function} configCallback - The config callback
+   * @returns {HTMLElement} - The table body
+   * @public
+   * @static
+   */
   static buildInputCell(prefix, inputType, keyOrValue, value, configCallback) {
     return TableElementFactory.create('td', {
       children: [
@@ -105,6 +161,19 @@ export default class ValueTableElement {
     })
   }
 
+  /**
+   * Returns the table body.
+   * @param {string} type - The type
+   * @param {object} options - The options used for creation
+   * @param {string} options.name - The name
+   * @param {string} options.value - The value
+   * @param {string} options.id - The id
+   * @param {string} options.classList - The class list
+   * @param  {Function} configCallback  - The config callback
+   * @returns {HTMLElement} - The table body
+   * @public
+   * @static
+   */
   static buildInputElement(type, { name, value, id, classList }, configCallback) {
     return InputElementFactory.create(
       type, {
@@ -118,12 +187,31 @@ export default class ValueTableElement {
     )
   }
 
+  /**
+   * Returns the remove row button
+   * @param {Function} configCallback - The config callback
+   * @returns {HTMLElement} - The remove row button
+   * @public
+   * @static
+   */
   static buildRemoveRowButton(configCallback) {
     return ButtonElementFactory.create('removeRow', {
       eventListeners: CallbackWrapperFactory.create('RemoveRowButtonWrapper', configCallback),
     })
   }
 
+  /**
+   * Returns a table row
+   * @param {string} prefix - The prefix
+   * @param {string} keyInputType - The key input type
+   * @param {string} valueInputType - The value input type
+   * @param {string} key - The key
+   * @param {string} value - The value
+   * @param {Function} configCallback - The config callback
+   * @returns {HTMLElement} - The table row
+   * @public
+   * @static
+   */
   static buildTableRow(prefix, keyInputType, valueInputType, key, value, configCallback) {
     return TableElementFactory.create('tr', {
       children: ValueTableElement.buildTableRowCells(
@@ -132,6 +220,18 @@ export default class ValueTableElement {
     })
   }
 
+  /**
+   * Returns a table row cell
+   * @param {string} prefix - The prefix
+   * @param {string} keyInputType - The key input type
+   * @param {string} valueInputType - The value input type
+   * @param {string} key - The key
+   * @param {string} value - The value
+   * @param {Function} configCallback - The config callback
+   * @returns {HTMLElement[]} - The table row cells
+   * @public
+   * @static
+   */
   static buildTableRowCells(prefix, keyInputType, valueInputType, key, value, configCallback) {
     return [
       ValueTableElement.buildInputCell(prefix, keyInputType, 'key', key, configCallback),

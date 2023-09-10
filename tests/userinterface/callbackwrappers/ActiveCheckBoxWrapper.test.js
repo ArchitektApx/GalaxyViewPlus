@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable jest/no-conditional-expect */
 import ActiveCheckBoxWrapper from '../../../src/userinterface/callbackwrappers/ActiveCheckBoxWrapper.js'
-import BaseWrapper           from '../../../src/userinterface/callbackwrappers/BaseWrapper.js'
 
 describe('ActiveCheckBoxWrapper', () => {
   let wrapper

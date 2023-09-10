@@ -1,4 +1,3 @@
-import BaseWrapper        from '../../../src/userinterface/callbackwrappers/BaseWrapper.js'
 import ResetConfigWrapper from '../../../src/userinterface/callbackwrappers/ResetConfigWrapper.js'
 
 describe('ResetConfigWrapper', () => {

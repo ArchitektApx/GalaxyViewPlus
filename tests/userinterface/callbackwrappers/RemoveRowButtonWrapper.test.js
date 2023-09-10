@@ -1,4 +1,3 @@
-import BaseWrapper            from '../../../src/userinterface/callbackwrappers/BaseWrapper.js'
 import RemoveRowButtonWrapper from '../../../src/userinterface/callbackwrappers/RemoveRowButtonWrapper.js'
 
 describe('RemoveRowButtonWrapper', () => {

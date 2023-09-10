@@ -1,12 +1,11 @@
 /* eslint-disable no-new */
-import LogLevel            from '../../src/enum/LogLevel.js'
-import Iterator            from '../../src/features/Iterator.js'
-import InactiveRecolor     from '../../src/features/inactiverecolor/InactiveRecolor.js'
-import RangeInfo           from '../../src/features/rangeinfo/RangeInfo.js'
-import RankRecolor         from '../../src/features/rankrecolor/RankRecolor.js'
-import UsernameRecolor     from '../../src/features/usernameRecolor/UsernameRecolor.js'
-import StatisticsInterface from '../../src/statisticsinterface/StatisticsInterface.js'
-import StorageInterface    from '../../src/storageinterface/StorageInterface.js'
+import LogLevel         from '../../src/enum/LogLevel.js'
+import Iterator         from '../../src/features/Iterator.js'
+import InactiveRecolor  from '../../src/features/inactiverecolor/InactiveRecolor.js'
+import RangeInfo        from '../../src/features/rangeinfo/RangeInfo.js'
+import RankRecolor      from '../../src/features/rankrecolor/RankRecolor.js'
+import UsernameRecolor  from '../../src/features/usernameRecolor/UsernameRecolor.js'
+import StorageInterface from '../../src/storageinterface/StorageInterface.js'
 
 jest.mock('../../src/storageinterface/StorageInterface.js')
 jest.mock('../../src/features/inactiverecolor/InactiveRecolor.js')

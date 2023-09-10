@@ -1,4 +1,3 @@
-import InputElement        from '../../../src/userinterface/elements/InputElements.js'
 import InputElementFactory from '../../../src/userinterface/factories/InputElementFactory.js'
 
 // Mocking the document.createElement method

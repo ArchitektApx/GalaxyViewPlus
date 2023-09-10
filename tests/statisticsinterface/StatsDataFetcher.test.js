@@ -1,4 +1,3 @@
-import StaticData       from '../../src/staticdata/StaticData.js'
 import StatsDataFetcher from '../../src/statisticsinterface/StatsDataFetcher.js'
 
 // Mocking the GM.xmlHttpRequest
@@ -23,9 +22,9 @@ describe('StatsDataFetcher', () => {
     await StatsDataFetcher.fetchStatsJson()
 
     expect(GM.xmlHttpRequest).toHaveBeenCalledWith({
-      method  : StaticData.HTTP_METHOD,
-      timeout : StaticData.HTTP_REQUEST_TIMEOUT,
-      url     : StaticData.STATS_URL,
+      method  : StatsDataFetcher.HTTP_METHOD,
+      timeout : StatsDataFetcher.HTTP_REQUEST_TIMEOUT,
+      url     : StatsDataFetcher.STATS_URL,
       onload  : expect.any(Function),
       onerror : expect.any(Function),
     })

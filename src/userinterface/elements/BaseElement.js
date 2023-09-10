@@ -79,7 +79,7 @@ export default class Element {
     }
 
     // set textContent if it exists and is not empty
-    if (this?.textContent) {
+    if (this.textContent) {
       this.setTextContent(this.textContent)
     }
 

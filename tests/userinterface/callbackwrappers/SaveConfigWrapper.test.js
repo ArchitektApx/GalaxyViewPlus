@@ -1,4 +1,3 @@
-import BaseWrapper       from '../../../src/userinterface/callbackwrappers/BaseWrapper.js'
 import SaveConfigWrapper from '../../../src/userinterface/callbackwrappers/SaveConfigWrapper.js'
 
 describe('SaveConfigWrapper', () => {

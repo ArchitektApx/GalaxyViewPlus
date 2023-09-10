@@ -1,4 +1,3 @@
-import BaseWrapper         from '../../../src/userinterface/callbackwrappers/BaseWrapper.js'
 import SortCheckboxWrapper from '../../../src/userinterface/callbackwrappers/SortCheckboxWrapper.js'
 
 describe('SortCheckboxWrapper', () => {

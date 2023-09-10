@@ -1,4 +1,3 @@
-import MiscElement        from '../../../src/userinterface/elements/MiscElements.js'
 import MiscElementFactory from '../../../src/userinterface/factories/MiscElementFactory.js'
 
 // Mocking the document.createElement method

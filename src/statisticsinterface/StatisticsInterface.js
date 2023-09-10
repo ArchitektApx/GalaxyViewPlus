@@ -1,4 +1,5 @@
 import LogLevel         from '../enum/LogLevel.js'
+import Mindash          from '../mindash/Mindash.js'
 import StaticData       from '../staticdata/StaticData.js'
 import StorageInterface from '../storageinterface/StorageInterface.js'
 import Validator        from '../validator/Validator.js'
@@ -50,8 +51,8 @@ export default class StatisticsInterface {
     const statsData = StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.STATS_DATA)
 
     if (
-      Object.keys(statsData).length > 0
-      && Object.keys(status).length > 0
+      !Mindash.isEmptyObject(statsData)
+      && !Mindash.isEmptyObject(status)
       && StatisticsInterface.#isDataValid(status)
     ) {
       this.statsData      = statsData

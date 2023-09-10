@@ -1,4 +1,5 @@
 import LogLevel             from '../enum/LogLevel.js'
+import Mindash              from '../mindash/Mindash.js'
 import StaticData           from '../staticdata/StaticData.js'
 import StorageInterface     from '../storageinterface/StorageInterface.js'
 import Validator            from '../validator/Validator.js'
@@ -70,7 +71,7 @@ export default class ConfigManager {
     const storageKeys  = StaticData.STORAGE_KEYS
     const storedConfig = StorageInterface.getStorageItem(storageKeys.USER_CONFIG, '{}')
 
-    if (Object.keys(storedConfig).length === 0) {
+    if (Mindash.isEmptyObject(storedConfig)) {
       ConfigManager.log('config is empty. loading default config.', LogLevel.WARN)
       this.#runningConfig = StaticData.DEFAULT_CONFIG
       this.#saveConfig()

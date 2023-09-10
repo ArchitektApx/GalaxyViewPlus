@@ -298,7 +298,7 @@ export default class StaticData {
   static HTTP_MAX_RETRY_COUNT = 3
   // http settings for statsinterface
   static HTTP_METHOD = 'GET'
-  static HTTP_REQUEST_TIMEOUT = 1000
+  static HTTP_REQUEST_TIMEOUT = 3000
 
   static HTTP_USER_AGENT = 'GalaxyViewPlus - bei Problemen -> architekt am Discord' // in ms
   static STATS_URL = 'https://pr0game.com/stats_Universe_2.json' // in hours

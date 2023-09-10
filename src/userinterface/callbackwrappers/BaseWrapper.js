@@ -1,3 +1,5 @@
+import Mindash from '../../mindash/Mindash.js'
+
 export default class BaseWrapper {
   constructor(eventType) {
     this.eventType     = eventType
@@ -43,8 +45,10 @@ export default class BaseWrapper {
   }
 
   static refreshLastValue({ target }) {
-    if (target && target.dataset) {
-      target.dataset.lastvalue = target.type === 'checkbox' || target.type === 'radio' ? target.checked : target.value
+    if (target?.dataset) {
+      target.dataset.lastvalue = Mindash.isThisOrThat(target.type, 'checkbox', 'radio')
+        ? target.checked
+        : target.value
     }
   }
 }

@@ -1,3 +1,4 @@
+import Mindash from '../../mindash/Mindash.js'
 import Element from './BaseElement.js'
 
 export default class TableElement extends Element {
@@ -12,9 +13,9 @@ export default class TableElement extends Element {
 
     super(id, classList, attributes)
     this.element     = document.createElement(tag)
-    this.textContent = textContent; // <-- fuck this
+    this.textContent = textContent
 
-    // make that bitch an array if it wants it or not >:-(
-    (Array.isArray(children) ? children : [ children ]).forEach(child => this.append(child))
+    // accept arrays, objects, whatever
+    Mindash.forAny(children, child => this.append(child))
   }
 }

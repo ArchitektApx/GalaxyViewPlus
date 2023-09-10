@@ -1,3 +1,4 @@
+import Mindash            from '../../mindash/Mindash.js'
 import MiscElementFactory from '../../userinterface/factories/MiscElementFactory.js'
 
 export default class RankRecolor {
@@ -48,24 +49,9 @@ export default class RankRecolor {
 
   parseParameters(configData, parameters) {
     // make sure input parameters behave as we expect even if deliberatly set to false values
-    this.rankRecolorData = RankRecolor.forceArray(configData)
-    console.log(`rankrecolordata is: ${  this.rankRecolorData }`)
-    this.statsInstance = RankRecolor.forceObject(RankRecolor.forceOptionalProperty(parameters, 'stats', {}))
-    console.log(`statsinstance is: ${  this.statsInstance }`)
-    this.rankTypeData = RankRecolor.forceArray(RankRecolor.forceOptionalProperty(parameters, 'rank', []))
-    console.log(`ranktypedata is: ${  this.rankTypeData }`)
-  }
-
-  static forceArray(input) {
-    return Array.isArray(input) ? input : []
-  }
-
-  static forceObject(input) {
-    return typeof input === 'object' ? input : {}
-  }
-
-  static forceOptionalProperty(input, property, fallback) {
-    return input?.[property] || fallback
+    this.rankRecolorData = Mindash.isType(configData, []) ? configData : []
+    this.statsInstance   = Mindash.defaultTo(parameters?.stats, {})
+    this.rankTypeData    = Mindash.forceArray(Mindash.defaultTo(parameters?.rank, []))
   }
 
   static getParams(config, statInstance) {
@@ -80,7 +66,7 @@ export default class RankRecolor {
   static getRankSelectorData(featureConfig) {
     if (!featureConfig) { return }
 
-    const rankSelectorConfig = featureConfig.find(feature => feature.feature === 'rankSelector')
+    const rankSelectorConfig = Mindash.findAny(featureConfig, feature => feature.feature === 'rankSelector')
 
     if (
       rankSelectorConfig

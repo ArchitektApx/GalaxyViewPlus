@@ -1,3 +1,4 @@
+import Mindash from '../../mindash/Mindash.js'
 import Element from './BaseElement.js'
 
 export default class ButtonElement extends Element {
@@ -15,13 +16,10 @@ export default class ButtonElement extends Element {
     this.element.textContent = textContent
 
     // don't accept an empty object but allow object or array of objects
-    if (Array.isArray(eventListeners) || Object.keys(eventListeners).length > 0) {
-      (Array.isArray(eventListeners) ? eventListeners : [ eventListeners ])
-        .forEach((eventListener) => {
-          if (eventListener.eventType && eventListener.callback) {
-            this.addEventListener(eventListener.eventType, eventListener.callback)
-          }
-        })
-    }
+    Mindash.forAny(eventListeners, (eventListener) => {
+      if (Mindash.hasThisAndThatProp(eventListener, 'eventType', 'callback')) {
+        this.addEventListener(eventListener.eventType, eventListener.callback)
+      }
+    })
   }
 }

@@ -1,3 +1,5 @@
+import Mindash from '../../mindash/Mindash.js'
+
 export default class Element {
   constructor(id = '', classList = [], attributes = {}) {
     this.id         = id
@@ -16,35 +18,11 @@ export default class Element {
   }
 
   after(childElement) {
-    if (!(childElement instanceof Element || childElement instanceof HTMLElement)) {
-      console.error('append expects an instance of Element')
-
-      return
-    }
-
-    if (childElement instanceof Element) {
-      this.element.after(childElement.getElement())
-    }
-
-    if (childElement instanceof HTMLElement) {
-      this.element.after(childElement)
-    }
+    this.#attachElement(childElement, 'after')
   }
 
   append(childElement) {
-    if (!(childElement instanceof Element || childElement instanceof HTMLElement)) {
-      console.error('append expects an instance of Element')
-
-      return
-    }
-
-    if (childElement instanceof Element) {
-      this.element.append(childElement.getElement())
-    }
-
-    if (childElement instanceof HTMLElement) {
-      this.element.append(childElement)
-    }
+    this.#attachElement(childElement, 'append')
   }
 
   getElement() {
@@ -53,12 +31,12 @@ export default class Element {
       this.element.id = this.id
     }
 
-    // not an empty array or string
-    if (this.classList.length > 0) {
+    // not falsy or empty object/array
+    if (Mindash.isSomething(this.classList)) {
       this.#addClasses(this.classList)
     }
 
-    if (Object.keys(this.attributes).length > 0) {
+    if (!Mindash.isEmptyObject(this.attributes)) {
       this.#setAttributes()
     }
 
@@ -92,9 +70,24 @@ export default class Element {
     }
   }
 
+  #attachElement(childElement, method) {
+    if (!(childElement instanceof Element || childElement instanceof HTMLElement)) {
+      console.error(`${ method } expects an instance of Element`)
+      return
+    }
+
+    if (childElement instanceof Element) {
+      this.element[method](childElement.getElement())
+    }
+
+    if (childElement instanceof HTMLElement) {
+      this.element[method](childElement)
+    }
+  }
+
   #setAttributes() {
-    Object.entries(this.attributes).forEach(([ attribute, value ]) => {
+    Mindash.forAny(this.attributes, ([ attribute, value ]) => {
       this.element.setAttribute(attribute, value)
-    })
+    }, true)
   }
 }

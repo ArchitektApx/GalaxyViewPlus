@@ -3,9 +3,7 @@ import SettingsInterface from './container/SettingsInterface.js'
 export default class UserInterface {
   constructor(configManagerInstance) {
     this.SettingsInterface = (new SettingsInterface(configManagerInstance)).getElement()
-
-    this.galaxyTable = document.querySelector('.table569')
-
+    this.galaxyTable       = document.querySelector('.table569')
     this.SettingsInterface = UserInterface.#cloneWidth(this.SettingsInterface, this.galaxyTable)
     UserInterface.#attachCSS(configManagerInstance.getCurrentConfig().userInterface.css)
 

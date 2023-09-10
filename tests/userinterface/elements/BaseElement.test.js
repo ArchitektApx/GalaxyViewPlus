@@ -151,7 +151,7 @@ describe('Element', () => {
 
       elementInstance.after({}) // Passing an arbitrary object, not Element or HTMLElement
 
-      expect(console.error).toHaveBeenCalledWith('append expects an instance of Element')
+      expect(console.error).toHaveBeenCalledWith('after expects an instance of Element')
     })
   })
 

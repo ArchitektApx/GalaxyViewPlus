@@ -24,7 +24,6 @@ export default class CallbackWrapperFactory {
 
     if (wrapperConfig) {
       const { class: WrapperClass, event } = wrapperConfig
-
       return (new WrapperClass(event, inputCallback)).getWrapper()
     }
 

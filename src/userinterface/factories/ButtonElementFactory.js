@@ -15,7 +15,6 @@ export default class ButtonElementFactory {
     if (defaults) {
       const combinedOptions = { ...defaults, ...options }
       const buttonElement   = new ButtonElement(combinedOptions)
-
       return buttonElement.getElement()
     }
 

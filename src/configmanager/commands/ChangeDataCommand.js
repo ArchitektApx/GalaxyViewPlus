@@ -1,3 +1,5 @@
+import Mindash from '../../mindash/Mindash.js'
+
 export default class ChangeDataCommand {
   constructor(config, inputData) {
     this.config    = config
@@ -38,7 +40,7 @@ export default class ChangeDataCommand {
   }
 
   static updateValueData(data, value) {
-    if (value.type !== 'checkbox' && value.type !== 'radio') {
+    if (!Mindash.isThisOrThat(value.type, 'checkbox', 'radio')) {
       const valueRow = data.find(datarow => datarow.key === value.name)
 
       valueRow.value = value.value

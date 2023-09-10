@@ -16,11 +16,8 @@ export default class MiscElement extends Element {
     this.element             = document.createElement(type)
     this.element.textContent = textContent
 
-    if (type === 'label' && forId) {
+    if (type === 'label') {
       this.element.setAttribute('for', forId)
-    }
-
-    if (type === 'label' && title) {
       this.element.setAttribute('title', title)
     }
 

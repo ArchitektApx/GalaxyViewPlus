@@ -1,3 +1,4 @@
+import Mindash from '../../mindash/Mindash.js'
 import Element from './BaseElement.js'
 
 export default class InputElement extends Element {
@@ -22,13 +23,11 @@ export default class InputElement extends Element {
       this.element.checked = checked
     }
 
-    if (Array.isArray(eventListeners) || Object.keys(eventListeners).length > 0) {
-      (Array.isArray(eventListeners) ? eventListeners : [ eventListeners ])
-        .forEach((eventListener) => {
-          if (eventListener.eventType && eventListener.callback) {
-            this.addEventListener(eventListener.eventType, eventListener.callback)
-          }
-        })
-    }
+    // don't accept an empty object but allow object or array of objects
+    Mindash.forAny(eventListeners, (eventListener) => {
+      if (Mindash.hasThisAndThatProp(eventListener, 'eventType', 'callback')) {
+        this.addEventListener(eventListener.eventType, eventListener.callback)
+      }
+    })
   }
 }

@@ -6,3 +6,4 @@ dist
 .fake
 coverage/
 .VSCodeCounter
+codehawk.json

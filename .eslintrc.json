@@ -67,15 +67,12 @@
   "plugins": [
     "align-assignments",
     "align-import",
-    "jest",
-    "jest-formatting",
     "no-constructor-bind",
     "no-loops",
     "promise",
     "regexp",
     "sonarjs",
     "sort-class-members",
-    "spellcheck",
     "sort-keys-plus"
   ],
   "rules": {
@@ -377,12 +374,6 @@
     "space-in-parens": [
       "error",
       "never"
-    ],
-    "spellcheck/spell-checker": [
-      "off",
-      {
-        "minLength": 4
-      }
     ],
     "template-curly-spacing": [
       "error",

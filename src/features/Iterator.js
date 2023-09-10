@@ -25,7 +25,7 @@ export default class Iterator {
     Iterator.log('Finished running feature iterator', LogLevel.DEBUG)
   }
 
-  // prublic methods
+  // public methods
   invokeFeatures(featureConfig) {
     const positions = Mindash.mapAny(
       [ ...document.querySelectorAll(Iterator.selector) ],

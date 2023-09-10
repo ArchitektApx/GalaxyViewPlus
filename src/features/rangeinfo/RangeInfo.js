@@ -12,10 +12,10 @@ export default class RangeInfo {
   /**
    * Creates a new RangeInfo instance
    * @param {Array} rangeInfo - the config containing the range info
+   * @param {string} rangeInfo.0 - The near range
+   * @param {string} rangeInfo.1 - The min system
+   * @param {string} rangeInfo.2 - The max system
    * @param {object} currentPosition - data created by the static method getCurrentGalaxyAndSystem
-   * @param {string} rangeInfo."0" - The near range
-   * @param {string} rangeInfo."1" - The min system
-   * @param {string} rangeInfo."2" - The max system
    * @param {string} currentPosition.currentSystem - The current system
    * @param {string} currentPosition.currentGalaxy - The current galaxy
    * @returns {RangeInfo} - The RangeInfo instance

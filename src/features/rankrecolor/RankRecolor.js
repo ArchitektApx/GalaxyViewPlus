@@ -11,12 +11,9 @@ import MiscElementFactory from '../../userinterface/factories/MiscElementFactory
 export default class RankRecolor {
   /**
    * Creates a new RankRecolor instance.
-   * @param {object} configData - The config data
+   * @param {Array} configData - The config data
    * @param {object} parameters - The parameters
-   * @param parameters.params - The parameters
-   * @param parameters.params.rank - The rank
-   * @param parameters.params.rank.data - The rank data from config
-   * @param parameters.params.stats - The stats (StatisticsInterface) instance
+   * @param {object} parameters.params - The parameters
    * @returns {RankRecolor} - The RankRecolor instance
    */
   constructor(configData = [], { params: parameters } = {}) {

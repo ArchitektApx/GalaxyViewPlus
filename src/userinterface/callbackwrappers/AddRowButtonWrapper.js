@@ -12,8 +12,8 @@ export default class AddRowButtonWrapper extends BaseWrapper {
    * Creates a new AddRowButtonWrapper instance.
    * @param {string} eventType - The event type
    * @param {object} config - The config object
-   * @param config.addRow - The addRow function
-   * @param config.delButton - The configCallback function
+   * @param {Function} config.addRow - The addRow function
+   * @param {Function} config.delButton - The configCallback function
    * @returns {AddRowButtonWrapper} - The AddRowButtonWrapper instance
    */
   constructor(eventType, { addRow: addRowFunction, delButton: configCallback }) {

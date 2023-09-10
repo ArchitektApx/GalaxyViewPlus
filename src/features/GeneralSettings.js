@@ -11,7 +11,7 @@ export default class GeneralSettings {
   /**
    * Executes the general settings related features.
    * @param {object} featureConfig - The config object for the general settings features
-   * @param featureConfig.features - The config of the individual features
+   * @param {Array} featureConfig.features - The config of the individual features
    * @param {number} startTime - The time the script started
    * @returns {void}
    */

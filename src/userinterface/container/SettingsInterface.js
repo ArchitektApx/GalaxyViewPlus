@@ -11,7 +11,7 @@ export default class SettingsInterface {
   /**
    * Creates a new SettingsInterface instance.
    * @public
-   * @param {ConfigManager} configManagerInstance - The ConfigManager instance
+   * @param {object} configManagerInstance - The ConfigManager instance
    * @returns {SettingsInterface} - The SettingsInterface instance
    */
   constructor(configManagerInstance) {

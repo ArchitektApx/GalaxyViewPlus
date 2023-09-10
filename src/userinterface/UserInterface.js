@@ -7,7 +7,7 @@ import SettingsInterface from './container/SettingsInterface.js'
 export default class UserInterface {
   /**
    * Creates a new UserInterface instance.
-   * @param {ConfigManager} configManagerInstance - The config manager instance
+   * @param {configManagerInstance} configManagerInstance - The config manager instance
    * @returns {UserInterface} - The UserInterface instance
    */
   constructor(configManagerInstance) {

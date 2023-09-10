@@ -3,7 +3,16 @@ import StaticData         from '../../staticdata/StaticData.js'
 import StorageInterface   from '../../storageinterface/StorageInterface.js'
 import MiscElementFactory from '../../userinterface/factories/MiscElementFactory.js'
 
+/**
+ * The DebugInfo class is used to display debug information in the settings interface.
+ */
 export default class DebugInfo {
+  /**
+   * Executes the DebugInfo class.
+   * @public
+   * @param {number} startTime - The time the script started
+   * @returns {void}
+   */
   static execute(startTime) {
     const elapsed         = (Date.now() - startTime)
     const debugInfoObject = DebugInfo.#getScriptInfoObject(elapsed)
@@ -15,6 +24,12 @@ export default class DebugInfo {
     settingsElement.append(debugInfoElement)
   }
 
+  /**
+   * Creates the debug info element.
+   * @private
+   * @param {object} debugInfoObject - The debug info object
+   * @returns {object} - The debug info element
+   */
   static #createDebugInfoElement(debugInfoObject) {
     const debugInfo = MiscElementFactory.create('div', { id: 'debug-info' })
 
@@ -25,6 +40,12 @@ export default class DebugInfo {
     return debugInfo
   }
 
+  /**
+   * Gets the script info object.
+   * @private
+   * @param {number} elapsed - The time the script started
+   * @returns {object} - The script info object
+   */
   static #getScriptInfoObject(elapsed) {
     const statsUpdate = StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.UPDATE_STATUS)
     const statsData   = StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.STATS_DATA)

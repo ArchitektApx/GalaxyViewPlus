@@ -6,7 +6,16 @@ import StatisticsInterface from './statisticsinterface/StatisticsInterface.js'
 import StorageInterface    from './storageinterface/StorageInterface.js'
 import UserInterface       from './userinterface/UserInterface.js'
 
+/**
+ * The GalaxyViewPlus class is the entry point of the script.
+ * It initializes the script and starts the iterator.
+ * @class
+ */
 export default class GalaxyViewPlus {
+  /**
+   * Creates a new GalaxyViewPlus instance.
+   * @returns {GalaxyViewPlus} - The GalaxyViewPlus instance
+   */
   static async run() {
     const startTime = Date.now()
 

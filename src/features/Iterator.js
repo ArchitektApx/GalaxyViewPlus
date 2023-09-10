@@ -6,10 +6,22 @@ import RangeInfo        from './rangeinfo/RangeInfo.js'
 import RankRecolor      from './rankrecolor/RankRecolor.js'
 import UsernameRecolor  from './usernameRecolor/UsernameRecolor.js'
 
+/**
+ * The Iterator class is used to iterate over the featureres and rows and execute them.
+ * @class
+ */
 export default class Iterator {
   static selector = 'a.tooltip_sticky > span.galaxy-username'
   static #logName = 'IteratorModule'
 
+  /**
+   * Creates a new Iterator instance and invokes the features.
+   * @param {object} config - The config for the features
+   * @param config.features
+   * @param {object} stats - The StatisticsInterface Instance
+   * @returns {Iterator} - The Iterator instance
+   * @class
+   */
   constructor({ features: config }, stats) {
     Iterator.log('Starting feature iterator ', LogLevel.DEBUG)
 
@@ -26,6 +38,11 @@ export default class Iterator {
   }
 
   // public methods
+  /**
+   * invokes all features that are active and have a valid class.
+   * @param {object} featureConfig - The config for the features
+   * @returns {void}
+   */
   invokeFeatures(featureConfig) {
     const positions = Mindash.mapAny(
       [ ...document.querySelectorAll(Iterator.selector) ],
@@ -46,6 +63,13 @@ export default class Iterator {
     ))
   }
 
+  /**
+   * Wrapper for StorageInterface.writeLog
+   * @public
+   * @param {string} message - The message to log
+   * @param {LogLevel} level - The log level
+   * @param {error} error    - The error to log
+   */
   static log(message, level = LogLevel.INFO, error = '') {
     StorageInterface.writeLog(message, level, Iterator.#logName, error)
   }

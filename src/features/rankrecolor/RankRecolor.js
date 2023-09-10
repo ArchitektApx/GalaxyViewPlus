@@ -1,13 +1,36 @@
 import Mindash            from '../../mindash/Mindash.js'
 import MiscElementFactory from '../../userinterface/factories/MiscElementFactory.js'
 
+/**
+ * The RankRecolor class is used to recolor the rank of players in the galaxy view.
+ * @class
+ * @param {object} configData - The config data
+ * @param {object} parameters - The parameters
+ * @returns {RankRecolor} - The RankRecolor instance
+ */
 export default class RankRecolor {
+  /**
+   * Creates a new RankRecolor instance.
+   * @param {object} configData - The config data
+   * @param {object} parameters - The parameters
+   * @param parameters.params - The parameters
+   * @param parameters.params.rank - The rank
+   * @param parameters.params.rank.data - The rank data from config
+   * @param parameters.params.stats - The stats (StatisticsInterface) instance
+   * @returns {RankRecolor} - The RankRecolor instance
+   */
   constructor(configData = [], { params: parameters } = {}) {
     // parse parameters to make sure we have the expected types
     this.parseParameters(configData, parameters)
     this.getRankTypeAndDisplayName()
   }
 
+  /**
+   * Executes the command.
+   * @param {HTMLElement} currentElement - The current element
+   * @returns {void}
+   * @public
+   */
   execute(currentElement) {
     const playerID    = currentElement.childNodes[1].attributes.playerid.value
     const playerIDInt = Number.parseInt(playerID, 10)
@@ -39,6 +62,10 @@ export default class RankRecolor {
     currentElement.parentNode.append(rankElement)
   }
 
+  /**
+   * Gets the rank type and display name. from the rankTypeData
+   * @returns {void}
+   */
   getRankTypeAndDisplayName() {
     // Find the checked row, or use a default if not found
     const { value = 'rank', displayName = 'Gesamt' } = this.rankTypeData.find(row => row.checked === true) || {}
@@ -47,6 +74,12 @@ export default class RankRecolor {
     this.rankDisplayName = displayName
   }
 
+  /**
+   * Parses the parameters.
+   * @param {object} configData - The config data
+   * @param {object} parameters - The parameters
+   * @returns {void}
+   */
   parseParameters(configData, parameters) {
     // make sure input parameters behave as we expect even if deliberatly set to false values
     this.rankRecolorData = Mindash.isType(configData, []) ? configData : []
@@ -54,6 +87,12 @@ export default class RankRecolor {
     this.rankTypeData    = Mindash.forceArray(Mindash.defaultTo(parameters?.rank, []))
   }
 
+  /**
+   * static helper which creates the formatted parameter for the constructor
+   * @param {object} config - The config
+   * @param {object} statInstance - The stat instance
+   * @returns {object} - The formatted parameters
+   */
   static getParams(config, statInstance) {
     return {
       params: {
@@ -63,6 +102,12 @@ export default class RankRecolor {
     }
   }
 
+  // eslint-disable-next-line jsdoc/require-returns-check
+  /**
+   * static helper which finds the rankselector data in the config and returns it if found
+   * @param {object} featureConfig - The feature config
+   * @returns {(undefined|object)} - The rankselector data or undefined if not found
+   */
   static getRankSelectorData(featureConfig) {
     if (!featureConfig) { return }
 
@@ -75,6 +120,11 @@ export default class RankRecolor {
     ) { return rankSelectorConfig.data }
   }
 
+  /**
+   * static helper which returns the user rank from the html tooltip content
+   * @param {HTMLElement} currentElement - The current element
+   * @returns {string} - The user rank
+   */
   static userRankFallback(currentElement) {
     // fallback to get total rank from html if StatsInterface is not available
     return currentElement.dataset.tooltipContent.split('</th')[0].split(' ').pop()

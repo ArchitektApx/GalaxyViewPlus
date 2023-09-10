@@ -3,6 +3,10 @@ import Arraydash  from './arraydash/Arraydash.js'
 import Objectdash from './objectdash/Objectdash.js'
 import Typedash   from './typedash/Typedash.js'
 
+/**
+ * Min(i)dash - A collection of useful utility functions so we don't have to import lodash.
+ * @class
+ */
 export default class Mindash {
   static {
     [ Typedash, Arraydash, Objectdash ].forEach((currentClass) => {

@@ -2,15 +2,22 @@ import LogLevel   from '../enum/LogLevel.js'
 import Mindash    from '../mindash/Mindash.js'
 import StaticData from '../staticdata/StaticData.js'
 
+/**
+ * The StorageInterface class is used to access the storage.
+ * It provides static interfaces to access the storage defined in StaticData.STORAGE_TYPE
+ * if GM is used methods will hide the fact that these calls are async from the consumer
+ * @class
+ */
 export default class StorageInterface {
   static #logName = 'StorageInterface'
-  // provides static interfaces to access the storage defined in StaticData.STORAGE_TYPE
-  // if GM is used methods will hide the fact that these calls are async from the consumer
-  // StorageType = StaticData.STORAGE_TYPE
-  // UPDATE: massive problems with GM and async storage calls -> only localStorage is used and GM.getValue()/GM.SetValue/etc. are dropped.
-  // I guess we should still keep the class for possible future changes in the underlying storage system?
 
   // static methods
+  /**
+   * Deletes a key from Storage.
+   * @public
+   * @param {string} key - The key to delete
+   * @returns {boolean} - True if successful, false if not
+   */
   static deleteStorageItem(key) {
     try {
       localStorage.removeItem(key)
@@ -23,6 +30,13 @@ export default class StorageInterface {
     }
   }
 
+  /**
+   * Gets a key from Storage.
+   * @public
+   * @param {string} key - The key to get
+   * @returns {object} - The key value or {} if no key was found
+   * @throws {false} - Throws an error storage is not available
+   */
   static getStorageItem(key) {
     try {
       return JSON.parse(localStorage.getItem(key) || '{}')
@@ -33,10 +47,24 @@ export default class StorageInterface {
     }
   }
 
+  /**
+   * Wrapper for the logging method.
+   * @public
+   * @param {string} message - The message to log
+   * @param {LogLevel} level - The log level
+   * @param {error} error    - The error to log
+   */
   static log(message, level = LogLevel.INFO, error = '') {
     StorageInterface.writeLog(message, level, StorageInterface.#logName, error)
   }
 
+  /**
+   * Sets a key in Storage.
+   * @public
+   * @param {string} key - The key to set
+   * @param {*} value - The value to set
+   * @returns {boolean} - True if successful, false if not
+   */
   static setStorageItem(key, value) {
     try {
       localStorage.setItem(key, JSON.stringify(value))
@@ -49,6 +77,15 @@ export default class StorageInterface {
     }
   }
 
+  /**
+   * Logging Method used by all other classes via their static log method wrapper.
+   * @public
+   * @param {string} message - The message to log
+   * @param {LogLevel} level - The log level
+   * @param {string} module - The module name
+   * @param {error} errorObject - The error to log
+   * @returns {void}
+   */
   static writeLog(message, level = LogLevel.INFO, module = '', errorObject = '') {
     const timestamp  = new Date(Date.now()).toISOString()
     const logMessage = `[${ __scriptName__ }_${ module } ${ timestamp }] [${ level }]: ${ message }`

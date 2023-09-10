@@ -1,3 +1,8 @@
+/**
+ * Type checking utilities.
+ * @module mindash/typedash
+ * @class
+ */
 export default class Typedash {
   /**
    * Returns the input if it's "something", otherwise returns the provided fallback value.
@@ -23,7 +28,8 @@ export default class Typedash {
 
   /**
    * Checks if an object has a length of zero.
-   * @param {Object} obj - The object with a length property.
+   * @param {object} obj - The object with a length property.
+   * @param {number}obj.length - The length property of the object.
    * @returns {boolean} - True if the length is zero, otherwise false.
    */
   static hasZeroLength({ length }) {
@@ -117,7 +123,7 @@ export default class Typedash {
   /**
    * Checks if the type of the input matches the provided type.
    * @param {*} input - Any input value.
-   * @param {string} [type='string'] - The type to check against.
+   * @param {*} typeSample - a object/instance of the type, [] works for arrays, {} for objects etc.
    * @returns {boolean} - True if the type of the input matches the provided type.
    */
   static isType(input, typeSample) {
@@ -129,11 +135,11 @@ export default class Typedash {
   }
 
   /**
- * Converts an array of keys to a dot-notation string path.
- * @public
- * @param {Array<string|number>} keys - Array of keys representing a path.
- * @returns {string} - The dot-notation path (e.g., 'a.b[0].c').
- */
+   * Converts an array of keys to a dot-notation string path.
+   * @public
+   * @param {Array<string|number>} keys - Array of keys representing a path.
+   * @returns {string} - The dot-notation path (e.g., 'a.b[0].c').
+   */
   static pathFromKeys(keys) {
     let path = ''
     keys.forEach((key, index) => {
@@ -170,7 +176,7 @@ export default class Typedash {
   /**
    * Prepares the input for array-based actions. Converts objects to array of their entries if specified.
    * @private
-   * @param {Array|Object} input - The input to be prepared.
+   * @param {Array | object} input - The input to be prepared.
    * @param {boolean} [spreadObject=false] - Whether to spread the object into an array of its entries.
    * @returns {Array} - The prepared input.
    */

@@ -1,10 +1,23 @@
+/**
+ * StaticData contains all static values used in the script.
+ * @class
+ * @returns {StaticData} - The StaticData class
+ * @typedef {object} Config
+ * @property {string} configVersion - The version of the config.
+ * @property {Array} features - The features of the config.
+ * @property {object} userInterface - The userInterface of the config.
+ * @typedef {object} FeatureValueTable - A feature with the dataType ValueTable.
+ * @typedef {object} FeatureValueList - A feature with the dataType ValueList.
+ * @typedef {object} ValueListData - The data of a ValueList feature.
+ * @typedef {object} FeatureGeneralSettings - A feature with the dataType GeneralSettings.
+ * @typedef {object} GeneralSettingsData - The data of a GeneralSettings feature.
+ */
 export default class StaticData {
   // static values like the default config
   // maybe localized strings in the future?
 
   // statsInterface cleanup interval in hours
   static CLEANUP_INTERVAL = 24 * 7
-
   static DEBUG_LOG_MAX_ENTRIES = 20
   // default config of this build
   static DEFAULT_CONFIG = {
@@ -295,14 +308,6 @@ export default class StaticData {
     },
   }
 
-  static HTTP_MAX_RETRY_COUNT = 3
-  // http settings for statsinterface
-  static HTTP_METHOD = 'GET'
-  static HTTP_REQUEST_TIMEOUT = 3000
-
-  static HTTP_USER_AGENT = 'GalaxyViewPlus - bei Problemen -> architekt am Discord' // in ms
-  static STATS_URL = 'https://pr0game.com/stats_Universe_2.json' // in hours
-
   // keys of all settings saved to storage
   static STORAGE_KEYS = {
     CLEANUP_STATUS : 'GalaxyViewPlus_CleanupStatus',
@@ -313,13 +318,9 @@ export default class StaticData {
   }
 
   static STORAGE_TYPE = 'localStorage' // allowed values are localStorage or GM
-
   static UPDATE_INTERVAL = 6 // in hours
-
   static UPDATE_INTERVAL_DELAY = 2 // Minutes
-
   static UPDATE_INTERVAL_STARTTIME = 0 // in hours
-
   // properties in config.features.<property> which are user defined
   static USER_DEFINED_FEATURE_PROPERTIES = [
     'active',

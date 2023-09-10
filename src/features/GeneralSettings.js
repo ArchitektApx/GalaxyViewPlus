@@ -3,7 +3,18 @@ import DebugLog           from './debugging/DebugLog.js'
 import ConfigOpen         from './shortcuts/ConfigOpen.js'
 import SyncButtonShortcut from './shortcuts/SyncButtonShortcut.js'
 
+/**
+ * The GeneralSettings class is used to execute the general settings related features.
+ * @class
+ */
 export default class GeneralSettings {
+  /**
+   * Executes the general settings related features.
+   * @param {object} featureConfig - The config object for the general settings features
+   * @param featureConfig.features - The config of the individual features
+   * @param {number} startTime - The time the script started
+   * @returns {void}
+   */
   static execute({ features: featureConfig }, startTime) {
     const settings = featureConfig.find(feature => feature.feature === 'generalsettings')
 

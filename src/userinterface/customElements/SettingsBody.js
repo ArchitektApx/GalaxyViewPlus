@@ -1,7 +1,18 @@
 import DataTypeFactory    from '../factories/DataTypeFactory.js'
 import MiscElementFactory from '../factories/MiscElementFactory.js'
 
+/**
+ * The SettingsBody class is used to display the settings body.
+ * @class
+ */
 export default class SettingsBody {
+  /**
+   * Creates a new SettingsBody instance.
+   * @public
+   * @param {object} config - The config
+   * @param {Function} configCallback - The config callback
+   * @returns {SettingsBody} - The SettingsBody instance
+   */
   constructor(config, configCallback) {
     this.prefix    = `${ config.htmlPrefix }`
     this.baseClass = 'feature-body'
@@ -20,6 +31,11 @@ export default class SettingsBody {
     )
   }
 
+  /**
+   * Gets the SettingsBody element.
+   * @public
+   * @returns {HTMLElement} - The SettingsBody element
+   */
   getElement() {
     return this.element
   }

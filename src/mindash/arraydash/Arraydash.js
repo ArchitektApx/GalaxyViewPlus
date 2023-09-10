@@ -1,11 +1,16 @@
 import Typedash from '../typedash/Typedash.js'
 
+/**
+ * Array interaction utility functions.
+ * @module mindash/arraydash
+ * @class
+ */
 export default class Arraydash {
   /**
    * Takes an action and an input and performs the action on the input after preparing it.
    * @private
    * @param {string} action - The name of the action (e.g., 'filter', 'map', 'forEach').
-   * @param {Array|Object} input - The array or object on which the action is performed.
+   * @param {Array | object} input - The array or object on which the action is performed.
    * @param {Function} callback - The callback function to use with the action.
    * @param {boolean} [spreadObject=false] - Whether to spread the object into an array of its entries.
    * @returns {Array} - The result of the action performed on the prepared input.
@@ -22,7 +27,7 @@ export default class Arraydash {
 
   /**
    * Filters the input using the provided callback.
-   * @param {Array|Object} input - The array or object to filter.
+   * @param {Array | object} input - The array or object to filter.
    * @param {Function} callback - Callback function for filtering.
    * @param {boolean} [spreadObject=false] - Whether to spread objects before filtering.
    * @returns {Array} - The filtered array.
@@ -33,7 +38,7 @@ export default class Arraydash {
 
   /**
    * Maps the input using the provided callback.
-   * @param {Array|Object} input - The array or object to search with find.
+   * @param {Array | object} input - The array or object to search with find.
    * @param {Function} callback - Callback function for finding.
    * @param {boolean} [spreadObject=false] - Whether to spread objects before running find.
    * @returns {Array} - The mapped array.
@@ -44,9 +49,10 @@ export default class Arraydash {
 
   /**
    * Iterates over the input using the provided callback.
-   * @param {Array|Object} input - The array or object to iterate over.
+   * @param {Array | object} input - The array or object to iterate over.
    * @param {Function} callback - Callback function for iteration.
    * @param {boolean} [spreadObject=false] - Whether to spread objects before iterating.
+   * @returns {Array} - The original array.
    */
   static forAny(input, callback, spreadObject = false) {
     return Arraydash.arrayAction('forEach', input, callback, spreadObject)
@@ -54,7 +60,7 @@ export default class Arraydash {
 
   /**
    * Maps the input using the provided callback.
-   * @param {Array|Object} input - The array or object to map.
+   * @param {Array | object} input - The array or object to map.
    * @param {Function} callback - Callback function for mapping.
    * @param {boolean} [spreadObject=false] - Whether to spread objects before mapping.
    * @returns {Array} - The mapped array.

@@ -3,7 +3,17 @@ import CallbackWrapperFactory from '../factories/CallbackWrapperFactory.js'
 import FeatureSettingsFactory from '../factories/FeatureSettingsFactory.js'
 import MiscElementFactory     from '../factories/MiscElementFactory.js'
 
+/**
+ * The SettingsInterface class is used to display the settings interface.
+ * @class
+ */
 export default class SettingsInterface {
+  /**
+   * Creates a new SettingsInterface instance.
+   * @public
+   * @param {ConfigManager} configManagerInstance - The ConfigManager instance
+   * @returns {SettingsInterface} - The SettingsInterface instance
+   */
   constructor(configManagerInstance) {
     const config                                 = configManagerInstance.getCurrentConfig()
     const actionCallback                         = configManagerInstance.getActionCallback()
@@ -45,6 +55,11 @@ export default class SettingsInterface {
     this.element.append(details)
   }
 
+  /**
+   * Gets the SettingsInterface element.
+   * @public
+   * @returns {object} - The SettingsInterface element
+   */
   getElement() {
     return this.element
   }

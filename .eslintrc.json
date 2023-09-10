@@ -16,7 +16,8 @@
     "plugin:regexp/recommended",
     "plugin:security/recommended",
     "plugin:sonarjs/recommended",
-    "plugin:unicorn/recommended"
+    "plugin:unicorn/recommended",
+    "plugin:jsdoc/recommended"
   ],
   "globals": {
     "__buildMode__": true,
@@ -73,7 +74,8 @@
     "regexp",
     "sonarjs",
     "sort-class-members",
-    "sort-keys-plus"
+    "sort-keys-plus",
+    "jsdoc"
   ],
   "rules": {
     "align-import/align-import": [
@@ -408,6 +410,20 @@
         },
         "ArrayExpression": "first",
         "ObjectExpression": "first"
+      }
+    ],
+    "jsdoc/no-defaults": "off",
+    "jsdoc/require-jsdoc": [
+      "error",
+      {
+        "enableFixer": false,
+        "publicOnly": true,
+        "require": {
+          "ArrowFunctionExpression": true,
+          "ClassDeclaration": true,
+          "FunctionDeclaration": true,
+          "MethodDefinition": true
+        }
       }
     ],
     "unicorn/filename-case": [

@@ -2,7 +2,18 @@ import CallbackWrapperFactory from '../factories/CallbackWrapperFactory.js'
 import InputElementFactory    from '../factories/InputElementFactory.js'
 import MiscElementFactory     from '../factories/MiscElementFactory.js'
 
+/**
+ * The SettingsHeader class is used to display the settings header.
+ * @class
+ */
 export default class SettingsHeader {
+  /**
+   * Creates a new SettingsHeader instance.
+   * @public
+   * @param {object} config - The config
+   * @param {Function} configCallback - The config callback
+   * @returns {SettingsHeader} - The SettingsHeader instance
+   */
   constructor(config, configCallback) {
     this.prefix    = `${ config.htmlPrefix }-header-`
     this.baseClass = 'feature-header'
@@ -80,6 +91,11 @@ export default class SettingsHeader {
     }
   }
 
+  /**
+   * Gets the SettingsHeader element.
+   * @public
+   * @returns {HTMLElement} - The SettingsHeader element
+   */
   getElement() {
     return this.element
   }

@@ -1,11 +1,29 @@
 import Mindash from '../../mindash/Mindash.js'
 
+/**
+ * The ChangeDataCommand is used to change the data of the config.
+ * It is used in the actionCallback of the ConfigManager.
+ * @class
+ * @param {object} config - The config object
+ * @param {object | Array} inputData - The data to change
+ * @returns {ChangeDataCommand} - The ChangeDataCommand instance
+ */
 export default class ChangeDataCommand {
+  /**
+   * Creates a new ChangeDataCommand instance.
+   * @param {object} config - The config object
+   * @param {object | Array} inputData - The data to change
+   * @returns {ChangeDataCommand} - The ChangeDataCommand instance
+   */
   constructor(config, inputData) {
     this.config    = config
     this.inputData = inputData
   }
 
+  /**
+   * Executes the command.
+   * @returns {void}
+   */
   execute() {
     // refactor sometime in the future?
     const htmlPrefix = Array.isArray(this.inputData)
@@ -19,6 +37,13 @@ export default class ChangeDataCommand {
       : ChangeDataCommand.updateValueData(data, this.inputData)
   }
 
+  /**
+   * Updates the data of the config.
+   * @param {Array} data - The data to update
+   * @param {object} key - The key to update
+   * @param {object} value - The value to update
+   * @returns {void}
+   */
   static updateKeyValueData(data, key, value) {
     // check if there is a line were both key and value match the lastvalue of the input,
     // if not we can push it and return, even if it might be a copy
@@ -39,6 +64,12 @@ export default class ChangeDataCommand {
     row.value = value.value
   }
 
+  /**
+   * Updates the data of the config.
+   * @param {Array} data - The data to update
+   * @param {object} value - The value to update
+   * @returns {void}
+   */
   static updateValueData(data, value) {
     if (!Mindash.isThisOrThat(value.type, 'checkbox', 'radio')) {
       const valueRow = data.find(datarow => datarow.key === value.name)

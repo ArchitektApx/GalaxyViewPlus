@@ -1,5 +1,3 @@
-import Actions                from '../../../src/userinterface/callbackwrappers/Actions.js'
-import Wrapper                from '../../../src/userinterface/callbackwrappers/Wrapper.js'
 import CallbackWrapperFactory from '../../../src/userinterface/factories/CallbackWrapperFactory.js'
 
 describe('CallbackWrapperFactory class', () => {

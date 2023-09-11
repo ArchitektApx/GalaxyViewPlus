@@ -58,7 +58,7 @@ export default class SettingsHeader {
           attributes     : { 'data-lastvalue': config.active },
           checked        : config.active,
           classList      : [ `${ this.baseClass }-statusCheckbox` ],
-          eventListeners : CallbackWrapperFactory.create('ActiveCheckBoxWrapper', configCallback),
+          eventListeners : CallbackWrapperFactory.create('StatusCheckbox', configCallback),
           id             : `${ this.prefix }status-checkbox`,
           name           : `${ this.prefix }status-checkbox`,
         }
@@ -82,7 +82,7 @@ export default class SettingsHeader {
             attributes     : { 'data-lastvalue': config.active },
             checked        : config.sortData,
             classList      : [ `${ this.baseClass }-sortCheckbox` ],
-            eventListeners : CallbackWrapperFactory.create('SortCheckboxWrapper', configCallback),
+            eventListeners : CallbackWrapperFactory.create('SortCheckbox', configCallback),
             id             : `${ this.prefix }sort-checkbox`,
             name           : `${ this.prefix }sort-checkbox`,
           }

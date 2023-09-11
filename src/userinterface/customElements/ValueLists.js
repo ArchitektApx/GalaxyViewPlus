@@ -63,7 +63,7 @@ export default class ValueListElement {
           attributes     : { 'data-lastvalue': dataRow.value },
           checked        : dataRow.checked,
           classList      : `${ this.prefix }-${ dataRow.key }-input`,
-          eventListeners : CallbackWrapperFactory.create('InputWrapper', configCallback),
+          eventListeners : CallbackWrapperFactory.create('Input', configCallback),
           id             : `${ this.prefix }-input-${ dataRow.key }`,
           name           : `${ dataRow.key }`,
           value          : dataRow.value,

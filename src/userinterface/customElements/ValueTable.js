@@ -128,10 +128,8 @@ export default class ValueTableElement {
    * @public
    */
   static buildAddRowButton(addRowFunction, configCallback) {
-    const callbacks = { addRow: addRowFunction, delButton: configCallback }
-
     return ButtonElementFactory.create('addRow', {
-      eventListeners: CallbackWrapperFactory.create('AddRowButtonWrapper', callbacks),
+      eventListeners: CallbackWrapperFactory.create('AddRowButton', configCallback, addRowFunction),
     })
   }
 
@@ -179,7 +177,7 @@ export default class ValueTableElement {
       type, {
         attributes     : { 'data-lastvalue': value },
         classList      : classList,
-        eventListeners : CallbackWrapperFactory.create('InputPairWrapper', configCallback),
+        eventListeners : CallbackWrapperFactory.create('InputPair', configCallback),
         id             : id,
         name           : name,
         value          : value,
@@ -196,7 +194,7 @@ export default class ValueTableElement {
    */
   static buildRemoveRowButton(configCallback) {
     return ButtonElementFactory.create('removeRow', {
-      eventListeners: CallbackWrapperFactory.create('RemoveRowButtonWrapper', configCallback),
+      eventListeners: CallbackWrapperFactory.create('RemoveRowButton', configCallback),
     })
   }
 

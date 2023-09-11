@@ -80,7 +80,7 @@ describe('SettingsHeader', () => {
       id             : 'test-prefix-header-status-checkbox',
       classList      : [ 'feature-header-statusCheckbox' ],
       attributes     : { 'data-lastvalue': true },
-      eventListeners : CallbackWrapperFactory.create('ActiveCheckBoxWrapper', configCallback),
+      eventListeners : CallbackWrapperFactory.create('ActiveCheckBox', configCallback),
     })
     expect(InputElementFactory.create).toHaveBeenCalledWith('checkbox', {
       checked        : true,
@@ -88,7 +88,7 @@ describe('SettingsHeader', () => {
       id             : 'test-prefix-header-sort-checkbox',
       classList      : [ 'feature-header-sortCheckbox' ],
       attributes     : { 'data-lastvalue': true },
-      eventListeners : CallbackWrapperFactory.create('SortCheckboxWrapper', configCallback),
+      eventListeners : CallbackWrapperFactory.create('SortCheckbox', configCallback),
     })
   })
 

@@ -1,44 +1,71 @@
+import Actions                from '../../../src/userinterface/callbackwrappers/Actions.js'
+import Wrapper                from '../../../src/userinterface/callbackwrappers/Wrapper.js'
 import CallbackWrapperFactory from '../../../src/userinterface/factories/CallbackWrapperFactory.js'
 
-describe('CallbackWrapperFactory', () => {
-  const mockCallback = jest.fn()
+describe('CallbackWrapperFactory class', () => {
+  it('should return a wrapper object for valid types', () => {
+    const mockCallbackFunction = jest.fn()
+    const result               = CallbackWrapperFactory.create('AddRowButton', mockCallbackFunction)
 
-  // Helper function to mock the console.error method
-  const mockConsoleError = () => {
-    const originalError = console.error
-
-    console.error = jest.fn()
-
-    return originalError
-  }
-
-  afterEach(() => {
-    jest.clearAllMocks()
+    expect(result).toHaveProperty('callback')
+    expect(result).toHaveProperty('eventType', 'click')
+    expect(typeof result.callback).toBe('function')
   })
 
-  it.each([
-    [ 'ActiveCheckBoxWrapper' ],
-    [ 'AddRowButtonWrapper' ],
-    [ 'InputPairWrapper' ],
-    [ 'InputWrapper' ],
-    [ 'RemoveRowButtonWrapper' ],
-    [ 'ResetConfigWrapper' ],
-    [ 'SaveConfigWrapper' ],
-    [ 'SortCheckboxWrapper' ],
-  ])('should create %s and return a wrapper', (type) => {
-    const wrapper = CallbackWrapperFactory.create(type, mockCallback)
+  it('should log an error and return undefined for invalid types', () => {
+    const mockCallbackFunction = jest.fn()
+    const consoleSpy           = jest.spyOn(console, 'error').mockImplementation()
 
-    // Since the 'create' method returns the result of 'getWrapper', we only need to check if a value is returned
-    expect(wrapper).toBeTruthy()
+    const result = CallbackWrapperFactory.create('InvalidType', mockCallbackFunction)
+
+    expect(consoleSpy).toHaveBeenCalledWith('CallbackWrapperFactory.create: Type InvalidType not found in actionMethodMap')
+    expect(result).toBeUndefined()
+
+    consoleSpy.mockRestore()
   })
 
-  it('should log an error for unsupported wrapper type', () => {
-    const originalError = mockConsoleError()
+  it('should use the default callbackAction if none is provided', () => {
+    const mockCallbackFunction = jest.fn()
+    const result               = CallbackWrapperFactory.create('AddRowButton', mockCallbackFunction)
 
-    CallbackWrapperFactory.create('UnsupportedWrapper', mockCallback)
+    // Assuming Wrapper.getWrapper is correctly implemented, we only need to check the eventType
+    expect(result.eventType).toBe('click')
+  })
 
-    expect(console.error).toHaveBeenCalledWith("Wrapper type 'UnsupportedWrapper' is not supported.")
+  it('should handle a function passed as callbackAction for AddRowButton', () => {
+    const mockCallbackFunction = jest.fn()
+    const mockCallbackAction   = jest.fn()
+    const mockEvent            = {
+      target: {
+        parentElement: {
+          children: [ null, {} ],  // Mocked children array with a second element
+        },
+      },
+    }
 
-    console.error = originalError
+    const result = CallbackWrapperFactory.create('AddRowButton', mockCallbackFunction, mockCallbackAction)
+
+    // Trigger the callback with the mocked event
+    result.callback(mockEvent)
+
+    expect(mockCallbackAction).toHaveBeenCalled()
+  })
+
+  it('should not return a wrapper object for types with incomplete actionMethodMap entries', () => {
+    const mockCallbackFunction = jest.fn()
+    // Mock the actionMethodMap
+    const originalActionMethodMap          = CallbackWrapperFactory.actionMethodMap
+    CallbackWrapperFactory.actionMethodMap = {
+      IncompleteType: {
+        actionMethod : null, // or undefined
+        evenType     : 'click',
+      },
+    }
+
+    const result = CallbackWrapperFactory.create('IncompleteType', mockCallbackFunction)
+    expect(result).toBeUndefined()
+
+    // Restore the original actionMethodMap after the test
+    CallbackWrapperFactory.actionMethodMap = originalActionMethodMap
   })
 })

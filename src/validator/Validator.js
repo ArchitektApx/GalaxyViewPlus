@@ -231,17 +231,4 @@ export default class Validator {
 
     return clone
   }
-
-  // abstraction that takes a single value or an array of values and runs it against a given function.
-  /**
-   * validates a input with a given function
-   * @param {*} input - The input to validate
-   * @param {Function} functionInput - The function to validate with
-   * @returns {boolean} - True if the input is valid
-   * @static
-   * @private
-   */
-  static #validateWithFunction(input, functionInput) {
-    return Array.isArray(input) ? input.every(value => functionInput(value)) : functionInput(input)
-  }
 }

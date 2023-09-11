@@ -100,14 +100,6 @@ describe('Validator', () => {
     })
   })
 
-  describe('isBoolean', () => {
-    it('should return true if input is boolean', () => {
-      expect(Validator.isBoolean(true)).toBe(true)
-      expect(Validator.isBoolean(false)).toBe(true)
-      expect(Validator.isBoolean('true')).toBe(false)
-    })
-  })
-
   describe('getTimestamp', () => {
     it('should return a current timestamp', () => {
       const before    = Date.now()
@@ -142,37 +134,6 @@ describe('Validator', () => {
     })
   })
 
-  describe('isInt', () => {
-    it('should validate integers', () => {
-      expect(Validator.isInt(10)).toBe(true)
-      expect(Validator.isInt('10', true)).toBe(true)
-      expect(Validator.isInt('10.5', true)).toBe(false)
-      expect(Validator.isInt('10a', true)).toBe(false)
-    })
-
-    it('should correctly identify integers using force parameter', () => {
-      expect(Validator.isInt(123)).toBe(true)
-      expect(Validator.isInt('123', true)).toBe(true)
-      expect(Validator.isInt('123a', true)).toBe(false)
-      expect(Validator.isInt(123.45)).toBe(false)
-      expect(Validator.isInt('123.45', true)).toBe(false)
-    })
-
-    it('should return false for non-string input with force=true', () => {
-      expect(Validator.isInt(123.45, true)).toBe(false)
-    })
-
-    it('should return false for non-integer strings', () => {
-      expect(Validator.isInt('123.45')).toBe(false)
-      expect(Validator.isInt('123a')).toBe(false)
-    })
-
-    it('should handle arrays of integers', () => {
-      expect(Validator.isInt([ 1, 2, 3 ])).toBe(true)
-      expect(Validator.isInt([ '1', '2', '3' ])).toBe(false)
-    })
-  })
-
   describe('isObjectEqual', () => {
     it('should compare two objects for equality', () => {
       const object1 = { a: 1, b: 2 }
@@ -197,14 +158,6 @@ describe('Validator', () => {
       const object2 = { a: 1, b: 2 }
 
       expect(Validator.isObjectEqual(object1, object2)).toBe(false)
-    })
-  })
-
-  describe('isString', () => {
-    it('should validate strings', () => {
-      expect(Validator.isString("test")).toBe(true)
-      expect(Validator.isString(123)).toBe(false)
-      expect(Validator.isString(true)).toBe(false)
     })
   })
 

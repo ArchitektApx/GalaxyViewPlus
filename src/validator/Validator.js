@@ -78,35 +78,6 @@ export default class Validator {
   }
 
   /**
-   * is a given input a boolean
-   * @param {*} input - The input to check
-   * @returns {boolean} - True if the input is a boolean
-   * @static
-   * @public
-   */
-  static isBoolean(input) {
-    return typeof input === 'boolean'
-  }
-
-  /**
-   * is a given input a integer, a array of integers or a string that can be parsed to a integer (only with force)
-   * @param {*} input - The input to check
-   * @param {boolean} [force=false] - If true the input is also valid if it is a string that can be parsed to a integer
-   * @returns {boolean} - True if the input is a integer, a array of integers or a string that can be parsed to a integer (only with force)
-   * @static
-   * @public
-   */
-  static isInt(input, force = false) {
-    if (typeof input === 'string' && force) {
-      const parsedInt = Number.parseInt(input, 10)
-
-      return Number.isInteger(parsedInt) && String(parsedInt) === input
-    }
-
-    return Validator.#validateWithFunction(input, Number.isInteger)
-  }
-
-  /**
    * compares two objects and returns true if they are equal
    * @param {object} object1 - The first object to compare
    * @param {object} object2 - The second object to compare
@@ -116,17 +87,6 @@ export default class Validator {
    */
   static isObjectEqual(object1, object2) {
     return JSON.stringify(object1) === JSON.stringify(object2)
-  }
-
-  /**
-   * is a given input a object
-   * @param {*} input - The input to check
-   * @returns {boolean} - True if the input is a object
-   * @static
-   * @public
-   */
-  static isString(input) {
-    return Validator.#validateWithFunction(input, value => typeof value === 'string')
   }
 
   /**

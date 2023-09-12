@@ -1,12 +1,7 @@
-import Mindash from '../../mindash/Mindash.js'
-
 /**
  * The ChangeDataCommand is used to change the data of the config.
  * It is used in the actionCallback of the ConfigManager.
  * @class
- * @param {object} config - The config object
- * @param {object | Array} inputData - The data to change
- * @returns {ChangeDataCommand} - The ChangeDataCommand instance
  */
 export default class ChangeDataCommand {
   /**
@@ -71,22 +66,14 @@ export default class ChangeDataCommand {
    * @returns {void}
    */
   static updateValueData(data, value) {
-    if (!Mindash.isThisOrThat(value.type, 'checkbox', 'radio')) {
-      const valueRow = data.find(datarow => datarow.key === value.name)
-
-      valueRow.value = value.value
-    }
-
-    if (value.type === 'checkbox') {
-      const valueRow = data.find(datarow => datarow.key === value.name)
-
-      valueRow.checked = value.checked
-    }
-
     if (value.type === 'radio') {
-      data.forEach((datarow) => {
-        datarow.checked = datarow.value === value.value
-      })
+      data.forEach((datarow) => { datarow.checked = datarow.value === value.value })
+      return
     }
+
+    const valueRow = data.find(datarow => datarow.key === value.name)
+    value.type === 'checkbox'
+      ? valueRow.checked = value.checked
+      : valueRow.value   = value.value
   }
 }

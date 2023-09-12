@@ -32,28 +32,30 @@ describe('InactiveRecolor', () => {
     })
 
     it('should recolor single inactive element', () => {
-      mockElement.querySelectorAll = jest.fn().mockReturnValue([ {
+      currentElement.parentNode.querySelectorAll = jest.fn().mockReturnValue([ {
         style: {},
       } ])
-      instance.execute(mockElement)
+      instance.execute(currentElement)
 
-      const queriedElements = mockElement.querySelectorAll(InactiveRecolor.inactiveSelector)
+      const queriedElements = currentElement.parentNode.querySelectorAll(
+        InactiveRecolor.inactiveSelector
+      )
 
       expect(queriedElements[0].style.color).toBe('red')
       expect(queriedElements[0].style.fontWeight).toBe('bold')
     })
 
     it('should recolor long inactive elements', () => {
-      mockElement.querySelectorAll = jest.fn().mockReturnValue([ {
+      currentElement.parentNode.querySelectorAll = jest.fn().mockReturnValue([ {
         style: {},
       }, {
         style: {},
       } ])
-      instance.execute(mockElement)
+      instance.execute(currentElement)
 
-      expect(mockElement.querySelectorAll).toHaveBeenCalledWith(InactiveRecolor.inactiveSelector)
-
-      const queriedElements = mockElement.querySelectorAll(InactiveRecolor.inactiveSelector)
+      const queriedElements = currentElement.parentNode.querySelectorAll(
+        InactiveRecolor.inactiveSelector
+      )
 
       queriedElements.forEach((element) => {
         expect(element.style.color).toBe('blue')

@@ -69,19 +69,11 @@ export default class Element {
   getElement() {
     this.element.id = this.id
 
-    // not falsy or empty object/array
-    if (Mindash.isSomething(this.classList)) {
-      this.#addClasses(this.classList)
-    }
+    this.#addClasses(this.classList)
 
-    if (!Mindash.isEmptyObject(this.attributes)) {
-      this.#setAttributes()
-    }
+    this.#setAttributes()
 
-    // set textContent if it exists and is not empty
-    if (this.textContent) {
-      this.setTextContent(this.textContent)
-    }
+    this.setTextContent(this.textContent)
 
     // output the final "real" html object
     return this.element
@@ -105,7 +97,7 @@ export default class Element {
    * @public
    */
   setTextContent(textContent) {
-    if (this.element.children.length === 0) {
+    if (textContent && this.element.children.length === 0) {
       this.element.textContent = textContent
     }
   }
@@ -118,13 +110,11 @@ export default class Element {
    * @private
    */
   #addClasses(classList) {
-    if (Array.isArray(classList)) {
-      classList.forEach(className => this.addClass(className))
-    }
+    const toAdd = Array.isArray(classList)
+      ? classList
+      : Mindash.forceArray(classList.split(' '))
 
-    if (typeof classList === 'string' && classList.trim() !== '') {
-      classList.trim().split(' ').forEach(className => this.addClass(className))
-    }
+    Mindash.forAny(toAdd, className => this.addClass(className.trim()))
   }
 
   /**

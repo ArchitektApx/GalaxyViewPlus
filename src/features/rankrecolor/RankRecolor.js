@@ -106,24 +106,19 @@ export default class RankRecolor {
    * @returns {(undefined|object)} - The rankselector data or undefined if not found
    */
   static getRankSelectorData(featureConfig) {
-    if (!featureConfig) { return }
-
     const rankSelectorConfig = Mindash.findAny(featureConfig, feature => feature.feature === 'rankSelector')
 
-    if (
-      rankSelectorConfig
-      && Object.keys(rankSelectorConfig).includes('data')
-      && (Array.isArray(rankSelectorConfig.data))
-    ) { return rankSelectorConfig.data }
+    if (rankSelectorConfig?.data && Array.isArray(rankSelectorConfig.data)) {
+      return rankSelectorConfig.data
+    }
   }
 
   /**
-   * static helper which returns the user rank from the html tooltip content
+   * fallback to get total rank from html if StatsInterface is not available
    * @param {HTMLElement} currentElement - The current element
    * @returns {string} - The user rank
    */
   static userRankFallback(currentElement) {
-    // fallback to get total rank from html if StatsInterface is not available
     return currentElement.dataset.tooltipContent.split('</th')[0].split(' ').pop()
   }
 }

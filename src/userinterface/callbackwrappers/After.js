@@ -16,7 +16,7 @@ export default class After {
     const { checked, parentElement: { nextSibling: tablebody } } = target
 
     // check if tablebody exists and has a classList just to be sure
-    if (tablebody && tablebody.classList) {
+    if (tablebody?.classList) {
       checked === true
         ? tablebody.classList.remove('hidden')
         : tablebody.classList.add('hidden')

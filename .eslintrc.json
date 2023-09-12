@@ -115,7 +115,7 @@
     "complexity": [
       "error",
       {
-        "max": 5
+        "max": 3
       }
     ],
     "comma-dangle": [

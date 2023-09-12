@@ -143,9 +143,11 @@ export default class Typedash {
   static pathFromKeys(keys) {
     let path = ''
     keys.forEach((key, index) => {
-      path += typeof key === 'number'
-        ? `[${ key }]`
-        : (index ? '.' : '') + key
+      if (typeof key === 'number') {
+        path += `[${ key }]`
+      } else {
+        path += index ? `.${ key }` : key
+      }
     })
     return path
   }
@@ -181,7 +183,7 @@ export default class Typedash {
    * @returns {Array} - The prepared input.
    */
   static prepareInput(input, spreadObject = false) {
-    if (spreadObject && typeof input === 'object' && input !== null) {
+    if (spreadObject && typeof input === 'object') {
       // return Object.entries(input).map(([ key, value ]) => ({ key, value }))
       return Object.entries(input)
     }

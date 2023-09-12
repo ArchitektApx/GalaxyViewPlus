@@ -163,19 +163,19 @@ export default class RangeInfo {
    * @returns {object} - The nearby counts
    */
   static getNearbyCounts(coords, totalRange, currentGalaxy) {
-    // convert regex iterator to array
-    const coordsAsArray = [ ...coords ].map(([ , gala, sys, , moon ]) => ({ gala, moon, sys }))
-
     let nearPlanets = -1 // -1 to account for current planet
-    let nearMoons   = 0
+    let nearMoons   = 0;
 
-    coordsAsArray.forEach((coordElement) => {
+    [ ...coords ].map(
+      ([ , gala, sys, , moon ]) => ({ gala, moon, sys })
+    )
+    .filter((coordElement) => {
       const sysInt = Number.parseInt(coordElement.sys, 10)
-
-      if (coordElement.gala === currentGalaxy && totalRange.includes(sysInt)) {
-        nearPlanets++
-        if (coordElement.moon) { nearMoons++ }
-      }
+      return coordElement.gala === currentGalaxy && totalRange.includes(sysInt)
+    })
+    .forEach((coordElement) => {
+      nearPlanets++
+      if (coordElement.moon) { nearMoons++ }
     })
 
     if (nearPlanets === -1) { nearPlanets = 0 }

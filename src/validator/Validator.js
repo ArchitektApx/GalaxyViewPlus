@@ -105,12 +105,8 @@ export default class Validator {
 
     // merge user data in features that still exist
     configCopy.features.forEach((old) => {
-      const newData = newConfig.features.find(feature => old.feature === feature.feature)
-
-      if (newData) {
-        newData.data   = old.data ?? newData.data
-        newData.active = old.active ?? newData.active
-      }
+      const newData = newConfig.features.find(newFeature => old.feature === newFeature.feature)
+      if (newData) { Validator.#migrateFeatureData(old, newData) }
     })
 
     // just to be sure deep copy the new config again
@@ -202,33 +198,56 @@ export default class Validator {
     return stringRegex.test(string)
   }
 
-  // static private methods
   /**
-   * takes a object and user defined feature properties and deletes them from the object
-   * @param {object} object - The object to delete from
-   * @param {Array} featureProperties - The properties to delete
-   * @returns {object} - The object without the deleted properties
+   * Deletes properties from a feature within an object.
+   * @param {object} feature - The feature object.
+   * @param {Array} keysToRemove - The properties to delete.
+   * @returns {object} - The feature without the deleted properties.
+   * @static
+   * @private
+   */
+  static #deletePropertiesFromFeature(feature, keysToRemove) {
+    keysToRemove.forEach((key) => {
+      delete feature[key]
+    })
+    return feature
+  }
+
+  /**
+   * Takes an object and user-defined feature properties and deletes them from the object.
+   * @param {object} object - The object to delete from.
+   * @param {Array} featureProperties - The properties to delete.
+   * @returns {object} - The object without the deleted properties.
    * @static
    * @private
    */
   static #deletePropertyByPath(object, featureProperties) {
-    if (!object || object.features === undefined || !featureProperties) {
+    if (!object?.features || !featureProperties) {
       return object
     }
 
+    const clone        = Validator.getObjectDeepCopy(object)
     const keysToRemove = Mindash.forceArray(featureProperties)
 
-    const clone   = Validator.getObjectDeepCopy(object)
-    const cleaned = clone.features.map((feature) => {
-      keysToRemove.forEach((key) => {
-        delete feature[key]
-      })
-
-      return feature
-    })
-
-    clone.features = cleaned
+    clone.features = clone.features.map(
+      feature => this.#deletePropertiesFromFeature(feature, keysToRemove)
+    )
 
     return clone
   }
+
+  /**
+   * helper for config migration to preserve user defined ata
+   * @param {object} oldFeature - the old config version containing the users config
+   * @param {object} newFeature - the new config version
+   * @returns {void}
+   * @static
+   * @private
+   */
+  static #migrateFeatureData(oldFeature, newFeature) {
+    newFeature.data   = oldFeature.data || newFeature.data
+    newFeature.active = oldFeature.active || newFeature.active
+  }
+
+  // static private methods
 }

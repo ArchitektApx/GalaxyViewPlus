@@ -81,7 +81,7 @@ describe('ChangeDataCommand', () => {
     })
 
     it('should update checkbox', () => {
-      ChangeDataCommand.updateValueData(data, { name: 'checkbox', type: 'checkbox', checked: true })
+      ChangeDataCommand.updateValueData(data, { name: 'checkbox', type: 'checkbox', checked: true, value: 'newValue' })
       expect(data[1].checked).toBe(true)
     })
 

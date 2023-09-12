@@ -32,7 +32,7 @@ export default class Objectdash {
 
       const key = remainingKeys[0]
 
-      if (!Object.hasOwnProperty.call(object_, key)) {
+      if (!Object.hasOwn(object_, key)) {
         return defaultValue
       }
 
@@ -65,6 +65,15 @@ export default class Objectdash {
   }
 
   /**
+   * Determines if the next key in the path represents an array index.
+   * @param {string|number} nextKey - The next key in the path.
+   * @returns {boolean} - True if the next key represents an array index, false otherwise.
+   */
+  static isNextKeyArrayIndex(nextKey) {
+    return /^\d+$/.test(nextKey)
+  }
+
+  /**
    * Merges two objects.
    * @param {object} object1 - First object.
    * @param {object} object2 - Second object.
@@ -85,9 +94,8 @@ export default class Objectdash {
     let current = object
 
     keys.slice(0, -1).forEach((key, index) => {
-      if (!Typedash.isType(current[key], {})) {
-        const nextKey = keys[index + 1]
-        current[key]  = current[key] || (/^\d+$/.test(nextKey) ? [] : {})
+      if (current[key] === undefined) {
+        current[key] = this.isNextKeyArrayIndex(keys[index + 1]) ? [] : {}
       }
       current = current[key]
     })

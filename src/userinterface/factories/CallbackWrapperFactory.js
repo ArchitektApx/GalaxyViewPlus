@@ -59,16 +59,14 @@ export default class CallbackWrapperFactory {
    */
   static create(type, callbackFunction, callbackAction = '') {
     const actionMethodDetails = CallbackWrapperFactory.actionMethodMap[type]
-    if (!actionMethodDetails) {
+    if (!actionMethodDetails?.actionMethod) {
       console.error(`CallbackWrapperFactory.create: Type ${ type } not found in actionMethodMap`)
       return
     }
-    const { actionMethod, eventType } = actionMethodDetails  // Corrected typo here
 
+    const { actionMethod, eventType } = actionMethodDetails
     // if callbackAction is not passed, use the default one (mainly only used for AddRowButton)
-    const action = callbackAction || CallbackWrapperFactory.actionMethodMap[type].callbackAction
-    if (actionMethod && eventType) {
-      return Wrapper.getWrapper(eventType, actionMethod, callbackFunction, action)
-    }
+    const action = callbackAction || actionMethodDetails.callbackAction
+    return Wrapper.getWrapper(eventType, actionMethod, callbackFunction, action)
   }
 }

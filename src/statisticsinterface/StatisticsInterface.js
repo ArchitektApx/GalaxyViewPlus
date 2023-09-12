@@ -78,8 +78,8 @@ export default class StatisticsInterface {
   }
 
   /**
-   * async initializer started by the constructor
-   * @returns {void}
+   * async initializer
+   * @returns {void | Promise} - The promise that resolves with the stats data
    * @async
    * @public
    */
@@ -91,7 +91,7 @@ export default class StatisticsInterface {
   /**
    * checks if the stats data is valid and loads it from storage if it is
    * else it fetches the stats data from the server
-   * @returns {void}
+   * @returns {void | Promise} - The promise that resolves with the stats data
    * @async
    * @private
    */
@@ -101,7 +101,6 @@ export default class StatisticsInterface {
 
     if (
       !Mindash.isEmptyObject(statsData)
-      && !Mindash.isEmptyObject(status)
       && StatisticsInterface.#isDataValid(status)
     ) {
       this.statsData      = statsData
@@ -167,7 +166,7 @@ export default class StatisticsInterface {
 
   /**
    * fetches the stats data from the server and processes it by using the StatsDataFetcher class
-   * @returns {void}
+   * @returns {void|Promise} - The promise that resolves with the stats data
    * @async
    * @private
    * @see StatsDataFetcher
@@ -266,8 +265,8 @@ export default class StatisticsInterface {
     lastIntervalTime.setHours(lastIntervalHours, StaticData.UPDATE_INTERVAL_DELAY, 0, 0)
 
     return (
-      (status.status === StatisticsInterface.STATUS_FINISHED)
-      && (status.timestamp > lastIntervalTime)
+      (status?.status === StatisticsInterface.STATUS_FINISHED)
+      && (status?.timestamp > lastIntervalTime)
     )
   }
 }

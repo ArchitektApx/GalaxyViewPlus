@@ -10,8 +10,8 @@ export default class InactiveRecolor {
   /**
    * Creates a new InactiveRecolor instance.
    * @param {Array} colors - The colors to use
-   * @param {string} colors."0" - The color for inactive elements
-   * @param {string} colors."1" - The color for long inactive elements
+   * @param {string} colors.0 - The color for inactive elements
+   * @param {string} colors.1 - The color for long inactive elements
    * @returns {InactiveRecolor} - The InactiveRecolor instance
    * @class
    */
@@ -27,20 +27,19 @@ export default class InactiveRecolor {
    */
   execute(currentElement) {
     const inactiveElements = (
-      currentElement.nextElementSibling?.tagName === 'A'
-      && currentElement.nextElementSibling.firstChild?.tagName === 'I')
-      ? currentElement.parentNode.querySelectorAll(InactiveRecolor.inactiveSelector)
-      : currentElement.querySelectorAll(InactiveRecolor.inactiveSelector)
+      currentElement.parentNode.querySelectorAll(InactiveRecolor.inactiveSelector)
+    )
 
     if (!inactiveElements) {
       return
     }
 
-    inactiveElements.forEach((element) => {
-      element.style.color = inactiveElements?.length === 1
-        ? this.inactiveColor
-        : this.longInactiveColor
+    const recolor = inactiveElements.length === 1
+      ? this.inactiveColor
+      : this.longInactiveColor
 
+    inactiveElements.forEach((element) => {
+      element.style.color      = recolor
       element.style.fontWeight = 'bold'
     })
   }

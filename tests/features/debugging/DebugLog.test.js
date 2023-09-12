@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /* eslint-disable object-shorthand */
 import DebugLog           from '../../../src/features/debugging/DebugLog.js'
 import StaticData         from '../../../src/staticdata/StaticData.js'

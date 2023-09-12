@@ -1,11 +1,11 @@
-import SettingsBody           from '../../../src/userinterface/customElements/SettingsBody.js'
-import SettingsHeader         from '../../../src/userinterface/customElements/SettingsHeader.js'
+import SettingsBody           from '../../../src/userinterface/customelements/SettingsBody.js'
+import SettingsHeader         from '../../../src/userinterface/customelements/SettingsHeader.js'
 import FeatureSettingsFactory from '../../../src/userinterface/factories/FeatureSettingsFactory.js'
-import MiscElementFactory     from '../../../src/userinterface/factories/MiscElementFactory.js'
+import HtmlElementFactory     from '../../../src/userinterface/factories/HtmlElementFactory.js'
 
-jest.mock('../../../src/userinterface/customElements/SettingsBody.js')
-jest.mock('../../../src/userinterface/customElements/SettingsHeader.js')
-jest.mock('../../../src/userinterface/factories/MiscElementFactory.js')
+jest.mock('../../../src/userinterface/customelements/SettingsBody.js')
+jest.mock('../../../src/userinterface/customelements/SettingsHeader.js')
+jest.mock('../../../src/userinterface/factories/HtmlElementFactory.js')
 
 describe('FeatureSettingsFactory', () => {
   let config
@@ -31,10 +31,10 @@ describe('FeatureSettingsFactory', () => {
     // Resetting mocks
     SettingsBody.mockReset()
     SettingsHeader.mockReset()
-    MiscElementFactory.create.mockReset()
+    HtmlElementFactory.create.mockReset()
 
     // Mocking factories and classes
-    MiscElementFactory.create           = jest.fn().mockReturnValue({
+    HtmlElementFactory.create           = jest.fn().mockReturnValue({
       appendChild : jest.fn(),
       classList   : {
         add: jest.fn(),
@@ -60,7 +60,7 @@ describe('FeatureSettingsFactory', () => {
   it('should create a feature settings container with correct ID and class', () => {
     const element = FeatureSettingsFactory.create(config, configCallback)
 
-    expect(MiscElementFactory.create).toHaveBeenCalledWith('div', {
+    expect(HtmlElementFactory.create).toHaveBeenCalledWith('div', {
       classList : 'feature-settings-container',
       id        : 'test-prefixsettings-container',
     })

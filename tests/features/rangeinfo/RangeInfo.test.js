@@ -1,8 +1,8 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import RangeInfo          from '../../../src/features/rangeinfo/RangeInfo.js'
-import MiscElementFactory from '../../../src/userinterface/factories/MiscElementFactory.js'
+import HtmlElementFactory from '../../../src/userinterface/factories/HtmlElementFactory.js'
 
-jest.mock('../../../src/userinterface/factories/MiscElementFactory.js', () => ({
+jest.mock('../../../src/userinterface/factories/HtmlElementFactory.js', () => ({
   create: jest.fn((tag, attributes) => {
     const mockElement = {
       tagName : tag,
@@ -20,7 +20,7 @@ jest.mock('../../../src/userinterface/factories/MiscElementFactory.js', () => ({
 
 describe('RangeInfo', () => {
   beforeEach(() => {
-    jest.spyOn(MiscElementFactory, 'create')
+    jest.spyOn(HtmlElementFactory, 'create')
   })
 
   afterEach(() => {
@@ -134,7 +134,7 @@ describe('RangeInfo', () => {
       rangeInfo.execute(mockCurrentElement)
 
       expect(mockCurrentElement.parentNode.append).toHaveBeenCalled()
-      expect(MiscElementFactory.create).toHaveBeenCalledTimes(3)
+      expect(HtmlElementFactory.create).toHaveBeenCalledTimes(3)
     })
   })
 
@@ -149,7 +149,7 @@ describe('RangeInfo', () => {
 
       expect(nearElementText).toBe('test')
       expect(nearElement.append).toHaveBeenCalledTimes(2)
-      expect(MiscElementFactory.create).toHaveBeenCalledTimes(3)
+      expect(HtmlElementFactory.create).toHaveBeenCalledTimes(3)
     })
   })
 

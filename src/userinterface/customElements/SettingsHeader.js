@@ -1,6 +1,6 @@
 import CallbackWrapperFactory from '../factories/CallbackWrapperFactory.js'
+import HtmlElementFactory     from '../factories/HtmlElementFactory.js'
 import InputElementFactory    from '../factories/InputElementFactory.js'
-import MiscElementFactory     from '../factories/MiscElementFactory.js'
 
 /**
  * The SettingsHeader class is used to display the settings header.
@@ -17,7 +17,7 @@ export default class SettingsHeader {
   constructor(config, configCallback) {
     this.prefix    = `${ config.htmlPrefix }-header-`
     this.baseClass = 'feature-header'
-    this.element   = MiscElementFactory.create(
+    this.element   = HtmlElementFactory.create(
       'div',
       {
         classList : [ `${ this.baseClass }-container` ],
@@ -26,7 +26,7 @@ export default class SettingsHeader {
     )
 
     this.element.append(
-      MiscElementFactory.create(
+      HtmlElementFactory.create(
         'p',
         {
           attributes  : { title: config.description },
@@ -38,11 +38,11 @@ export default class SettingsHeader {
     )
 
     this.element.append(
-      MiscElementFactory.create('br', {})
+      HtmlElementFactory.create('br', {})
     )
 
     this.element.append(
-      MiscElementFactory.create(
+      HtmlElementFactory.create(
         'label',
         {
           forId       : `${ this.prefix }-status-checkbox`,
@@ -67,7 +67,7 @@ export default class SettingsHeader {
 
     if (config.sortData) {
       this.element.append(
-        MiscElementFactory.create(
+        HtmlElementFactory.create(
           'label',
           {
             forId       : `${ this.prefix }sort-checkbox`,

@@ -1,4 +1,4 @@
-import MiscElementFactory from '../../userinterface/factories/MiscElementFactory.js'
+import HtmlElementFactory from '../../userinterface/factories/HtmlElementFactory.js'
 
 /**
  * The RangeInfo class is used to display nearby planet and moon counts
@@ -96,10 +96,10 @@ export default class RangeInfo {
    * @returns {object} - The near element
    */
   static createNearElement(nearText) {
-    const nearElement = MiscElementFactory.create('span', {})
+    const nearElement = HtmlElementFactory.create('span', {})
 
-    nearElement.append(MiscElementFactory.create('br', {}))
-    nearElement.append(MiscElementFactory.create('span', { textContent: nearText }))
+    nearElement.append(HtmlElementFactory.create('br', {}))
+    nearElement.append(HtmlElementFactory.create('span', { textContent: nearText }))
 
     return nearElement
   }

@@ -3,12 +3,12 @@
 import DebugInfo          from '../../../src/features/debugging/DebugInfo.js'
 import StaticData         from '../../../src/staticdata/StaticData.js'
 import StorageInterface   from '../../../src/storageinterface/StorageInterface.js'
-import MiscElementFactory from '../../../src/userinterface/factories/MiscElementFactory.js'
+import HtmlElementFactory from '../../../src/userinterface/factories/HtmlElementFactory.js'
 
 // Mock dependencies
 jest.mock('../../../src/staticdata/StaticData.js')
 jest.mock('../../../src/storageinterface/StorageInterface.js')
-jest.mock('../../../src/userinterface/factories/MiscElementFactory.js')
+jest.mock('../../../src/userinterface/factories/HtmlElementFactory.js')
 
 describe('DebugInfo', () => {
   // Create global mock elements for the test environment
@@ -37,7 +37,7 @@ describe('DebugInfo', () => {
 
     jest.spyOn(Date, 'now').mockImplementation(() => 1000 + 1000)
 
-    MiscElementFactory.create.mockImplementation((tag, properties) => {
+    HtmlElementFactory.create.mockImplementation((tag, properties) => {
       const element = {
         tag,
         props    : properties,
@@ -54,7 +54,7 @@ describe('DebugInfo', () => {
   })
 
   beforeEach(() => {
-    mockSettingsElement = MiscElementFactory.create('div', { id: 'settings-interface-details' })
+    mockSettingsElement = HtmlElementFactory.create('div', { id: 'settings-interface-details' })
     allMockElements     = [ mockSettingsElement ]
   })
 

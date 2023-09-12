@@ -1,9 +1,9 @@
-import SettingsBody       from '../../../src/userinterface/customElements/SettingsBody.js'
+import SettingsBody       from '../../../src/userinterface/customelements/SettingsBody.js'
 import DataTypeFactory    from '../../../src/userinterface/factories/DataTypeFactory.js'
-import MiscElementFactory from '../../../src/userinterface/factories/MiscElementFactory.js'
+import HtmlElementFactory from '../../../src/userinterface/factories/HtmlElementFactory.js'
 
 jest.mock('../../../src/userinterface/factories/DataTypeFactory.js')
-jest.mock('../../../src/userinterface/factories/MiscElementFactory.js')
+jest.mock('../../../src/userinterface/factories/HtmlElementFactory.js')
 
 describe('SettingsBody', () => {
   let config
@@ -29,10 +29,10 @@ describe('SettingsBody', () => {
 
     // Resetting mocks
     DataTypeFactory.create.mockReset()
-    MiscElementFactory.create.mockReset()
+    HtmlElementFactory.create.mockReset()
 
-    // Mocking MiscElementFactory.create
-    MiscElementFactory.create = jest.fn().mockReturnValue({
+    // Mocking HtmlElementFactory.create
+    HtmlElementFactory.create = jest.fn().mockReturnValue({
       appendChild : jest.fn(),
       classList   : {
         add: jest.fn(),
@@ -44,7 +44,7 @@ describe('SettingsBody', () => {
   it('should create an element with correct ID and class', () => {
     const instance = new SettingsBody(config, configCallback)
 
-    expect(MiscElementFactory.create).toHaveBeenCalledWith('div', {
+    expect(HtmlElementFactory.create).toHaveBeenCalledWith('div', {
       id        : 'test-prefix-body-container',
       classList : 'feature-body-container',
     })

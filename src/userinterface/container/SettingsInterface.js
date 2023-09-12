@@ -1,7 +1,7 @@
 import ButtonElementFactory   from '../factories/ButtonElementFactory.js'
 import CallbackWrapperFactory from '../factories/CallbackWrapperFactory.js'
 import FeatureSettingsFactory from '../factories/FeatureSettingsFactory.js'
-import MiscElementFactory     from '../factories/MiscElementFactory.js'
+import HtmlElementFactory     from '../factories/HtmlElementFactory.js'
 
 /**
  * The SettingsInterface class is used to display the settings interface.
@@ -19,10 +19,10 @@ export default class SettingsInterface {
     const actionCallback                         = configManagerInstance.getActionCallback()
     const { features, userInterface: { title } } = config
 
-    this.element = MiscElementFactory.create('div', { id: 'settings-interface-wrapper' })
+    this.element = HtmlElementFactory.create('div', { id: 'settings-interface-wrapper' })
 
-    const details = MiscElementFactory.create('details', { id: 'settings-interface-details' })
-    const summary = MiscElementFactory.create('summary', { id: 'settings-interface-summary' })
+    const details = HtmlElementFactory.create('details', { id: 'settings-interface-details' })
+    const summary = HtmlElementFactory.create('summary', { id: 'settings-interface-summary' })
 
     summary.textContent = title
 
@@ -33,7 +33,7 @@ export default class SettingsInterface {
     details.append(summary)
     featureSettings.map(feature => details.append(feature))
 
-    const footer     = MiscElementFactory.create('div', { id: 'settings-interface-footer' })
+    const footer     = HtmlElementFactory.create('div', { id: 'settings-interface-footer' })
     const SaveButton = ButtonElementFactory.create('save', {
       classList      : 'settings-save-button',
       eventListeners : CallbackWrapperFactory.create('SaveConfig', actionCallback),

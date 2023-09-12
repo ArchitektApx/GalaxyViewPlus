@@ -3,18 +3,18 @@
 import DebugLog           from '../../../src/features/debugging/DebugLog.js'
 import StaticData         from '../../../src/staticdata/StaticData.js'
 import StorageInterface   from '../../../src/storageinterface/StorageInterface.js'
-import MiscElementFactory from '../../../src/userinterface/factories/MiscElementFactory.js'
+import HtmlElementFactory from '../../../src/userinterface/factories/HtmlElementFactory.js'
 
 // Mock the imported modules
 jest.mock('../../../src/staticdata/StaticData.js')
 jest.mock('../../../src/storageinterface/StorageInterface.js')
-jest.mock('../../../src/userinterface/factories/MiscElementFactory.js')
+jest.mock('../../../src/userinterface/factories/HtmlElementFactory.js')
 
 describe('DebugLog', () => {
   // Create mock factory
   const allMockElements = []
 
-  MiscElementFactory.create.mockImplementation((tag, properties) => ({
+  HtmlElementFactory.create.mockImplementation((tag, properties) => ({
     tag,
     props       : properties,
     children    : [],
@@ -41,9 +41,9 @@ describe('DebugLog', () => {
   }))
 
   // Mocked element representing '#settings-interface-details'
-  const mockSettingsElement = MiscElementFactory.create('div', { id: 'settings-interface-details' })
+  const mockSettingsElement = HtmlElementFactory.create('div', { id: 'settings-interface-details' })
 
-  mockSettingsElement.lastChild = MiscElementFactory.create('div')
+  mockSettingsElement.lastChild = HtmlElementFactory.create('div')
 
   // Set up mock global document
   global.document = {

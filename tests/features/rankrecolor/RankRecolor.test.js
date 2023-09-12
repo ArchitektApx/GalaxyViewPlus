@@ -1,7 +1,7 @@
 import RankRecolor        from '../../../src/features/rankrecolor/RankRecolor.js'
-import MiscElementFactory from '../../../src/userinterface/factories/MiscElementFactory.js'
+import HtmlElementFactory from '../../../src/userinterface/factories/HtmlElementFactory.js'
 
-jest.mock('../../../src/userinterface/factories/MiscElementFactory.js', () => ({
+jest.mock('../../../src/userinterface/factories/HtmlElementFactory.js', () => ({
   create: jest.fn((tag, attributes) => {
     const mockElement = {
       tagName : tag,
@@ -36,7 +36,7 @@ describe('RankRecolor', () => {
   }
 
   beforeEach(() => {
-    jest.spyOn(MiscElementFactory, 'create')
+    jest.spyOn(HtmlElementFactory, 'create')
   })
 
   afterEach(() => {
@@ -96,7 +96,7 @@ describe('RankRecolor', () => {
 
       instance.execute(mockCurrentElement)
 
-      expect(MiscElementFactory.create).toHaveBeenCalledTimes(3)
+      expect(HtmlElementFactory.create).toHaveBeenCalledTimes(3)
       expect(mockCurrentElement.parentNode.append).toHaveBeenCalled()
 
       const appendedElement = mockCurrentElement.parentNode.append.mock.calls[0][0]
@@ -149,7 +149,7 @@ describe('RankRecolor', () => {
 
       instance.execute(mockCurrentElement)
 
-      expect(MiscElementFactory.create).toHaveBeenCalledTimes(3)
+      expect(HtmlElementFactory.create).toHaveBeenCalledTimes(3)
       expect(mockCurrentElement.parentNode.append).toHaveBeenCalled()
 
       const appendedElement = mockCurrentElement.parentNode.append.mock.calls[0][0]
@@ -175,7 +175,7 @@ describe('RankRecolor', () => {
 
       instance.execute(mockCurrentElement)
 
-      expect(MiscElementFactory.create).toHaveBeenCalledTimes(3)
+      expect(HtmlElementFactory.create).toHaveBeenCalledTimes(3)
       expect(mockCurrentElement.parentNode.append).toHaveBeenCalled()
 
       const appendedElement = mockCurrentElement.parentNode.append.mock.calls[0][0]

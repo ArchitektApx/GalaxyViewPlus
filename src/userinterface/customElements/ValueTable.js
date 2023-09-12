@@ -1,7 +1,7 @@
 import ButtonElementFactory   from '../factories/ButtonElementFactory.js'
 import CallbackWrapperFactory from '../factories/CallbackWrapperFactory.js'
+import HtmlElementFactory     from '../factories/HtmlElementFactory.js'
 import InputElementFactory    from '../factories/InputElementFactory.js'
-import TableElementFactory    from '../factories/TableElementFactory.js'
 
 // defines a table for the 'ValueTable' dataType of the feature config
 // a table with a header where each row has the input for the key in the first column and the input for the value in the second column
@@ -27,7 +27,7 @@ export default class ValueTableElement {
     this.keyDefault     = config.keyDefault
     this.valueDefault   = config.valueDefault
 
-    this.element = TableElementFactory.create('table', {
+    this.element = HtmlElementFactory.create('table', {
       classList: [
         `${ this.prefix }`,
         `${ config.dataType }`,
@@ -74,7 +74,7 @@ export default class ValueTableElement {
    * @public
    */
   buildTableBody(config, configCallback) {
-    return TableElementFactory.create('tbody', {
+    return HtmlElementFactory.create('tbody', {
       classList : 'valuetable-body',
       id        : `${ this.prefix }-tablebody`,
       children  : config.data.map(row => ValueTableElement.buildTableRow(
@@ -97,13 +97,13 @@ export default class ValueTableElement {
    * @public
    */
   buildTableHeader(classList, thNames = [ '', '', '' ], thIds = [ 'key', 'value', 'delete' ]) {
-    return TableElementFactory.create('thead', {
+    return HtmlElementFactory.create('thead', {
       classList : 'valuetable-header',
       id        : `${ this.prefix }-tableheader`,
-      children  : TableElementFactory.create('tr', {
+      children  : HtmlElementFactory.create('tr', {
         classList : `${ classList } ${ classList }-row`,
         id        : `${ this.prefix }row`,
-        children  : [ 0, 1, 2 ].map(index => TableElementFactory.create('th', {
+        children  : [ 0, 1, 2 ].map(index => HtmlElementFactory.create('th', {
           id          : `${ this.prefix }cell-${ thIds[index] }`,
           textContent : thNames[index],
         })),
@@ -145,7 +145,7 @@ export default class ValueTableElement {
    * @static
    */
   static buildInputCell(prefix, inputType, keyOrValue, value, configCallback) {
-    return TableElementFactory.create('td', {
+    return HtmlElementFactory.create('td', {
       children: [
         ValueTableElement.buildInputElement(
           inputType, {
@@ -211,7 +211,7 @@ export default class ValueTableElement {
    * @static
    */
   static buildTableRow(prefix, keyInputType, valueInputType, key, value, configCallback) {
-    return TableElementFactory.create('tr', {
+    return HtmlElementFactory.create('tr', {
       children: ValueTableElement.buildTableRowCells(
         prefix, keyInputType, valueInputType, key, value, configCallback
       ),
@@ -234,7 +234,7 @@ export default class ValueTableElement {
     return [
       ValueTableElement.buildInputCell(prefix, keyInputType, 'key', key, configCallback),
       ValueTableElement.buildInputCell(prefix, valueInputType, 'value', value, configCallback),
-      TableElementFactory.create('td', {
+      HtmlElementFactory.create('td', {
         children: [ ValueTableElement.buildRemoveRowButton(configCallback) ],
       }),
     ]

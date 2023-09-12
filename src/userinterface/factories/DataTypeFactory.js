@@ -1,5 +1,5 @@
-import ValueListElement  from '../customElements/ValueLists.js'
-import ValueTableElement from '../customElements/ValueTable.js'
+import ValueListElement  from '../customelements/ValueLists.js'
+import ValueTableElement from '../customelements/ValueTable.js'
 
 /**
  * The DataTypeFactory class is used to create data type elements.

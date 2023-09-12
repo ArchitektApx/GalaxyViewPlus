@@ -1,5 +1,5 @@
 import Mindash            from '../../mindash/Mindash.js'
-import MiscElementFactory from '../../userinterface/factories/MiscElementFactory.js'
+import HtmlElementFactory from '../../userinterface/factories/HtmlElementFactory.js'
 
 /**
  * The RankRecolor class is used to recolor the rank of players in the galaxy view.
@@ -42,11 +42,11 @@ export default class RankRecolor {
       this.rankDisplayName = 'Gesamt'
     }
 
-    const rankElement = MiscElementFactory.create('span', {})
+    const rankElement = HtmlElementFactory.create('span', {})
     const rankText    = `${ this.rankDisplayName }: ${ userRank }`
 
-    rankElement.append(MiscElementFactory.create('br', {}))
-    rankElement.append(MiscElementFactory.create('span', { textContent: rankText }))
+    rankElement.append(HtmlElementFactory.create('br', {}))
+    rankElement.append(HtmlElementFactory.create('span', { textContent: rankText }))
 
     const matchingRankData = this.rankRecolorData.sort(
       (a, b) => b.key - a.key

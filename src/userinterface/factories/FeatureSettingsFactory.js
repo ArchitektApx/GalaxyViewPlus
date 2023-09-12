@@ -1,6 +1,6 @@
-import SettingsBody       from '../customElements/SettingsBody.js'
-import SettingsHeader     from '../customElements/SettingsHeader.js'
-import MiscElementFactory from './MiscElementFactory.js'
+import SettingsBody       from '../customelements/SettingsBody.js'
+import SettingsHeader     from '../customelements/SettingsHeader.js'
+import HtmlElementFactory from './HtmlElementFactory.js'
 
 /**
  * The FeatureSettingsFactory class is used to create the settings container.
@@ -16,7 +16,7 @@ export default class FeatureSettingsFactory {
    * @returns {HTMLElement|undefined} - The featureSettingsContainer element
    */
   static create(config, configCallback) {
-    const featureSettingsContainer = MiscElementFactory.create(
+    const featureSettingsContainer = HtmlElementFactory.create(
       'div',
       {
         classList : 'feature-settings-container',

@@ -1,9 +1,9 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import ValueTableElement      from '../../../src/userinterface/customElements/ValueTable.js'
+import ValueTableElement      from '../../../src/userinterface/customelements/ValueTable.js'
 import ButtonElementFactory   from '../../../src/userinterface/factories/ButtonElementFactory.js'
 import CallbackWrapperFactory from '../../../src/userinterface/factories/CallbackWrapperFactory.js'
+import HtmlElementFactory     from '../../../src/userinterface/factories/HtmlElementFactory.js'
 import InputElementFactory    from '../../../src/userinterface/factories/InputElementFactory.js'
-import TableElementFactory    from '../../../src/userinterface/factories/TableElementFactory.js'
 
 // Mock for document.createElement
 const mockElement = {}
@@ -15,7 +15,7 @@ global.document = {
 jest.mock('../../../src/userinterface/factories/ButtonElementFactory.js')
 jest.mock('../../../src/userinterface/factories/CallbackWrapperFactory.js')
 jest.mock('../../../src/userinterface/factories/InputElementFactory.js')
-jest.mock('../../../src/userinterface/factories/TableElementFactory.js', () => ({
+jest.mock('../../../src/userinterface/factories/HtmlElementFactory.js', () => ({
   create: jest.fn(() => mockElement), // Return a mock table element
 }))
 
@@ -24,7 +24,7 @@ describe('ValueTableElement', () => {
     ButtonElementFactory.create.mockClear()
     CallbackWrapperFactory.create.mockClear()
     InputElementFactory.create.mockClear()
-    TableElementFactory.create.mockClear()
+    HtmlElementFactory.create.mockClear()
   })
 
   it('should create a ValueTableElement instance', () => {
@@ -44,7 +44,7 @@ describe('ValueTableElement', () => {
     const instance       = new ValueTableElement(config, configCallback)
 
     expect(instance).toBeInstanceOf(ValueTableElement)
-    expect(TableElementFactory.create).toHaveBeenCalled()
+    expect(HtmlElementFactory.create).toHaveBeenCalled()
   })
 
   it('should return the created element', () => {
@@ -114,7 +114,7 @@ describe('ValueTableElement', () => {
     const headerElement = instance.buildTableHeader(classList)
 
     expect(headerElement).toBeDefined()
-    expect(TableElementFactory.create).toHaveBeenCalledTimes(12)
+    expect(HtmlElementFactory.create).toHaveBeenCalledTimes(12)
   })
 
   it('should build a table header with provided values', () => {
@@ -140,6 +140,6 @@ describe('ValueTableElement', () => {
     const headerElement = instance.buildTableHeader(classList, thNames, thIds)
 
     expect(headerElement).toBeDefined()
-    expect(TableElementFactory.create).toHaveBeenCalledTimes(12)
+    expect(HtmlElementFactory.create).toHaveBeenCalledTimes(12)
   })
 })

@@ -1,102 +1,85 @@
-import ButtonElement        from '../../../src/userinterface/elements/ButtonElements.js'
+/* eslint-disable no-underscore-dangle */
 import ButtonElementFactory from '../../../src/userinterface/factories/ButtonElementFactory.js'
 
-jest.mock('../../../src/userinterface/elements/ButtonElements.js', () => {
-  const capturedArguments = {
-    value: null,
-  }
-
-  const MockButtonElement = function (options = {}) {
-    capturedArguments.value = options
-
-    return {
-      getElement: jest.fn().mockReturnValue({
-        dummy       : 'element',
-        classList   : { add: jest.fn() },
-        textContent : options.textContent || '',
-      }),
+class MockHTMLElement {
+  constructor(tagName) {
+    this.tagName      = tagName.toUpperCase()
+    this.children     = []
+    this._textContent = ''
+    this.classList    = {
+      _classes : new Set(),
+      contains : function (className) {
+        return this._classes.has(className)
+      },
+      add: function (className) {
+        this._classes.add(className)
+      },
     }
   }
 
-  MockButtonElement.capturedArgs = capturedArguments
-
-  return MockButtonElement
-})
-
-describe('ButtonElementFactory', () => {
-  let mockButtonElementInstance
-
-  global.document = {
-    createElement: jest.fn().mockReturnValue({
-      dummy     : 'element',
-      classList : {
-        add: jest.fn(),
-      },
-      textContent: '',
-    }),
+  append(child) {
+    this.children.push(child)
   }
 
+  get textContent() {
+    return this._textContent
+  }
+
+  set textContent(value) {
+    if (this.children.length === 0) {
+      this._textContent = value
+    }
+  }
+}
+
+global.HTMLElement = MockHTMLElement
+
+describe('ButtonElementFactory', () => {
+  let createElementMock
+
   beforeEach(() => {
-    mockButtonElementInstance = new ButtonElement()
+    createElementMock = jest.fn(tag => new MockHTMLElement(tag))
+    global.document   = {
+      createElement: createElementMock,
+    }
   })
 
-  afterEach(() => {
-    jest.restoreAllMocks()
-  })
-
-  it('should create an "addRow" button with defaults', () => {
+  it('should create an addRow button with default properties', () => {
     const button = ButtonElementFactory.create('addRow')
-
-    expect(button).toEqual({
-      dummy       : 'element',
-      textContent : 'Hinzufügen',
-      classList   : { add: expect.any(Function) },  // Expect any function here
-    })
+    expect(button.classList.contains('add-row-btn')).toBeTruthy()
+    expect(button.textContent).toBe('Hinzufügen')
   })
 
-  it('should create a generic "button" without any defaults', () => {
-    const button = ButtonElementFactory.create('button')
-
-    expect(button).toEqual({
-      dummy       : 'element',
-      textContent : '',
-      classList   : { add: expect.any(Function) },  // Expect any function here
-    })
-  })
-
-  it('should create a "removeRow" button with defaults', () => {
+  it('should create a removeRow button with default properties', () => {
     const button = ButtonElementFactory.create('removeRow')
-
-    expect(button).toEqual({
-      dummy       : 'element',
-      textContent : 'Löschen',
-      classList   : { add: expect.any(Function) },
-    })
+    expect(button.classList.contains('remove-row-btn')).toBeTruthy()
+    expect(button.textContent).toBe('Löschen')
   })
 
-  it('should create a "reset" button with defaults', () => {
+  it('should create a reset button with default properties', () => {
     const button = ButtonElementFactory.create('reset')
-
-    expect(button).toEqual({
-      dummy       : 'element',
-      textContent : 'Zurücksetzen',
-      classList   : { add: expect.any(Function) },
-    })
+    expect(button.classList.contains('reset-config-btn')).toBeTruthy()
+    expect(button.textContent).toBe('Zurücksetzen')
   })
 
-  it('should create a "save" button with defaults', () => {
+  it('should create a save button with default properties', () => {
     const button = ButtonElementFactory.create('save')
-
-    expect(button).toEqual({
-      dummy       : 'element',
-      textContent : 'Speichern',
-      classList   : { add: expect.any(Function) },
-    })
+    expect(button.classList.contains('save-config-btn')).toBeTruthy()
+    expect(button.textContent).toBe('Speichern')
   })
 
-  it('should console.error if unsupported button type is provided', () => {
-    console.error = jest.fn()
-    ButtonElementFactory.create('unsupportedType')
+  it('should create a button with overridden properties', () => {
+    const button = ButtonElementFactory.create('addRow', { textContent: 'Override' })
+    expect(button.classList.contains('add-row-btn')).toBeTruthy()
+    expect(button.textContent).toBe('Override')
+  })
+
+  it('should log an error for unsupported button type', () => {
+    console.error = jest.fn() // Mock console.error to suppress expected error messages
+    const button  = ButtonElementFactory.create('unsupportedType')
     expect(console.error).toHaveBeenCalledWith("Button type 'unsupportedType' is not supported.")
+    expect(button).toBeUndefined()
   })
+
+  // ... Add more tests if needed
 })

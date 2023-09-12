@@ -1,9 +1,9 @@
 import DataTypeFactory from '../../../src/userinterface/factories/DataTypeFactory.js'
 
 // Mocking the ValueTableElement and ValueListElement classes
-jest.mock('../../../src/userinterface/customElements/ValueTable.js', () => jest.fn().mockImplementation(() => ({ getElement: jest.fn(() => 'mockedValueTableElement') })))
+jest.mock('../../../src/userinterface/customelements/ValueTable.js', () => jest.fn().mockImplementation(() => ({ getElement: jest.fn(() => 'mockedValueTableElement') })))
 
-jest.mock('../../../src/userinterface/customElements/ValueLists.js', () => jest.fn().mockImplementation(() => ({ getElement: jest.fn(() => 'mockedValueListElement') })))
+jest.mock('../../../src/userinterface/customelements/ValueLists.js', () => jest.fn().mockImplementation(() => ({ getElement: jest.fn(() => 'mockedValueListElement') })))
 
 describe('DataTypeFactory', () => {
   const mockConfig         = { dataType: '' }

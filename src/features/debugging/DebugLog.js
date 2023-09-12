@@ -1,6 +1,6 @@
 import StaticData         from '../../staticdata/StaticData.js'
 import StorageInterface   from '../../storageinterface/StorageInterface.js'
-import MiscElementFactory from '../../userinterface/factories/MiscElementFactory.js'
+import HtmlElementFactory from '../../userinterface/factories/HtmlElementFactory.js'
 
 /**
  * The DebugLog class is used to display debug logs in the settings interface.
@@ -25,10 +25,10 @@ export default class DebugLog {
    * @returns {object} - The debug log element
    */
   static #createDebugLogElement(debugLog) {
-    const debugLogElement = MiscElementFactory.create('div', { id: 'debug-log' })
+    const debugLogElement = HtmlElementFactory.create('div', { id: 'debug-log' })
 
     debugLog.forEach((log) => {
-      debugLogElement.append(MiscElementFactory.create('p', { textContent: `${ log }` }))
+      debugLogElement.append(HtmlElementFactory.create('p', { textContent: `${ log }` }))
     })
 
     return debugLogElement

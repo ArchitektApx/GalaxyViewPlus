@@ -2,12 +2,12 @@ import SettingsInterface      from '../../../src/userinterface/container/Setting
 import ButtonElementFactory   from '../../../src/userinterface/factories/ButtonElementFactory.js'
 import CallbackWrapperFactory from '../../../src/userinterface/factories/CallbackWrapperFactory.js'
 import FeatureSettingsFactory from '../../../src/userinterface/factories/FeatureSettingsFactory.js'
-import MiscElementFactory     from '../../../src/userinterface/factories/MiscElementFactory.js'
+import HtmlElementFactory     from '../../../src/userinterface/factories/HtmlElementFactory.js'
 
 jest.mock('../../../src/userinterface/factories/ButtonElementFactory.js')
 jest.mock('../../../src/userinterface/factories/CallbackWrapperFactory.js')
 jest.mock('../../../src/userinterface/factories/FeatureSettingsFactory.js')
-jest.mock('../../../src/userinterface/factories/MiscElementFactory.js')
+jest.mock('../../../src/userinterface/factories/HtmlElementFactory.js')
 
 describe('SettingsInterface', () => {
   let configManagerInstance
@@ -38,10 +38,10 @@ describe('SettingsInterface', () => {
     ButtonElementFactory.create.mockReset()
     CallbackWrapperFactory.create.mockReset()
     FeatureSettingsFactory.create.mockReset()
-    MiscElementFactory.create.mockReset()
+    HtmlElementFactory.create.mockReset()
 
     // Mocking factories
-    MiscElementFactory.create     = jest.fn().mockReturnValue({
+    HtmlElementFactory.create     = jest.fn().mockReturnValue({
       appendChild : jest.fn(),
       classList   : {
         add: jest.fn(),
@@ -60,9 +60,9 @@ describe('SettingsInterface', () => {
   it('should create a settings interface with correct elements', () => {
     const instance = new SettingsInterface(configManagerInstance)
 
-    expect(MiscElementFactory.create).toHaveBeenCalledWith('div', { id: 'settings-interface-wrapper' })
-    expect(MiscElementFactory.create).toHaveBeenCalledWith('details', { id: 'settings-interface-details' })
-    expect(MiscElementFactory.create).toHaveBeenCalledWith('summary', { id: 'settings-interface-summary' })
+    expect(HtmlElementFactory.create).toHaveBeenCalledWith('div', { id: 'settings-interface-wrapper' })
+    expect(HtmlElementFactory.create).toHaveBeenCalledWith('details', { id: 'settings-interface-details' })
+    expect(HtmlElementFactory.create).toHaveBeenCalledWith('summary', { id: 'settings-interface-summary' })
     expect(instance.getElement()).toBeDefined()
   })
 

@@ -1,12 +1,12 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import SettingsHeader         from '../../../src/userinterface/customElements/SettingsHeader.js'
+import SettingsHeader         from '../../../src/userinterface/customelements/SettingsHeader.js'
 import CallbackWrapperFactory from '../../../src/userinterface/factories/CallbackWrapperFactory.js'
+import HtmlElementFactory     from '../../../src/userinterface/factories/HtmlElementFactory.js'
 import InputElementFactory    from '../../../src/userinterface/factories/InputElementFactory.js'
-import MiscElementFactory     from '../../../src/userinterface/factories/MiscElementFactory.js'
 
 jest.mock('../../../src/userinterface/factories/CallbackWrapperFactory.js')
 jest.mock('../../../src/userinterface/factories/InputElementFactory.js')
-jest.mock('../../../src/userinterface/factories/MiscElementFactory.js')
+jest.mock('../../../src/userinterface/factories/HtmlElementFactory.js')
 
 describe('SettingsHeader', () => {
   let config
@@ -36,10 +36,10 @@ describe('SettingsHeader', () => {
     // Resetting mocks
     CallbackWrapperFactory.create.mockReset()
     InputElementFactory.create.mockReset()
-    MiscElementFactory.create.mockReset()
+    HtmlElementFactory.create.mockReset()
 
     // Mocking factories
-    MiscElementFactory.create  = jest.fn().mockReturnValue({
+    HtmlElementFactory.create  = jest.fn().mockReturnValue({
       appendChild : jest.fn(),
       classList   : {
         add: jest.fn(),
@@ -58,7 +58,7 @@ describe('SettingsHeader', () => {
   it('should create an element with correct ID and class', () => {
     const instance = new SettingsHeader(config, configCallback)
 
-    expect(MiscElementFactory.create).toHaveBeenCalledWith('div', {
+    expect(HtmlElementFactory.create).toHaveBeenCalledWith('div', {
       id        : 'test-prefix-header-container',
       classList : [ 'feature-header-container' ],
     })
@@ -68,7 +68,7 @@ describe('SettingsHeader', () => {
   it('should append title, status checkbox, and sort checkbox based on config', () => {
     const instance = new SettingsHeader(config, configCallback)
 
-    expect(MiscElementFactory.create).toHaveBeenCalledWith('p', {
+    expect(HtmlElementFactory.create).toHaveBeenCalledWith('p', {
       id          : 'test-prefix-header-title',
       textContent : 'Test Display Name',
       classList   : 'feature-header-title',

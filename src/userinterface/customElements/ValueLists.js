@@ -1,7 +1,6 @@
 import CallbackWrapperFactory from '../factories/CallbackWrapperFactory.js'
+import HtmlElementFactory     from '../factories/HtmlElementFactory.js'
 import InputElementFactory    from '../factories/InputElementFactory.js'
-import MiscElementFactory     from '../factories/MiscElementFactory.js'
-import TableElementFactory    from '../factories/TableElementFactory.js'
 
 // defines a table for the 'ValueList' dataType of the feature config
 /**
@@ -20,7 +19,7 @@ export default class ValueListElement {
   constructor(config, configCallback) {
     this.prefix = `${ config.htmlPrefix }`
 
-    this.element = TableElementFactory.create('table', {
+    this.element = HtmlElementFactory.create('table', {
       classList: [
         `${ this.prefix }`,
         `${ config.dataType }`,
@@ -50,15 +49,15 @@ export default class ValueListElement {
    */
   #buildListRowCells(dataRow, configCallback) {
     return [
-      TableElementFactory.create('td', {
-        children: MiscElementFactory.create('label', {
+      HtmlElementFactory.create('td', {
+        children: HtmlElementFactory.create('label', {
           classList   : `${ this.prefix }-${ dataRow.key }-label`,
           forId       : `${ this.prefix }-input-${ dataRow.key }`,
           textContent : dataRow.displayName,
           title       : dataRow.valueDescription,
         }),
       }),
-      TableElementFactory.create('td', {
+      HtmlElementFactory.create('td', {
         children: [ InputElementFactory.create(dataRow.inputType, {
           attributes     : { 'data-lastvalue': dataRow.value },
           checked        : dataRow.checked,
@@ -81,7 +80,7 @@ export default class ValueListElement {
    * @private
    */
   #buildListRows(config, classList, configCallback) {
-    return config.data.map(row => TableElementFactory.create('tr', {
+    return config.data.map(row => HtmlElementFactory.create('tr', {
       classList : `${ classList } ${ classList }-row`,
       id        : `${ this.prefix }-row`,
       children  : this.#buildListRowCells(row, configCallback),

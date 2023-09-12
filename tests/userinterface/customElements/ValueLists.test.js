@@ -1,10 +1,9 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable arrow-body-style */
-import ValueListElement       from '../../../src/userinterface/customElements/ValueLists.js'
+import ValueListElement       from '../../../src/userinterface/customelements/ValueLists.js'
 import CallbackWrapperFactory from '../../../src/userinterface/factories/CallbackWrapperFactory.js'
+import HtmlElementFactory     from '../../../src/userinterface/factories/HtmlElementFactory.js'
 import InputElementFactory    from '../../../src/userinterface/factories/InputElementFactory.js'
-import MiscElementFactory     from '../../../src/userinterface/factories/MiscElementFactory.js'
-import TableElementFactory    from '../../../src/userinterface/factories/TableElementFactory.js'
 
 const mockElement = {}
 
@@ -12,19 +11,18 @@ global.document = {
   createElement: jest.fn().mockReturnValue(mockElement),
 }
 
-jest.mock('../../../src/userinterface/factories/MiscElementFactory.js')
 jest.mock('../../../src/userinterface/factories/CallbackWrapperFactory.js')
 jest.mock('../../../src/userinterface/factories/InputElementFactory.js')
-jest.mock('../../../src/userinterface/factories/TableElementFactory.js', () => ({
+jest.mock('../../../src/userinterface/factories/HtmlElementFactory.js', () => ({
   create: jest.fn(() => mockElement), // Return a mock table element
 }))
 
 describe('ValueListElement', () => {
   beforeEach(() => {
-    MiscElementFactory.create.mockClear()
+    HtmlElementFactory.create.mockClear()
     CallbackWrapperFactory.create.mockClear()
     InputElementFactory.create.mockClear()
-    TableElementFactory.create.mockClear()
+    HtmlElementFactory.create.mockClear()
   })
 
   it('should create a ValueListElement', () => {
@@ -47,7 +45,7 @@ describe('ValueListElement', () => {
     const instance       = new ValueListElement(config, configCallback)
 
     expect(instance).toBeInstanceOf(ValueListElement)
-    expect(TableElementFactory.create).toHaveBeenCalled()
+    expect(HtmlElementFactory.create).toHaveBeenCalled()
     expect(instance.getElement).toBeDefined()
   })
 
@@ -93,8 +91,7 @@ describe('ValueListElement', () => {
     const configCallback = jest.fn()
     const instance       = new ValueListElement(config, configCallback)
 
-    expect(TableElementFactory.create).toHaveBeenCalledTimes(4)
-    expect(MiscElementFactory.create).toHaveBeenCalledTimes(1)
+    expect(HtmlElementFactory.create).toHaveBeenCalledTimes(5)
     expect(InputElementFactory.create).toHaveBeenCalledTimes(1)
   })
 })

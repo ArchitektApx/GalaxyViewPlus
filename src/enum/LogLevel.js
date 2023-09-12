@@ -1,7 +1,7 @@
 /**
  * Class used as LogLevel enum
  * @class
- * @returns {LogLevel} - The LogLevel enum
+ * @enum  {LogLevel}
  */
 export default class LogLevel {
   static DEBUG = 'debug'

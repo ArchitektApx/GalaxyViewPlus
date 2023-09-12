@@ -10,10 +10,11 @@ import HtmlElementFactory from './HtmlElementFactory.js'
 export default class FeatureSettingsFactory {
   /**
    * Creates a new FeatureSettingsFactory instance.
+   * @param   {object}                config         - The config
+   * @param   {Function}              configCallback - The config callback
+   * @returns {HTMLElement|undefined}                - The featureSettingsContainer element
    * @public
-   * @param {object} config - The config
-   * @param {Function} configCallback - The config callback
-   * @returns {HTMLElement|undefined} - The featureSettingsContainer element
+   * @static
    */
   static create(config, configCallback) {
     const featureSettingsContainer = HtmlElementFactory.create(

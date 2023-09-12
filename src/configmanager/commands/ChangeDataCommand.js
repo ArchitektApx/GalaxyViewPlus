@@ -6,9 +6,10 @@
 export default class ChangeDataCommand {
   /**
    * Creates a new ChangeDataCommand instance.
-   * @param {object} config - The config object
-   * @param {object | Array} inputData - The data to change
-   * @returns {ChangeDataCommand} - The ChangeDataCommand instance
+   * @param   {object}            config    - The config object
+   * @param   {object | Array}    inputData - The data to change
+   * @returns {ChangeDataCommand}           - The ChangeDataCommand instance
+   * @class
    */
   constructor(config, inputData) {
     this.config    = config
@@ -18,6 +19,7 @@ export default class ChangeDataCommand {
   /**
    * Executes the command.
    * @returns {void}
+   * @public
    */
   execute() {
     // refactor sometime in the future?
@@ -34,10 +36,12 @@ export default class ChangeDataCommand {
 
   /**
    * Updates the data of the config.
-   * @param {Array} data - The data to update
-   * @param {object} key - The key to update
-   * @param {object} value - The value to update
+   * @param   {Array}  data  - The data to update
+   * @param   {object} key   - The key to update
+   * @param   {object} value - The value to update
    * @returns {void}
+   * @public
+   * @static
    */
   static updateKeyValueData(data, key, value) {
     // check if there is a line were both key and value match the lastvalue of the input,
@@ -61,9 +65,11 @@ export default class ChangeDataCommand {
 
   /**
    * Updates the data of the config.
-   * @param {Array} data - The data to update
-   * @param {object} value - The value to update
+   * @param   {Array}  data  - The data to update
+   * @param   {object} value - The value to update
    * @returns {void}
+   * @public
+   * @static
    */
   static updateValueData(data, value) {
     if (value.type === 'radio') {

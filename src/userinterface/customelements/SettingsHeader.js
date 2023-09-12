@@ -9,10 +9,10 @@ import InputElementFactory    from '../factories/InputElementFactory.js'
 export default class SettingsHeader {
   /**
    * Creates a new SettingsHeader instance.
-   * @public
-   * @param {object} config - The config
-   * @param {Function} configCallback - The config callback
-   * @returns {SettingsHeader} - The SettingsHeader instance
+   * @param   {object}         config         - The config
+   * @param   {Function}       configCallback - The config callback
+   * @returns {SettingsHeader}                - The SettingsHeader instance
+   * @class
    */
   constructor(config, configCallback) {
     this.prefix    = `${ config.htmlPrefix }-header-`
@@ -93,8 +93,8 @@ export default class SettingsHeader {
 
   /**
    * Gets the SettingsHeader element.
-   * @public
    * @returns {HTMLElement} - The SettingsHeader element
+   * @public
    */
   getElement() {
     return this.element

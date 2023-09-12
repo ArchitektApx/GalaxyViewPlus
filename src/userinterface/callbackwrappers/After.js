@@ -7,7 +7,7 @@ export default class After {
   /**
    * ChangeTableVisibility changes the visibility of a table
    * based the input checkbox (event_.target) status
-   * @param {object} target - the target (input) that triggered the callback
+   * @param   {object} target - the target (input) that triggered the callback
    * @returns {void}
    * @static
    * @public
@@ -25,7 +25,7 @@ export default class After {
 
   /**
    * RefreshLastValue updates the lastvalue dataset of a given input (event_.target).
-   * @param {object} target - The event target (input) that triggered the callback
+   * @param   {object} target - The event target (input) that triggered the callback
    * @returns {void}
    * @static
    * @public
@@ -41,7 +41,7 @@ export default class After {
 
   /**
    * RemoveRow removes a given row from the table.
-   * @param {object} row - The row element
+   * @param   {object} row - The row element
    * @returns {void}
    * @static
    * @public

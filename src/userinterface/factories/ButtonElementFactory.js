@@ -21,14 +21,16 @@ export default class ButtonElementFactory {
    * @param   {string}  options.textContent    - The textContent of the element
    * @param   {string}  options.title          - The title property of the element
    * @returns {HTMLElement|undefined}          - The Button Element generated from the type and options
+   * @public
+   * @static
    */
   static create(type, options = {}) {
     const buttonDefaults = {
-      addRow    : { classList: [ 'add-row-btn' ], textContent: 'Hinzufügen'   },
+      addRow    : { classList: [ 'add-row-btn' ],      textContent: 'Hinzufügen'   },
       button    : {},
-      removeRow : { classList: [ 'remove-row-btn' ], textContent: 'Löschen'      },
+      removeRow : { classList: [ 'remove-row-btn' ],   textContent: 'Löschen'      },
       reset     : { classList: [ 'reset-config-btn' ], textContent: 'Zurücksetzen' },
-      save      : { classList: [ 'save-config-btn' ], textContent: 'Speichern'    },
+      save      : { classList: [ 'save-config-btn' ],  textContent: 'Speichern'    },
     }
 
     const defaults = buttonDefaults[type]

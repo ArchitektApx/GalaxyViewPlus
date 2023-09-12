@@ -14,18 +14,17 @@ import StatsDataFetcher from './StatsDataFetcher.js'
 export default class StatisticsInterface {
   static STATUS_FINISHED    = 'finished'
   static STATUS_IN_PROGRESS = 'inProgress'
-  static #instance
-  static #logName = 'StatisticsInterface'
-  statsAvailable = false
+  statsAvailable            = false
   statsData
+  static #instance
+  static #logName           = 'StatisticsInterface'
 
   /**
    * Creates a new StatisticsInterface instance if none exists.
    * Else it returns the existing instance (singleton).
    * executes async fetching of stats data
-   * @class
    * @returns {StatisticsInterface} - The StatisticsInterface instance
-   * @async
+   * @class
    */
   constructor() {
     if (StatisticsInterface.#instance) {
@@ -38,8 +37,8 @@ export default class StatisticsInterface {
   // public methods
   /**
    * returns a player id that matches the player name
-   * @param {string} playerName - The name of the player
-   * @returns {number} - The player id
+   * @param   {string} playerName - The name of the player
+   * @returns {number}            - The player id
    * @public
    */
   getPlayerIDByName(playerName) {
@@ -48,8 +47,8 @@ export default class StatisticsInterface {
 
   /**
    * returns a player name that matches the player id
-   * @param {number} playerId - The id of the player
-   * @returns {string} - The player name
+   * @param   {number} playerId - The id of the player
+   * @returns {string}          - The player name
    * @public
    */
   getPlayerNameById(playerId) {
@@ -58,9 +57,9 @@ export default class StatisticsInterface {
 
   /**
    * returns the rank of a player for a specific rank type
-   * @param {number} playerId - The id of the player
-   * @param {string} rankType - The type of the rank
-   * @returns {number} - The rank of the player
+   * @param   {number} playerId - The id of the player
+   * @param   {string} rankType - The type of the rank
+   * @returns {number}          - The rank of the player
    * @public
    */
   getPlayerRank(playerId, rankType = 'rank') {
@@ -69,8 +68,8 @@ export default class StatisticsInterface {
 
   /**
    * returns the rank data (all ranks) of a player
-   * @param {number} playerId - The id of the player
-   * @returns {object} - The rank data of the player
+   * @param   {number} playerId - The id of the player
+   * @returns {object}          - The rank data of the player
    * @public
    */
   getPlayerRankData(playerId) {
@@ -79,7 +78,7 @@ export default class StatisticsInterface {
 
   /**
    * async initializer
-   * @returns {void | Promise} - The promise that resolves with the stats data
+   * @returns {void|Promise} - The promise that resolves with the stats data
    * @async
    * @public
    */
@@ -91,7 +90,7 @@ export default class StatisticsInterface {
   /**
    * checks if the stats data is valid and loads it from storage if it is
    * else it fetches the stats data from the server
-   * @returns {void | Promise} - The promise that resolves with the stats data
+   * @returns {void|Promise} - The promise that resolves with the stats data
    * @async
    * @private
    */
@@ -114,7 +113,7 @@ export default class StatisticsInterface {
 
   /**
    * extracts the stats data from the stats object and writes it to storage
-   * @param {object} statsObject - The stats object
+   * @param   {object} statsObject - The stats object
    * @returns {void}
    * @private
    */
@@ -166,10 +165,10 @@ export default class StatisticsInterface {
 
   /**
    * fetches the stats data from the server and processes it by using the StatsDataFetcher class
-   * @returns {void|Promise} - The promise that resolves with the stats data
+   * @returns {void|Promise}    - The promise that resolves with the stats data
    * @async
    * @private
-   * @see StatsDataFetcher
+   * @see     StatsDataFetcher
    */
   async #fetchAndProcessStats() {
     try {
@@ -187,7 +186,7 @@ export default class StatisticsInterface {
 
   /**
    * handles errors that occur while fetching the stats data
-   * @param {object} response - The response object
+   * @param   {object} response - The response object
    * @returns {void}
    * @private
    */
@@ -210,7 +209,7 @@ export default class StatisticsInterface {
 
   /**
    * processes the stats data by extracting it from the response object
-   * @param {object} response - The response object
+   * @param   {object} response - The response object
    * @returns {void}
    * @private
    */
@@ -223,34 +222,24 @@ export default class StatisticsInterface {
     this.#extractFromStatsObject(statsObject)
   }
 
-  // this method is only used for tests to reset the singleton instance
-  /**
-   * Resets the singleton instance.
-   * this method must only be used during jest tests to reset the singleton instance
-   * @private
-   */
-  // eslint-disable-next-line no-underscore-dangle
-  static _resetInstance() {
-    StatisticsInterface.#instance = undefined
-  }
-
   /**
    * Wrapper for StorageInterface.writeLog
+   * @param  {string}   message - The message to log
+   * @param  {LogLevel} level   - The log level
+   * @param  {error}    error   - The error to log
    * @public
-   * @param {string} message - The message to log
-   * @param {LogLevel} level - The log level
-   * @param {error} error    - The error to log
+   * @static
    */
   static log(message, level = LogLevel.INFO, error = '') {
     StorageInterface.writeLog(message, level, StatisticsInterface.#logName, error)
   }
 
-  // static private methods
   /**
    * checks if the stats data is valid
-   * @param {object} status - The status object
+   * @param   {object} status - The status object
    * @returns {boolean} - True if the stats data is valid
    * @private
+   * @static
    */
   static #isDataValid(status) {
     // current time
@@ -268,5 +257,16 @@ export default class StatisticsInterface {
       (status?.status === StatisticsInterface.STATUS_FINISHED)
       && (status?.timestamp > lastIntervalTime)
     )
+  }
+
+  /**
+   * Resets the singleton instance.
+   * this method must only be used during jest tests to reset the singleton instance
+   * @static
+   * @private
+   */
+  // eslint-disable-next-line no-underscore-dangle
+  static _resetInstance() {
+    StatisticsInterface.#instance = undefined
   }
 }

@@ -10,10 +10,12 @@ import SyncButtonShortcut from './shortcuts/SyncButtonShortcut.js'
 export default class GeneralSettings {
   /**
    * Executes the general settings related features.
-   * @param {object} featureConfig - The config object for the general settings features
-   * @param {Array} featureConfig.features - The config of the individual features
-   * @param {number} startTime - The time the script started
+   * @param   {object} featureConfig          - The config object for the general settings features
+   * @param   {Array}  featureConfig.features - The config of the individual features
+   * @param   {number} startTime              - The time the script started
    * @returns {void}
+   * @public
+   * @static
    */
   static execute({ features: featureConfig }, startTime) {
     const settings = featureConfig.find(feature => feature.feature === 'generalsettings')

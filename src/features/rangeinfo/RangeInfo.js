@@ -3,21 +3,19 @@ import HtmlElementFactory from '../../userinterface/factories/HtmlElementFactory
 /**
  * The RangeInfo class is used to display nearby planet and moon counts
  * @class
- * @param {object} rangeInfo - The range info object from the config
- * @returns {RangeInfo} - The RangeInfo instance
  */
 export default class RangeInfo {
   static coordsRegex = /(?<Gala>[1-4]):(?<Sys>\d{1,3}):(?<Pos>\d{1,2})(?<isMoon>] M)?/g
 
   /**
    * Creates a new RangeInfo instance
-   * @param {Array} rangeInfo - the config containing the range info
-   * @param {string} rangeInfo.0 - The near range
-   * @param {string} rangeInfo.1 - The min system
-   * @param {string} rangeInfo.2 - The max system
-   * @param {object} currentPosition - data created by the static method getCurrentGalaxyAndSystem
-   * @param {string} currentPosition.currentSystem - The current system
-   * @param {string} currentPosition.currentGalaxy - The current galaxy
+   * @param   {Array}     rangeInfo                     - the config containing the range info
+   * @param   {string}    rangeInfo.0                   - The near range
+   * @param   {string}    rangeInfo.1                   - The min system
+   * @param   {string}    rangeInfo.2                   - The max system
+   * @param   {object}    currentPosition               - data from getCurrentGalaxyAndSystem
+   * @param   {string}    currentPosition.currentSystem - The current system
+   * @param   {string}    currentPosition.currentGalaxy - The current galaxy
    * @returns {RangeInfo} - The RangeInfo instance
    */
   constructor(
@@ -33,8 +31,9 @@ export default class RangeInfo {
 
   /**
    * Executes the command.
-   * @param {object} currentElement - The current element
+   * @param   {object} currentElement - The current element
    * @returns {void}
+   * @public
    */
   execute(currentElement) {
     const totalRange  = this.getTotalRange()
@@ -47,9 +46,10 @@ export default class RangeInfo {
 
   /**
    * Gets the range of systems to check
-   * @param {number} start - The start of the range
-   * @param {number} end - The end of the range
-   * @returns {Array} - The total range of systems to check
+   * @param   {number} start - The start of the range
+   * @param   {number} end   - The end of the range
+   * @returns {Array}        - The total range of systems to check
+   * @public
    */
   getCircularNumberRange(start, end) {
     const range = this.maxSys - this.minSys + 1
@@ -63,6 +63,7 @@ export default class RangeInfo {
   /**
    * Gets the total range of systems to check
    * @returns {Array} - The total range of systems to check
+   * @public
    */
   getTotalRange() {
     const rangeStart = RangeInfo.getCircularPosition(
@@ -92,8 +93,10 @@ export default class RangeInfo {
 
   /**
    * Creates the near element
-   * @param {string} nearText - The text to display
-   * @returns {object} - The near element
+   * @param   {string} nearText - The text to display
+   * @returns {object}          - The near element
+   * @public
+   * @static
    */
   static createNearElement(nearText) {
     const nearElement = HtmlElementFactory.create('span', {})
@@ -106,10 +109,12 @@ export default class RangeInfo {
 
   /**
    * Formats the near text
-   * @param {object} nearCounts - The near counts
-   * @param {number} nearCounts.nearPlanets - The number of near planets
-   * @param {number} nearCounts.nearMoons - The number of near moons
-   * @returns {string} - The formatted near text
+   * @param   {object} nearCounts             - The near counts
+   * @param   {number} nearCounts.nearPlanets - The number of near planets
+   * @param   {number} nearCounts.nearMoons   - The number of near moons
+   * @returns {string}                        - The formatted near text
+   * @public
+   * @static
    */
   static formatNearText(nearCounts) {
     return `NearP: ${ nearCounts.nearPlanets } NearM: ${ nearCounts.nearMoons }`
@@ -117,10 +122,12 @@ export default class RangeInfo {
 
   /**
    * Gets the circular position
-   * @param {number} value - The value to check
-   * @param {number} min - The min value
-   * @param {number} max - The max value
-   * @returns {number} - The circular position
+   * @param   {number} value - The value to check
+   * @param   {number} min   - The min value
+   * @param   {number} max   - The max value
+   * @returns {number}       - The circular position
+   * @public
+   * @static
    */
   static getCircularPosition(value, min, max) {
     const range = max - min + 1
@@ -130,8 +137,10 @@ export default class RangeInfo {
 
   /**
    * Gets the coords from the tooltip
-   * @param {string} ToolTipContent - The tooltip content
-   * @returns {Array} - The coords
+   * @param   {string} ToolTipContent - The tooltip content
+   * @returns {Array}                 - The coords
+   * @public
+   * @static
    */
   static getCoordsFromToolTip(ToolTipContent) {
     return ToolTipContent.matchAll(RangeInfo.coordsRegex)
@@ -140,6 +149,8 @@ export default class RangeInfo {
   /**
    * Gets the current galaxy and system
    * @returns {object} - The current galaxy and system
+   * @public
+   * @static
    */
   static getCurrentGalaxyAndSystem() {
     const [ currentGalaxy, currentSystem ] = document.evaluate(
@@ -157,10 +168,12 @@ export default class RangeInfo {
 
   /**
    * Gets the nearby counts
-   * @param {Array} coords - The coords to check
-   * @param {Array} totalRange - The total range of systems to check
-   * @param {string} currentGalaxy - The current galaxy
-   * @returns {object} - The nearby counts
+   * @param   {Array}  coords        - The coords to check
+   * @param   {Array}  totalRange    - The total range of systems to check
+   * @param   {string} currentGalaxy - The current galaxy
+   * @returns {object}               - The nearby counts
+   * @public
+   * @static
    */
   static getNearbyCounts(coords, totalRange, currentGalaxy) {
     let nearPlanets = -1 // -1 to account for current planet

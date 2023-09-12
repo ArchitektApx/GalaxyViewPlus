@@ -5,8 +5,9 @@
 export default class UsernameRecolor {
   /**
    * Creates a new UsernameRecolor instance.
-   * @param {Array} configData - The config data for the feature
-   * @returns {UsernameRecolor} - The UsernameRecolor instance
+   * @param   {Array}           configData - The config data for the feature
+   * @returns {UsernameRecolor}            - The UsernameRecolor instance
+   * @class
    */
   constructor(configData) {
     this.userRecolorData = configData
@@ -14,8 +15,9 @@ export default class UsernameRecolor {
 
   /**
    * Executes the feature.
-   * @param {HTMLElement} currentElement - The element to execute the feature on
+   * @param   {HTMLElement} currentElement - The element to execute the feature on
    * @returns {void}
+   * @public
    */
   execute(currentElement) {
     if (currentElement.children.length === 0) { return }

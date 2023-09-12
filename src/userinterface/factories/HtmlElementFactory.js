@@ -7,7 +7,7 @@ import BaseElement from '../htmlelements/BaseElement.js'
 export default class HtmlElementFactory {
   /**
    * Creates a new HtmlElementFactory instance.
-   * @param   {string}  tag     - The tag that should be created (e.g. div, table, etc.)
+   * @param   {string}  tag                    - The tag that should be created (e.g. div, table, etc.)
    * @param   {object}  options                - object containing the options for the element so we can use destructuring
    * @param   {object}  options.attributes     - The attributes of the element
    * @param   {Array}   options.classList      - The classList of the element
@@ -21,6 +21,8 @@ export default class HtmlElementFactory {
    * @param   {string}  options.textContent    - The textContent of the element
    * @param   {string}  options.title          - The title property of the element
    * @returns {HTMLElement|undefined}          - The MiscElement generated
+   * @public
+   * @static
    */
   static create(tag, options = {}) {
     const htmlElement = new BaseElement(tag, options)

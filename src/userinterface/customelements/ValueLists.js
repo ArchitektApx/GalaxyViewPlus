@@ -10,11 +10,10 @@ import InputElementFactory    from '../factories/InputElementFactory.js'
 export default class ValueListElement {
   /**
    * Creates a new ValueListElement instance.
-   * @public
-   * @param {object} config - The config
-   * @param {Function} configCallback - The config callback
-   * @returns {ValueListElement} - The ValueListElement instance
-   * @example
+   * @param   {object}           config         - The config
+   * @param   {Function}         configCallback - The config callback
+   * @returns {ValueListElement}                - The ValueListElement instance
+   * @class
    */
   constructor(config, configCallback) {
     this.prefix = `${ config.htmlPrefix }`
@@ -42,9 +41,9 @@ export default class ValueListElement {
   // private methods
   /**
    * Builds a table row cell
-   * @param {object} dataRow - The data row
-   * @param {Function} configCallback - The config callback
-   * @returns {HTMLElement} - The table row cell
+   * @param   {object}      dataRow        - The data row
+   * @param   {Function}    configCallback - The config callback
+   * @returns {HTMLElement}                - The table row cell
    * @private
    */
   #buildListRowCells(dataRow, configCallback) {
@@ -73,10 +72,10 @@ export default class ValueListElement {
 
   /**
    * Builds the table rows
-   * @param {object} config - The config
-   * @param {string} classList - The class list
-   * @param {Function} configCallback - The config callback
-   * @returns {HTMLElement[]} - The table rows
+   * @param   {object}        config         - The config
+   * @param   {string}        classList      - The class list
+   * @param   {Function}      configCallback - The config callback
+   * @returns {HTMLElement[]}                - The table rows
    * @private
    */
   #buildListRows(config, classList, configCallback) {

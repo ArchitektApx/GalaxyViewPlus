@@ -1,14 +1,13 @@
 /**
  * SaveConfigCommand is a command that saves the config
  * @class
- * @param {Function} saveFunction - The function that saves the config
- * @returns {SaveConfigCommand} - The SaveConfigCommand instance
  */
 export default class SaveConfigCommand {
   /**
    * Creates a new SaveConfigCommand instance.
-   * @param {Function} saveFunction - The function that saves the config
-   * @returns {SaveConfigCommand} - The SaveConfigCommand instance
+   * @param   {Function}          saveFunction - The function that saves the config
+   * @returns {SaveConfigCommand}              - The SaveConfigCommand instance
+   * @class
    */
   constructor(saveFunction) {
     this.saveFunction = saveFunction
@@ -17,6 +16,7 @@ export default class SaveConfigCommand {
   /**
    * Executes the command.
    * @returns {void}
+   * @public
    */
   execute() {
     this.saveFunction()

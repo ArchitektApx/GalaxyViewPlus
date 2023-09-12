@@ -6,6 +6,8 @@ export default class SyncButtonShortcut {
   /**
    * adds a event listener to the document which executes the syncsys function when the e key is pressed.
    * @returns {void}
+   * @public
+   * @static
    */
   static execute() {
     document.addEventListener('keydown', (event_) => {

@@ -2,16 +2,14 @@
  * RemoveRowCommand - The command to change the sorting of a feature.
  * It is used in the actionCallback of the ConfigManager.
  * @class
- * @param {object} config - The config object
- * @param {object} removeData - The data row to remove
- * @returns {RemoveRowCommand} - The RemoveRowCommand instance
  */
 export default class RemoveRowCommand {
   /**
    * Creates a new RemoveRowCommand instance.
-   * @param {object} config - The config object
-   * @param {object} removeData - The data row to remove
-   * @returns {RemoveRowCommand} - The RemoveRowCommand instance
+   * @param   {object}           config     - The config object
+   * @param   {object}           removeData - The data row to remove
+   * @returns {RemoveRowCommand}            - The RemoveRowCommand instance
+   * @class
    */
   constructor(config, removeData) {
     this.config     = config
@@ -21,6 +19,7 @@ export default class RemoveRowCommand {
   /**
    * Executes the command.
    * @returns {void}
+   * @public
    */
   execute() {
     // Only Key Value Pairs can be removed so return if that's not the case

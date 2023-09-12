@@ -15,10 +15,10 @@ import InputElementFactory    from '../factories/InputElementFactory.js'
 export default class ValueTableElement {
   /**
    * Creates a new ValueTableElement instance.
+   * @param   {object}            config         - The config
+   * @param   {Function}          configCallback - The config callback
+   * @returns {ValueTableElement}                - The ValueTableElement instance
    * @public
-   * @param {object} config - The config
-   * @param {Function} configCallback - The config callback
-   * @returns {ValueTableElement} - The ValueTableElement instance
    */
   constructor(config, configCallback) {
     this.prefix         = `${ config.htmlPrefix }`
@@ -47,8 +47,8 @@ export default class ValueTableElement {
 
   /**
    * Adds a row with default values to the table.
-   * @param {HTMLElement} tbodyReference - The tbody reference
-   * @param {Function} configCallback - The config callback
+   * @param   {HTMLElement} tbodyReference - The tbody reference
+   * @param   {Function}    configCallback - The config callback
    * @returns {void}
    * @public
    */
@@ -68,9 +68,9 @@ export default class ValueTableElement {
 
   /**
    * Builds the table body.
-   * @param {object} config - The config
-   * @param {Function} configCallback - The config callback
-   * @returns {HTMLElement} - The table body
+   * @param   {object}      config         - The config
+   * @param   {Function}    configCallback - The config callback
+   * @returns {HTMLElement}                - The table body
    * @public
    */
   buildTableBody(config, configCallback) {
@@ -90,10 +90,10 @@ export default class ValueTableElement {
 
   /**
    * Builds the table header.
-   * @param {string} classList - The class list
-   * @param {string[]} thNames - The table header names
-   * @param {string[]} thIds - The table header ids
-   * @returns {HTMLElement} - The table header
+   * @param   {string}      classList - The class list
+   * @param   {string[]}    thNames   - The table header names
+   * @param   {string[]}    thIds     - The table header ids
+   * @returns {HTMLElement}           - The table header
    * @public
    */
   buildTableHeader(classList, thNames = [ '', '', '' ], thIds = [ 'key', 'value', 'delete' ]) {
@@ -122,10 +122,11 @@ export default class ValueTableElement {
 
   /**
    * Returns the table body.
-   * @param {Function}addRowFunction - The add row function
-   * @param {object} configCallback - The config callback
-   * @returns {HTMLElement} - The table body
+   * @param   {Function}    addRowFunction - The add row function
+   * @param   {object}      configCallback - The config callback
+   * @returns {HTMLElement}                - The table body
    * @public
+   * @static
    */
   static buildAddRowButton(addRowFunction, configCallback) {
     return ButtonElementFactory.create('addRow', {
@@ -135,12 +136,12 @@ export default class ValueTableElement {
 
   /**
    * Returns the table body.
-   * @param {string} prefix - The prefix
-   * @param {string} inputType - The input type
-   * @param {string} keyOrValue - The key or value
-   * @param {string} value - The value
-   * @param {Function} configCallback - The config callback
-   * @returns {HTMLElement} - The table body
+   * @param   {string}      prefix         - The prefix
+   * @param   {string}      inputType      - The input type
+   * @param   {string}      keyOrValue     - The key or value
+   * @param   {string}      value          - The value
+   * @param   {Function}    configCallback - The config callback
+   * @returns {HTMLElement}                - The table body
    * @public
    * @static
    */
@@ -161,14 +162,14 @@ export default class ValueTableElement {
 
   /**
    * Returns the table body.
-   * @param {string} type - The type
-   * @param {object} options - The options used for creation
-   * @param {string} options.name - The name
-   * @param {string} options.value - The value
-   * @param {string} options.id - The id
-   * @param {string} options.classList - The class list
-   * @param  {Function} configCallback  - The config callback
-   * @returns {HTMLElement} - The table body
+   * @param   {string}      type              - The type
+   * @param   {object}      options           - The options used for creation
+   * @param   {string}      options.name      - The name
+   * @param   {string}      options.value     - The value
+   * @param   {string}      options.id        - The id
+   * @param   {string}      options.classList - The class list
+   * @param   {Function}    configCallback    - The config callback
+   * @returns {HTMLElement}                   - The table body
    * @public
    * @static
    */
@@ -187,8 +188,8 @@ export default class ValueTableElement {
 
   /**
    * Returns the remove row button
-   * @param {Function} configCallback - The config callback
-   * @returns {HTMLElement} - The remove row button
+   * @param   {Function}    configCallback - The config callback
+   * @returns {HTMLElement}                - The remove row button
    * @public
    * @static
    */
@@ -200,13 +201,13 @@ export default class ValueTableElement {
 
   /**
    * Returns a table row
-   * @param {string} prefix - The prefix
-   * @param {string} keyInputType - The key input type
-   * @param {string} valueInputType - The value input type
-   * @param {string} key - The key
-   * @param {string} value - The value
-   * @param {Function} configCallback - The config callback
-   * @returns {HTMLElement} - The table row
+   * @param   {string}      prefix         - The prefix
+   * @param   {string}      keyInputType   - The key input type
+   * @param   {string}      valueInputType - The value input type
+   * @param   {string}      key            - The key
+   * @param   {string}      value          - The value
+   * @param   {Function}    configCallback - The config callback
+   * @returns {HTMLElement}                - The table row
    * @public
    * @static
    */
@@ -220,13 +221,13 @@ export default class ValueTableElement {
 
   /**
    * Returns a table row cell
-   * @param {string} prefix - The prefix
-   * @param {string} keyInputType - The key input type
-   * @param {string} valueInputType - The value input type
-   * @param {string} key - The key
-   * @param {string} value - The value
-   * @param {Function} configCallback - The config callback
-   * @returns {HTMLElement[]} - The table row cells
+   * @param   {string}   prefix         - The prefix
+   * @param   {string}   keyInputType   - The key input type
+   * @param   {string}   valueInputType - The value input type
+   * @param   {string}   key            - The key
+   * @param   {string}   value          - The value
+   * @param   {Function} configCallback - The config callback
+   * @returns {HTMLElement[]}           - The table row cells
    * @public
    * @static
    */

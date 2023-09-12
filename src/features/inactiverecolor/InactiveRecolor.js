@@ -1,17 +1,15 @@
 /**
  * InactiveRecolor - recolors inactive and long inactive elements
  * @class
- * @param {Array} colors - The colors to use
- * @returns {InactiveRecolor} - The InactiveRecolor instance
  */
 export default class InactiveRecolor {
   static inactiveSelector = '.galaxy-short-inactive,.galaxy-short-longinactive'
 
   /**
    * Creates a new InactiveRecolor instance.
-   * @param {Array} colors - The colors to use
-   * @param {string} colors.0 - The color for inactive elements
-   * @param {string} colors.1 - The color for long inactive elements
+   * @param   {Array}  colors   - The colors to use
+   * @param   {string} colors.0 - The color for inactive elements
+   * @param   {string} colors.1 - The color for long inactive elements
    * @returns {InactiveRecolor} - The InactiveRecolor instance
    * @class
    */
@@ -22,8 +20,9 @@ export default class InactiveRecolor {
 
   /**
    * Executes the command.
-   * @param {HTMLElement} currentElement - The current element
+   * @param   {HTMLElement} currentElement - The current element
    * @returns {void}
+   * @public
    */
   execute(currentElement) {
     const inactiveElements = (

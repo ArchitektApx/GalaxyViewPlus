@@ -5,13 +5,15 @@ import HtmlElementFactory from '../../userinterface/factories/HtmlElementFactory
 
 /**
  * The DebugInfo class is used to display debug information in the settings interface.
+ * @class
  */
 export default class DebugInfo {
   /**
    * Executes the DebugInfo class.
-   * @public
-   * @param {number} startTime - The time the script started
+   * @param   {number} startTime - The time the script started
    * @returns {void}
+   * @public
+   * @static
    */
   static execute(startTime) {
     const elapsed         = (Date.now() - startTime)
@@ -26,9 +28,10 @@ export default class DebugInfo {
 
   /**
    * Creates the debug info element.
+   * @param   {object} debugInfoObject - The debug info object
+   * @returns {object}                 - The debug info element
    * @private
-   * @param {object} debugInfoObject - The debug info object
-   * @returns {object} - The debug info element
+   * @static
    */
   static #createDebugInfoElement(debugInfoObject) {
     const debugInfo = HtmlElementFactory.create('div', { id: 'debug-info' })
@@ -42,9 +45,10 @@ export default class DebugInfo {
 
   /**
    * Gets the script info object.
+   * @param   {number} elapsed - The time the script started
+   * @returns {object}         - The script info object
    * @private
-   * @param {number} elapsed - The time the script started
-   * @returns {object} - The script info object
+   * @static
    */
   static #getScriptInfoObject(elapsed) {
     const statsUpdate = StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.UPDATE_STATUS)

@@ -12,23 +12,11 @@ export default class StorageInterface {
   static #logName = 'StorageInterface'
 
   /**
-   * Creates a formatted log message string.
-   * @private
-   * @param {string} message - The message to log.
-   * @param {string} level - The log level.
-   * @param {string} module - The module name.
-   * @returns {string} - The formatted log message.
-   */
-  static createLogMessage(message, level, module) {
-    const timestamp = new Date(Date.now()).toISOString()
-    return `[${ __scriptName__ }_${ module } ${ timestamp }] [${ level }]: ${ message }`
-  }
-
-  /**
    * Deletes a key from Storage.
+   * @param   {string}  key - The key to delete
+   * @returns {boolean}     - True if successful, false if not
    * @public
-   * @param {string} key - The key to delete
-   * @returns {boolean} - True if successful, false if not
+   * @static
    */
   static deleteStorageItem(key) {
     try {
@@ -44,10 +32,11 @@ export default class StorageInterface {
 
   /**
    * Gets a key from Storage.
+   * @param   {string} key - The key to get
+   * @returns {object}     - The key value or {} if no key was found
+   * @throws  {false}      - Throws an error if storage is not available
    * @public
-   * @param {string} key - The key to get
-   * @returns {object} - The key value or {} if no key was found
-   * @throws {false} - Throws an error if storage is not available
+   * @static
    */
   static getStorageItem(key) {
     try {
@@ -60,25 +49,77 @@ export default class StorageInterface {
   }
 
   /**
-   * Wrapper for the logging method.
+   * Wrapper for StorageInterface.writeLog
+   * @param {string}   message - The message to log
+   * @param {LogLevel} level   - The log level
+   * @param {error}    error   - The error to log
    * @public
-   * @param {string} message - The message to log
-   * @param {LogLevel} level - The log level
-   * @param {error} error    - The error to log
+   * @static
    */
   static log(message, level = LogLevel.INFO, error = '') {
     StorageInterface.writeLog(message, level, StorageInterface.#logName, error)
   }
 
   /**
-   * Outputs the log message to the console.
-   * @private
-   * @param {string} logMessage - The formatted log message.
-   * @param {string} level - The log level.
-   * @param {error} errorObject - The error to log.
-   * @returns {void}
+   * Sets a key in Storage.
+   * @param   {string}  key   - The key to set
+   * @param   {*}       value - The value to set
+   * @returns {boolean}       - True if successful, false if not
+   * @public
+   * @static
    */
-  static outputToConsole(logMessage, level, errorObject) {
+  static setStorageItem(key, value) {
+    try {
+      localStorage.setItem(key, JSON.stringify(value))
+
+      return true
+    } catch (error) {
+      StorageInterface.log('Failed to save a key from Storage', LogLevel.ERROR, error)
+
+      return false
+    }
+  }
+
+  /**
+   * Logging Method used by all other classes via their static log method wrapper.
+   * @param   {string} message     - The message to log
+   * @param   {string} level       - The log level
+   * @param   {string} module      - The module name
+   * @param   {error}  errorObject - The error to log
+   * @returns {void}
+   * @public
+   * @static
+   */
+  static writeLog(message, level = LogLevel.INFO, module = '', errorObject = '') {
+    const logMessage = StorageInterface.#createLogMessage(message, level, module)
+    StorageInterface.#outputToConsole(logMessage, level, errorObject)
+    StorageInterface.#saveToStorage(logMessage)
+  }
+
+  /**
+   * Creates a formatted log message string.
+   * @param   {string} message - The message to log.
+   * @param   {string} level   - The log level.
+   * @param   {string} module  - The module name.
+   * @returns {string}         - The formatted log message.
+   * @private
+   * @static
+   */
+  static #createLogMessage(message, level, module) {
+    const timestamp = new Date(Date.now()).toISOString()
+    return `[${ __scriptName__ }_${ module } ${ timestamp }] [${ level }]: ${ message }`
+  }
+
+  /**
+   * Outputs the log message to the console.
+   * @param   {string} logMessage  - The formatted log message.
+   * @param   {string} level       - The log level.
+   * @param   {error}  errorObject - The error to log.
+   * @returns {void}
+   * @private
+   * @static
+   */
+  static #outputToConsole(logMessage, level, errorObject) {
     if (level === LogLevel.ERROR) {
       console.log(logMessage)
       console.error(errorObject)
@@ -87,11 +128,12 @@ export default class StorageInterface {
 
   /**
    * Saves the log message to storage.
-   * @private
-   * @param {string} logMessage - The formatted log message.
+   * @param   {string} logMessage - The formatted log message.
    * @returns {void}
+   * @private
+   * @static
    */
-  static saveToStorage(logMessage) {
+  static #saveToStorage(logMessage) {
     try {
       let logMessages = Mindash.defaultTo(
         StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.DEBUG_LOG),
@@ -109,39 +151,5 @@ export default class StorageInterface {
     } catch (error) {
       console.error('Critical error in saveToStorage:', error)
     }
-  }
-
-  /**
-   * Sets a key in Storage.
-   * @public
-   * @param {string} key - The key to set
-   * @param {*} value - The value to set
-   * @returns {boolean} - True if successful, false if not
-   */
-  static setStorageItem(key, value) {
-    try {
-      localStorage.setItem(key, JSON.stringify(value))
-
-      return true
-    } catch (error) {
-      StorageInterface.log('Failed to save a key from Storage', LogLevel.ERROR, error)
-
-      return false
-    }
-  }
-
-  /**
-   * Logging Method used by all other classes via their static log method wrapper.
-   * @public
-   * @param {string} message - The message to log
-   * @param {string} level - The log level
-   * @param {string} module - The module name
-   * @param {error} errorObject - The error to log
-   * @returns {void}
-   */
-  static writeLog(message, level = LogLevel.INFO, module = '', errorObject = '') {
-    const logMessage = StorageInterface.createLogMessage(message, level, module)
-    StorageInterface.outputToConsole(logMessage, level, errorObject)
-    StorageInterface.saveToStorage(logMessage)
   }
 }

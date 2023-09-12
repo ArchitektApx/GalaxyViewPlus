@@ -8,8 +8,10 @@ import Typedash from '../typedash/Typedash.js'
 export default class Objectdash {
   /**
    * Creates a deep clone of the given input.
-   * @param {*} input - Any input value to be cloned.
-   * @returns {*} - The deep cloned value.
+   * @param   {*} input - Any input value to be cloned.
+   * @returns {*}       - The deep cloned value.
+   * @public
+   * @static
    */
   static deepClone(input) {
     return JSON.parse(JSON.stringify(input))
@@ -17,10 +19,12 @@ export default class Objectdash {
 
   /**
    * Retrieves a nested value from an object using a string path or returns a default value.
-   * @param {object} object - The object to get the nested value from.
-   * @param {string} path - The string path to the nested value.
-   * @param {*} defaultValue - The default value to return if the nested value doesn't exist.
-   * @returns {*} - The nested value or default value.
+   * @param   {object} object       - The object to get the nested value from.
+   * @param   {string} path         - The string path to the nested value.
+   * @param   {*}      defaultValue - The default value to return if the nested value doesn't exist.
+   * @returns {*}                   - The nested value or default value.
+   * @public
+   * @static
    */
   static getNestedValueOrDefault(object, path, defaultValue) {
     const keys = Typedash.pathToKeys(path)
@@ -44,10 +48,12 @@ export default class Objectdash {
 
   /**
    * Ensures the given input contains both of the two provided properties.
-   * @param {object} input - Any input object
-   * @param {*} this_ - The first property to check for.
-   * @param {*} that_ - The second property to check for.
-   * @returns {boolean} - True if the input contains both of the two provided properties.
+   * @param   {object} input - Any input object
+   * @param   {*} this_      - The first property to check for.
+   * @param   {*} that_      - The second property to check for.
+   * @returns {boolean}      - True if the input contains both of the two provided properties.
+   * @public
+   * @static
    */
   static hasThisAndThatProp(input, this_, that_) {
     return Object.keys(input).includes(this_) && Object.keys(input).includes(that_)
@@ -55,29 +61,24 @@ export default class Objectdash {
 
   /**
    * Ensures the given input contains at lest one of the two provided properties.
-   * @param {*} input - Any input object
-   * @param {*} this_ - The first property to check for.
-   * @param {*} that_ - The second property to check for.
+   * @param   {*} input - Any input object
+   * @param   {*} this_ - The first property to check for.
+   * @param   {*} that_ - The second property to check for.
    * @returns {boolean} - True if the input contains at least one of the two provided properties.
+   * @public
+   * @static
    */
   static hasThisOrThatProp(input, this_, that_) {
     return Object.keys(input).includes(this_) || Object.keys(input).includes(that_)
   }
 
   /**
-   * Determines if the next key in the path represents an array index.
-   * @param {string|number} nextKey - The next key in the path.
-   * @returns {boolean} - True if the next key represents an array index, false otherwise.
-   */
-  static isNextKeyArrayIndex(nextKey) {
-    return /^\d+$/.test(nextKey)
-  }
-
-  /**
    * Merges two objects.
-   * @param {object} object1 - First object.
-   * @param {object} object2 - Second object.
-   * @returns {object} - Merged object.
+   * @param   {object} object1 - First object.
+   * @param   {object} object2 - Second object.
+   * @returns {object}         - Merged object.
+   * @public
+   * @static
    */
   static mergeObjects(object1, object2) {
     return { ...object1, ...object2 }
@@ -85,9 +86,11 @@ export default class Objectdash {
 
   /**
    * Sets a nested value in an object using a string path.
-   * @param {object} object - The object to set the nested value in.
-   * @param {string} path - The string path to the nested location.
-   * @param {*} value - The value to set.
+   * @param   {object} object - The object to set the nested value in.
+   * @param   {string} path   - The string path to the nested location.
+   * @param   {*} value       - The value to set.
+   * @public
+   * @static
    */
   static setNestedValue(object, path, value) {
     const keys  = Typedash.pathToKeys(path)
@@ -95,11 +98,22 @@ export default class Objectdash {
 
     keys.slice(0, -1).forEach((key, index) => {
       if (current[key] === undefined) {
-        current[key] = this.isNextKeyArrayIndex(keys[index + 1]) ? [] : {}
+        current[key] = this.#isNextKeyArrayIndex(keys[index + 1]) ? [] : {}
       }
       current = current[key]
     })
 
     current[keys.at(-1)] = value
+  }
+
+  /**
+   * Determines if the next key in the path represents an array index.
+   * @param   {string|number} nextKey - The next key in the path.
+   * @returns {boolean}               - True if the next key represents an array index, false otherwise.
+   * @public
+   * @static
+   */
+  static #isNextKeyArrayIndex(nextKey) {
+    return /^\d+$/.test(nextKey)
   }
 }

@@ -16,10 +16,10 @@ export default class Iterator {
 
   /**
    * Creates a new Iterator instance and invokes the features.
-   * @param {object} config - The config for the features
-   * @param {Array} config.features - The config of the individual features
-   * @param {object} stats - The StatisticsInterface Instance
-   * @returns {Iterator} - The Iterator instance
+   * @param   {object}  config          - The config for the features
+   * @param   {Array}   config.features - The config of the individual features
+   * @param   {object}  stats           - The StatisticsInterface Instance
+   * @returns {Iterator}                - The Iterator instance
    * @class
    */
   constructor({ features: config }, stats) {
@@ -37,11 +37,11 @@ export default class Iterator {
     Iterator.log('Finished running feature iterator', LogLevel.DEBUG)
   }
 
-  // public methods
   /**
    * invokes all features that are active and have a valid class.
-   * @param {object} featureConfig - The config for the features
+   * @param   {object} featureConfig - The config for the features
    * @returns {void}
+   * @public
    */
   invokeFeatures(featureConfig) {
     const positions = Mindash.mapAny(
@@ -65,10 +65,11 @@ export default class Iterator {
 
   /**
    * Wrapper for StorageInterface.writeLog
+   * @param  {string} message - The message to log
+   * @param  {LogLevel} level - The log level
+   * @param  {error} error    - The error to log
    * @public
-   * @param {string} message - The message to log
-   * @param {LogLevel} level - The log level
-   * @param {error} error    - The error to log
+   * @static
    */
   static log(message, level = LogLevel.INFO, error = '') {
     StorageInterface.writeLog(message, level, Iterator.#logName, error)

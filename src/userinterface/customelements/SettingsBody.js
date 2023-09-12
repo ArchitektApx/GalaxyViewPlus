@@ -8,10 +8,10 @@ import HtmlElementFactory from '../factories/HtmlElementFactory.js'
 export default class SettingsBody {
   /**
    * Creates a new SettingsBody instance.
-   * @public
-   * @param {object} config - The config
-   * @param {Function} configCallback - The config callback
-   * @returns {SettingsBody} - The SettingsBody instance
+   * @param   {object}       config         - The config
+   * @param   {Function}     configCallback - The config callback
+   * @returns {SettingsBody}                - The SettingsBody instance
+   * @class
    */
   constructor(config, configCallback) {
     this.prefix    = `${ config.htmlPrefix }`
@@ -33,8 +33,8 @@ export default class SettingsBody {
 
   /**
    * Gets the SettingsBody element.
-   * @public
    * @returns {HTMLElement} - The SettingsBody element
+   * @public
    */
   getElement() {
     return this.element

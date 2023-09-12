@@ -10,9 +10,9 @@ import HtmlElementFactory     from '../factories/HtmlElementFactory.js'
 export default class SettingsInterface {
   /**
    * Creates a new SettingsInterface instance.
-   * @public
-   * @param {object} configManagerInstance - The ConfigManager instance
-   * @returns {SettingsInterface} - The SettingsInterface instance
+   * @param   {object}            configManagerInstance - The ConfigManager instance
+   * @returns {SettingsInterface}                       - The SettingsInterface instance
+   * @class
    */
   constructor(configManagerInstance) {
     const config                                 = configManagerInstance.getCurrentConfig()
@@ -57,8 +57,8 @@ export default class SettingsInterface {
 
   /**
    * Gets the SettingsInterface element.
-   * @public
    * @returns {object} - The SettingsInterface element
+   * @public
    */
   getElement() {
     return this.element

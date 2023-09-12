@@ -14,6 +14,7 @@ import SaveConfigCommand    from './commands/SaveConfigCommand.js'
  * The ConfigManager is a singleton class that manages the config.
  * It loads the config from storage, validates it and provides a callback function to execute commands.
  * The commands are defined in the commandMap.
+ * @class
  */
 export default class ConfigManager {
   static #instance
@@ -23,8 +24,8 @@ export default class ConfigManager {
   /**
    * Creates a new ConfigManager instance if none exists.
    * Else it returns the existing instance (singleton).
-   * @class
    * @returns {ConfigManager} - The ConfigManager instance
+   * @class
    */
   constructor() {
     if (ConfigManager.#instance) { return ConfigManager.#instance }
@@ -36,9 +37,9 @@ export default class ConfigManager {
 
   /**
    * Executes a command with the given actionType and inputData provided by the invoker.
+   * @param  {string} actionType - The command to execute
+   * @param  {object} inputData  - The data to pass to the command
    * @public
-   * @param {string} actionType - The command to execute
-   * @param {object} inputData - The data to pass to the command
    */
   actionCallback(actionType, inputData) {
     // check if the command is valid
@@ -56,8 +57,8 @@ export default class ConfigManager {
 
   /**
    * Returns a callback function that can be used to execute a command.
-   * @public
    * @returns {Function} - The callback function
+   * @public
    */
   getActionCallback() {
     return this.actionCallback.bind(this)
@@ -65,8 +66,8 @@ export default class ConfigManager {
 
   /**
    * Returns the current config.
-   * @public
    * @returns {object} - The current config
+   * @public
    */
   getCurrentConfig() {
     return this.#runningConfig
@@ -74,9 +75,9 @@ export default class ConfigManager {
 
   /**
    * executes the command with the given actionType and inputData
-   * @private
-   * @param {string} actionType - The command to execute in the commandMap
-   * @param {object} inputData - The data to pass to the command
+   * @param  {string} actionType - The command to execute in the commandMap
+   * @param  {object} inputData  - The data to pass to the command
+   * @public
    */
   #executeCommand(actionType, inputData) {
     const CommandClass     = this.commandMap[actionType].class
@@ -96,11 +97,11 @@ export default class ConfigManager {
    */
   #initCommands() {
     this.commandMap = {
-      changeData    : { class: ChangeDataCommand,    systemInput: this.#runningConfig },
-      changeSorting : { class: ChangeSortingCommand, systemInput: this.#runningConfig },
-      changeStatus  : { class: ChangeStatusCommand,  systemInput: this.#runningConfig },
-      removeRow     : { class: RemoveRowCommand,     systemInput: this.#runningConfig },
-      resetConfig   : { class: ResetConfigCommand,   systemInput: this.#resetConfig.bind(this) },
+      changeData    : { class: ChangeDataCommand,    systemInput: this.#runningConfig           },
+      changeSorting : { class: ChangeSortingCommand, systemInput: this.#runningConfig           },
+      changeStatus  : { class: ChangeStatusCommand,  systemInput: this.#runningConfig           },
+      removeRow     : { class: RemoveRowCommand,     systemInput: this.#runningConfig           },
+      resetConfig   : { class: ResetConfigCommand,   systemInput: this.#resetConfig.bind(this)  },
       saveConfig    : { class: SaveConfigCommand,    systemInput: this.#updateConfig.bind(this) },
     }
   }
@@ -164,6 +165,18 @@ export default class ConfigManager {
   }
 
   /**
+   * Wrapper for StorageInterface.writeLog
+   * @param  {string}   message  - The message to log
+   * @param  {LogLevel} level    - The log level
+   * @param  {error}    error    - The error to log
+   * @public
+   * @static
+   */
+  static log(message, level = LogLevel.INFO, error = '') {
+    StorageInterface.writeLog(message, level, ConfigManager.#logName, error)
+  }
+
+  /**
    * Resets the singleton instance.
    * this method must only be used during jest tests to reset the singleton instance
    * @private
@@ -171,16 +184,5 @@ export default class ConfigManager {
   // eslint-disable-next-line no-underscore-dangle
   static _resetInstance() {
     ConfigManager.#instance = undefined
-  }
-
-  /**
-   * Wrapper for StorageInterface.writeLog
-   * @public
-   * @param {string} message - The message to log
-   * @param {LogLevel} level - The log level
-   * @param {error} error    - The error to log
-   */
-  static log(message, level = LogLevel.INFO, error = '') {
-    StorageInterface.writeLog(message, level, ConfigManager.#logName, error)
   }
 }

@@ -75,7 +75,8 @@
     "sonarjs",
     "sort-class-members",
     "sort-keys-plus",
-    "jsdoc"
+    "jsdoc",
+    "perfectionist"
   ],
   "rules": {
     "align-import/align-import": [
@@ -240,6 +241,25 @@
       "error",
       "consistent"
     ],
+    "perfectionist/sort-classes": [
+      "error",
+      {
+        "type": "natural",
+        "order": "asc",
+        "ignore-case": true,
+        "groups": [
+          "static-property",
+          "static-private-property",
+          "property",
+          "private-property",
+          "constructor",
+          "method",
+          "private-method",
+          "static-method",
+          "static-private-method"
+        ]
+      }
+    ],
     "quotes": [
       "error",
       "single",
@@ -256,95 +276,6 @@
     "semi": [
       "error",
       "never"
-    ],
-    "sort-class-members/sort-class-members": [
-      2,
-      {
-        "order": [
-          "[static-public-properties]",
-          "[static-private-properties]",
-          "[public-properties]",
-          "[private-properties]",
-          "[constructor]",
-          "[public-methods]",
-          "[private-methods]",
-          "[static-public-methods]",
-          "[static-private-methods]"
-        ],
-        "groups": {
-          "constructor": [
-            {
-              "type": "method",
-              "name": "constructor",
-              "static": false
-            }
-          ],
-          "static-public-properties": [
-            {
-              "name": "/^[^#].+/",
-              "type": "property",
-              "static": true,
-              "sort": "alphabetical"
-            }
-          ],
-          "static-private-properties": [
-            {
-              "name": "/^[#].+/",
-              "type": "property",
-              "static": true,
-              "sort": "alphabetical"
-            }
-          ],
-          "private-properties": [
-            {
-              "type": "property",
-              "name": "/^[#].+/",
-              "static": false,
-              "sort": "alphabetical"
-            }
-          ],
-          "public-properties": [
-            {
-              "type": "property",
-              "name": "/^[^#].+/",
-              "static": false,
-              "sort": "alphabetical"
-            }
-          ],
-          "private-methods": [
-            {
-              "type": "method",
-              "name": "/^[#].+/",
-              "static": false,
-              "sort": "alphabetical"
-            }
-          ],
-          "public-methods": [
-            {
-              "type": "method",
-              "name": "/^[^#].+/",
-              "static": false,
-              "sort": "alphabetical"
-            }
-          ],
-          "static-private-methods": [
-            {
-              "type": "method",
-              "name": "/^[#].+/",
-              "static": true,
-              "sort": "alphabetical"
-            }
-          ],
-          "static-public-methods": [
-            {
-              "type": "method",
-              "name": "/^[^#].+/",
-              "static": true,
-              "sort": "alphabetical"
-            }
-          ]
-        }
-      }
     ],
     "sort-keys-plus/sort-keys": [
       "error",

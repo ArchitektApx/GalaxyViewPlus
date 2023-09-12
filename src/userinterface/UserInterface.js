@@ -7,8 +7,9 @@ import SettingsInterface from './container/SettingsInterface.js'
 export default class UserInterface {
   /**
    * Creates a new UserInterface instance.
-   * @param {configManagerInstance} configManagerInstance - The config manager instance
+   * @param   {configManagerInstance} configManagerInstance - The config manager instance
    * @returns {UserInterface} - The UserInterface instance
+   * @class
    */
   constructor(configManagerInstance) {
     this.SettingsInterface = (new SettingsInterface(configManagerInstance)).getElement()
@@ -21,8 +22,10 @@ export default class UserInterface {
 
   /**
    * Attaches the given css to the page.
-   * @param {string} css - The css to attach
+   * @param   {string} css - The css to attach
    * @returns {void}
+   * @private
+   * @static
    */
   static #attachCSS(css) {
     GM.addStyle(css)
@@ -30,9 +33,11 @@ export default class UserInterface {
 
   /**
    * Clones the width of the given reference element to the given element.
-   * @param {object} element - The element to clone the width to
-   * @param {object} reference - The reference element
-   * @returns {object} - The element with the cloned width
+   * @param   {object} element   - The element to clone the width to
+   * @param   {object} reference - The reference element
+   * @returns {object}           - The element with the cloned width
+   * @private
+   * @static
    */
   static #cloneWidth(element, reference) {
     const referenceStyle = window.getComputedStyle(reference)

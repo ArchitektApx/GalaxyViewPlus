@@ -15,6 +15,8 @@ export default class GalaxyViewPlus {
   /**
    * Creates a new GalaxyViewPlus instance.
    * @returns {GalaxyViewPlus} - The GalaxyViewPlus instance
+   * @public
+   * @static
    */
   static async run() {
     const startTime = Date.now()
@@ -40,7 +42,7 @@ if (
   typeof process === 'undefined'
   || (
     process.env.JEST_WORKER_ID === undefined
-    && process.env.NODE_ENV !== 'test'
+    && process.env.NODE_ENV    !== 'test'
   )
 ) {
   GalaxyViewPlus.run()

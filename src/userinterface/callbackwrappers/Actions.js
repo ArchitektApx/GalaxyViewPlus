@@ -8,9 +8,9 @@ import Extract from './Extract.js'
 export default class Action {
   /**
    * Action for AddRowButton that also adds a new row to the table.
-   * @param {object} event_ - The event
-   * @param {Function} callbackFunction - the callback that is passed to the new delete button
-   * @param {Function} callbackAction - the add row callback action
+   * @param   {object}   event_           - The event
+   * @param   {Function} callbackFunction - the callback that is passed to the new delete button
+   * @param   {Function} callbackAction   - the add row callback action
    * @returns {void}
    * @static
    * @public
@@ -25,9 +25,9 @@ export default class Action {
   /**
    * Action for Generic Inputs (SaveButton, ResetButton, SortCheckbox) that only extract
    * the input data and execute the callback function.
-   * @param {object} event_ - The event
-   * @param {Function} callbackFunction - The callback function to be executed
-   * @param {string} callbackAction - The type of action to be passed to the callback function
+   * @param   {object}   event_           - The event
+   * @param   {Function} callbackFunction - The callback function to be executed
+   * @param   {string}   callbackAction   - The type of action to be passed to the callback function
    * @returns {void}
    * @static
    * @public
@@ -39,9 +39,9 @@ export default class Action {
 
   /**
    * Action for InputPair that also refreshes the lastvalue dataset of both inputs.
-   * @param {object} event_ - The event
-   * @param {Function} callbackFunction - The callback function to be executed
-   * @param {string} callbackAction - The type of action to be passed to the callback function
+   * @param   {object}   event_           - The event
+   * @param   {Function} callbackFunction - The callback function to be executed
+   * @param   {string}   callbackAction   - The type of action to be passed to the callback function
    * @returns {void}
    * @static
    * @public
@@ -58,9 +58,9 @@ export default class Action {
 
   /**
    * Action for single Inputs that also refresh their lastvalue dataset.
-   * @param {object} event_ - The event
-   * @param {Function} callbackFunction - The callback function to be executed
-   * @param {string} callbackAction - The type of action to be passed to the callback function
+   * @param   {object}   event_ - The event
+   * @param   {Function} callbackFunction - The callback function to be executed
+   * @param   {string}   callbackAction - The type of action to be passed to the callback function
    * @returns {void}
    * @static
    * @public
@@ -73,9 +73,9 @@ export default class Action {
 
   /**
    * Action for RemoveRowButton that also removes the row from the table.
-   * @param {object} event_ - The event
-   * @param {Function} callbackFunction - The callback function to be executed
-   * @param {string} callbackAction - The type of action to be passed to the callback function
+   * @param   {object}   event_           - The event
+   * @param   {Function} callbackFunction - The callback function to be executed
+   * @param   {string}   callbackAction   - The type of action to be passed to the callback function
    * @returns {void}
    * @static
    * @public
@@ -90,9 +90,9 @@ export default class Action {
 
   /**
    * Action for StatusCheckbox that also changes the visibility of the table.
-   * @param {object} event_ - The event
-   * @param {Function} callbackFunction - The callback function to be executed
-   * @param {string} callbackAction - The type of action to be passed to the callback function
+   * @param   {object}   event_           - The event
+   * @param   {Function} callbackFunction - The callback function to be executed
+   * @param   {string}   callbackAction   - The type of action to be passed to the callback function
    * @returns {void}
    * @static
    * @public

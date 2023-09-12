@@ -51,11 +51,13 @@ export default class CallbackWrapperFactory {
 
   /**
    * Creates a new CallbackWrapper instance.
+   * @param   {string}           type             - The type of the CallbackWrapper
+   * @param   {Function}         callbackFunction - The callback function
+   * @param   {string|Function}  callbackAction   - The callback action
+   * @returns {object|undefined}                  - The CallbackWrapper object generated from
+   *                                                the type and inputCallback
    * @public
-   * @param {string} type - The type of the CallbackWrapper
-   * @param {Function} callbackFunction - The callback function
-   * @param {string|Function} callbackAction - The callback action
-   * @returns {object|undefined} - The CallbackWrapper object generated from the type and inputCallback
+   * @static
    */
   static create(type, callbackFunction, callbackAction = '') {
     const actionMethodDetails = CallbackWrapperFactory.actionMethodMap[type]

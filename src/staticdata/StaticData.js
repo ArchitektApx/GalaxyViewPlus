@@ -1,16 +1,11 @@
 /**
  * StaticData contains all static values used in the script.
  * @class
- * @returns {StaticData} - The StaticData class
- * @typedef {object} Config
- * @property {string} configVersion - The version of the config.
- * @property {Array} features - The features of the config.
- * @property {object} userInterface - The userInterface of the config.
- * @typedef {object} FeatureValueTable - A feature with the dataType ValueTable.
- * @typedef {object} FeatureValueList - A feature with the dataType ValueList.
- * @typedef {object} ValueListData - The data of a ValueList feature.
- * @typedef {object} FeatureGeneralSettings - A feature with the dataType GeneralSettings.
- * @typedef {object} GeneralSettingsData - The data of a GeneralSettings feature.
+ * @returns  {StaticData} - The StaticData class
+ * @typedef  {object}     Config
+ * @property {string}     configVersion - The version of the config.
+ * @property {Array}      features      - The features of the config.
+ * @property {object}     userInterface - The userInterface of the config.
  */
 export default class StaticData {
   // static values like the default config

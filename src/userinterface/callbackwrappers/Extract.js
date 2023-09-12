@@ -5,8 +5,8 @@
 export default class Extract {
   /**
    * Extracts the input data from a given input.
-   * @param {object} target - The event target (input) that triggered the callback
-   * @returns {object} - The formatted input data
+   * @param   {object} target - The event target (input) that triggered the callback
+   * @returns {object}        - The formatted input data
    * @static
    * @public
    */
@@ -31,7 +31,7 @@ export default class Extract {
 
   /**
    * Extracts the input data of both inputs (input pair) from a given row.
-   * @param {object} row - The row element
+   * @param   {object}      row - The row element
    * @returns {Array|undefined} - The extracted inputs
    * @static
    * @public
@@ -54,8 +54,8 @@ export default class Extract {
 
   /**
    * Extracts the parent row from a given input.
-   * @param {object} target - the target (input) that triggered the callback
-   * @returns {object} - The parent row
+   * @param   {object} target - the target (input) that triggered the callback
+   * @returns {object}        - The parent row
    * @static
    * @public
    */
@@ -66,8 +66,8 @@ export default class Extract {
 
   /**
    * Extracts the tabel body from a given addRowButton.
-   * @param {object} target - the target (input) that triggered the callback
-   * @returns {object} - The table body
+   * @param   {object} target - the target (input) that triggered the callback
+   * @returns {object}        - The table body
    * @static
    * @public
    */

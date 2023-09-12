@@ -4,11 +4,14 @@ import HtmlElementFactory from '../../userinterface/factories/HtmlElementFactory
 
 /**
  * The DebugLog class is used to display debug logs in the settings interface.
+ * @class
  */
 export default class DebugLog {
   /**
    * Executes the DebugLog class.
    * @returns {void}
+   * @public
+   * @static
    */
   static execute() {
     const debugLog        = DebugLog.#getDebugLog()
@@ -20,9 +23,10 @@ export default class DebugLog {
 
   /**
    * Creates the debug log element.
+   * @param   {object} debugLog - The debug log
+   * @returns {object}          - The debug log element
    * @private
-   * @param {object} debugLog - The debug log
-   * @returns {object} - The debug log element
+   * @static
    */
   static #createDebugLogElement(debugLog) {
     const debugLogElement = HtmlElementFactory.create('div', { id: 'debug-log' })
@@ -36,8 +40,9 @@ export default class DebugLog {
 
   /**
    * Gets the debug log.
-   * @private
    * @returns {object} - The debug log
+   * @private
+   * @static
    */
   static #getDebugLog() {
     return StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.DEBUG_LOG)

@@ -7,7 +7,7 @@ import InputElement from '../htmlelements/InputElements.js'
 export default class InputElementFactory {
   /**
    * Creates a new InputElementFactory instance.
-   * @param   {string}  type - The type of the input element
+   * @param   {string}  type                   - The type of the input element
    * @param   {object}  options                - The options object for destructuring
    * @param   {object}  options.attributes     - The attributes of the element
    * @param   {boolean} options.checked        - The checked property of the input

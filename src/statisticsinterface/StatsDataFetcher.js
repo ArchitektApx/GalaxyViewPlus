@@ -11,6 +11,9 @@ export default class StatsDataFetcher {
    * Fetches the stats data from the server.
    * @returns {Promise} - The promise that resolves with the stats data
    * @throws {Error} - Throws an error if the request fails
+   * @async
+   * @public
+   * @static
    */
   static async fetchStatsJson() {
     return new Promise((resolve, reject) => {

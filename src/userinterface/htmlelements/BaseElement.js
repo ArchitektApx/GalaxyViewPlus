@@ -25,34 +25,26 @@ export default class BaseElement {
    * @class
    */
   constructor(tag, options = {}) {
-    const {
-      attributes     = {},
-      classList      = [],
-      children       = [],
-      color          = '',
-      eventListeners = {},
-      forId          = '',
-      open           = false,
-      id             = '',
-      style          = {},
-      textContent    = '',
-      title          = '',
-    } = options
+    const defaults = {
+      attributes     : {},
+      children       : [],
+      classList      : [],
+      color          : '',
+      eventListeners : {},
+      forId          : '',
+      id             : '',
+      open           : false,
+      style          : {},
+      textContent    : '',
+      title          : '',
+    }
+
+    // Merge options with defaults
+    const config = { ...defaults, ...options }
+    Object.assign(this, config)
+    this.tag = tag
 
     this.element = document.createElement(tag)
-
-    this.tag            = tag
-    this.attributes     = attributes
-    this.classList      = classList
-    this.children       = children
-    this.color          = color
-    this.eventListeners = eventListeners
-    this.forId          = forId
-    this.open           = open
-    this.id             = id
-    this.style          = style
-    this.textContent    = textContent
-    this.title          = title
   }
 
   /**

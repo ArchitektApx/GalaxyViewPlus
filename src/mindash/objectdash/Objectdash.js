@@ -71,6 +71,39 @@ export default class Objectdash {
   }
 
   /**
+   * Pick properties from an object and return a new object with the specified properties.
+   * @param   {object} object     - The object to pick properties from.
+   * @param   {Array}  properties - The properties to pick.
+   * @returns {object}            - The new object with the specified properties.
+   * @public
+   * @static
+   */
+  static pick(object, properties) {
+    return Object.fromEntries(
+      Object.entries(object).filter(([ key ]) => properties.includes(key))
+    )
+  }
+
+  /**
+   * from an Array of Objects pick a new key and value from each object and return a new object with the specified properties.
+   * @param   {Array}  array       - The array of objects to pick properties from.
+   * @param   {string} keyProperty - The property to pick as key.
+   * @param   {Array}  properties  - The properties to pick as values.
+   * @returns {object}             - The new object with the specified properties.
+   * @public
+   * @static
+   */
+  static pickFromArray(array, keyProperty, properties) {
+    const result = {}
+    array.forEach((item) => {
+      const key    = item[keyProperty]
+      const values = Objectdash.pick(item, properties)
+      result[key]  = values
+    })
+    return result
+  }
+
+  /**
    * Sets a nested value in an object using a string path.
    * @param   {object} object - The object to set the nested value in.
    * @param   {string} path   - The string path to the nested location.

@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import LogLevel         from '../../src/enum/LogLevel.js'
 import StaticData       from '../../src/staticdata/StaticData.js'
 import StatsDataParser  from '../../src/statisticsinterface/StatsDataParser.js' // Adjust the import path as needed

@@ -103,4 +103,21 @@ describe('Objectdash', () => {
       expect(object).toEqual({ a: [ { b: 'value' } ] })
     })
   })
+
+  describe('pick', () => {
+    it('should pick properties from an object', () => {
+      const object = { a: 1, b: 2, c: 3 }
+      expect(Objectdash.pick(object, [ 'a', 'b' ])).toEqual({ a: 1, b: 2 })
+    })
+  })
+
+  describe('pickFromArray', () => {
+    it('should pick properties from an array of objects', () => {
+      const array = [
+        { a: 1, b: 2, c: 3 },
+        { a: 4, b: 5, c: 6 },
+      ]
+      expect(Objectdash.pickFromArray(array, 'a', [ 'b', 'c' ])).toEqual({ 1: { b: 2, c: 3 }, 4: { b: 5, c: 6 } })
+    })
+  })
 })

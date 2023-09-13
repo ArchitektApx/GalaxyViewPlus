@@ -1,4 +1,5 @@
 import LogLevel         from '../enum/LogLevel.js'
+import Mindash          from '../mindash/Mindash.js'
 import StaticData       from '../staticdata/StaticData.js'
 import StorageInterface from '../storageinterface/StorageInterface.js'
 import Validator        from '../validator/Validator.js'
@@ -27,34 +28,22 @@ export default class StatsDataParser {
     StorageInterface.setStorageItem(StaticData.STORAGE_KEYS.UPDATE_STATUS, preupdateStatus)
     StatsDataParser.log('Parsing StatsData', LogLevel.DEBUG)
 
-    const result = {}
-
-    statsObject.forEach(
-      ({
-        playerId,
-        playerName,
-        allianceId,
-        allianceName,
-        rank,
-        researchRank,
-        buildingRank,
-        fleetRank,
-        defensiveRank,
-      }) => {
-        result[playerId] = ({
-          allianceId,
-          allianceName,
-          buildingRank,
-          defensiveRank,
-          fleetRank,
-          playerName,
-          rank,
-          researchRank,
-        })
-      }
+    const result = Mindash.pickFromArray(
+      statsObject,
+      'playerId',
+      [
+        'allianceId',
+        'allianceName',
+        'buildingRank',
+        'defensiveRank',
+        'fleetRank',
+        'playerName',
+        'rank',
+        'researchRank',
+      ]
     )
-
     StorageInterface.setStorageItem(StaticData.STORAGE_KEYS.STATS_DATA, result)
+
     const postupdateStatus = {
       status    : StatsDataParser.STATUS_FINISHED,
       timestamp : Validator.getTimestamp(),

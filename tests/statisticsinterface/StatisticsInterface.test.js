@@ -5,6 +5,7 @@ import LogLevel             from '../../src/enum/LogLevel.js'
 import StaticData           from '../../src/staticdata/StaticData.js'
 import StatisticsInterface  from '../../src/statisticsinterface/StatisticsInterface.js'
 import StatsDataFetcherMock from '../../src/statisticsinterface/StatsDataFetcher.js'
+import StatsDataLoaderMock  from '../../src/statisticsinterface/StatsDataLoader.js'
 import StorageInterfaceMock from '../../src/storageinterface/StorageInterface.js'
 import Validator            from '../../src/validator/Validator.js'
 
@@ -17,6 +18,10 @@ jest.mock('../../src/storageinterface/StorageInterface.js', () => ({
 
 jest.mock('../../src/statisticsinterface/StatsDataFetcher.js', () => ({
   fetchStatsJson: jest.fn(),
+}))
+
+jest.mock('../../src/statisticsinterface/StatsDataLoader.js', () => ({
+  fromStorage: jest.fn(),
 }))
 
 Validator.getTimestamp = jest.fn().mockReturnValue(99_999)
@@ -91,9 +96,7 @@ describe('StatisticsInterface', () => {
 
       const mockStatsData = { 123: { playerName: 'John' } }
 
-      StorageInterfaceMock.getStorageItem
-        .mockImplementationOnce(() => mockStatus)
-        .mockImplementationOnce(() => mockStatsData)
+      StatsDataLoaderMock.fromStorage.mockReturnValueOnce(mockStatsData)
 
       await instance.initialize()
 
@@ -246,20 +249,18 @@ describe('StatisticsInterface', () => {
 
       const mockStatsData = { 123: { playerName: 'John' } }
 
-      StorageInterfaceMock.getStorageItem
-        .mockImplementationOnce(() => mockStatus)
-        .mockImplementationOnce(() => mockStatsData)
+      StatsDataLoaderMock.fromStorage.mockImplementationOnce(() => undefined)
 
       // Mock a failed fetch
       StatsDataFetcherMock.fetchStatsJson.mockRejectedValueOnce(new Error('Network error'))
 
-      StorageInterfaceMock.getStorageItem
+      StatsDataLoaderMock.fromStorage
         .mockImplementationOnce(() => mockStatsData)
 
       await instance.initialize()
       expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(1, 'StatsData will be refreshed', LogLevel.DEBUG, 'StatisticsInterface', '')
       expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(2, 'Error while downloading StatsData:', LogLevel.WARN, 'StatisticsInterface', '')
-      expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(4, 'Old StatsData found in storage', LogLevel.DEBUG, 'StatisticsInterface', '')
+      expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(4, 'Try using old StatsData as fallback if available', LogLevel.DEBUG, 'StatisticsInterface', '')
       expect(instance.statsData).toEqual(mockStatsData)
       expect(instance.statsAvailable).toBeTruthy()
     })

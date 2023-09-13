@@ -1,9 +1,8 @@
 import LogLevel         from '../enum/LogLevel.js'
-import Mindash          from '../mindash/Mindash.js'
-import StaticData       from '../staticdata/StaticData.js'
 import StorageInterface from '../storageinterface/StorageInterface.js'
-import Validator        from '../validator/Validator.js'
 import StatsDataFetcher from './StatsDataFetcher.js'
+import StatsDataLoader  from './StatsDataLoader.js'
+import StatsDataParser  from './StatsDataParser.js'
 
 /**
  * The StatisticsInterface is a singleton class that manages the stats data.
@@ -83,84 +82,7 @@ export default class StatisticsInterface {
    * @public
    */
   async initialize() {
-    await this.#checkDataStatus()
-  }
-
-  // private methods
-  /**
-   * checks if the stats data is valid and loads it from storage if it is
-   * else it fetches the stats data from the server
-   * @returns {void|Promise} - The promise that resolves with the stats data
-   * @async
-   * @private
-   */
-  async #checkDataStatus() {
-    const status    = StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.UPDATE_STATUS)
-    const statsData = StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.STATS_DATA)
-
-    if (
-      !Mindash.isEmptyObject(statsData)
-      && StatisticsInterface.#isDataValid(status)
-    ) {
-      this.statsData      = statsData
-      this.statsAvailable = true
-      StatisticsInterface.log('StatsData successfully loaded from storage', LogLevel.DEBUG)
-    } else {
-      StatisticsInterface.log('StatsData will be refreshed', LogLevel.DEBUG)
-      await this.#fetchAndProcessStats()
-    }
-  }
-
-  /**
-   * extracts the stats data from the stats object and writes it to storage
-   * @param   {object} statsObject - The stats object
-   * @returns {void}
-   * @private
-   */
-  #extractFromStatsObject(statsObject) {
-    const updateStatus = {
-      status    : StatisticsInterface.STATUS_IN_PROGRESS,
-      timestamp : Validator.getTimestamp(),
-    }
-
-    StorageInterface.setStorageItem(StaticData.STORAGE_KEYS.UPDATE_STATUS, updateStatus)
-    StatisticsInterface.log('Parsing StatsData', LogLevel.DEBUG)
-
-    const result = {}
-
-    statsObject.forEach(
-      ({
-        playerId,
-        playerName,
-        allianceId,
-        allianceName,
-        rank,
-        researchRank,
-        buildingRank,
-        fleetRank,
-        defensiveRank,
-      }) => {
-        result[playerId] = ({
-          allianceId,
-          allianceName,
-          buildingRank,
-          defensiveRank,
-          fleetRank,
-          playerName,
-          rank,
-          researchRank,
-        })
-      }
-    )
-
-    StorageInterface.setStorageItem(StaticData.STORAGE_KEYS.STATS_DATA, result)
-    this.statsData      = result
-    this.statsAvailable = true
-
-    updateStatus.status    = StatisticsInterface.STATUS_FINISHED
-    updateStatus.timestamp = Validator.getTimestamp()
-    StorageInterface.setStorageItem(StaticData.STORAGE_KEYS.UPDATE_STATUS, updateStatus)
-    StatisticsInterface.log('StatsData was parsed and written to storage', LogLevel.DEBUG)
+    await this.#loadStatsData()
   }
 
   /**
@@ -175,7 +97,9 @@ export default class StatisticsInterface {
       const result = await StatsDataFetcher.fetchStatsJson()
 
       if (result.status === 200) {
-        this.#processStatsData(result)
+        StatisticsInterface.log('StatsData was successfully downloaded', LogLevel.DEBUG)
+        this.statsData      = StatsDataParser.processStatsData(result)
+        this.statsAvailable = true
       } else {
         this.#handleErrorInFetching(result)
       }
@@ -194,32 +118,31 @@ export default class StatisticsInterface {
     StatisticsInterface.log('Error while downloading StatsData:', LogLevel.WARN)
     StatisticsInterface.log('Response was:', LogLevel.WARN, response)
 
-    const statsData = StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.STATS_DATA) || {}
-
-    if (Object.keys(statsData).length === 0) {
-      StatisticsInterface.log('No old StatsData found in storage', LogLevel.DEBUG)
-
-      return
-    }
-
-    StatisticsInterface.log('Old StatsData found in storage', LogLevel.DEBUG)
+    StatisticsInterface.log('Try using old StatsData as fallback if available', LogLevel.DEBUG)
+    const statsData     = StatsDataLoader.fromStorage(true)
     this.statsData      = statsData
     this.statsAvailable = true
   }
 
   /**
-   * processes the stats data by extracting it from the response object
-   * @param   {object} response - The response object
-   * @returns {void}
+   * checks if the stats data is valid and loads it from storage if it is
+   * else it fetches the stats data from the server
+   * @returns {void|Promise} - The promise that resolves with the stats data
+   * @async
    * @private
    */
-  #processStatsData(response) {
-    StatisticsInterface.log('StatsData was successfully downloaded', LogLevel.DEBUG)
+  async #loadStatsData() {
+    const statsData = StatsDataLoader.fromStorage()
 
-    const statsObject = JSON.parse(response.responseText)
+    if (statsData) {
+      this.statsData      = statsData
+      this.statsAvailable = true
+      StatisticsInterface.log('StatsData successfully loaded from storage', LogLevel.DEBUG)
+      return
+    }
 
-    StatisticsInterface.log('Starting StatsData parsing', LogLevel.DEBUG)
-    this.#extractFromStatsObject(statsObject)
+    StatisticsInterface.log('StatsData will be refreshed', LogLevel.DEBUG)
+    await this.#fetchAndProcessStats()
   }
 
   /**
@@ -232,31 +155,6 @@ export default class StatisticsInterface {
    */
   static log(message, level = LogLevel.INFO, error = '') {
     StorageInterface.writeLog(message, level, StatisticsInterface.#logName, error)
-  }
-
-  /**
-   * checks if the stats data is valid
-   * @param   {object} status - The status object
-   * @returns {boolean} - True if the stats data is valid
-   * @private
-   * @static
-   */
-  static #isDataValid(status) {
-    // current time
-    const currentTime = new Date()
-    // current hours
-    const currentHours = currentTime.getHours()
-
-    // last interval time (0, 6, 12, 18) with delay to a time object
-    const lastIntervalHours = currentHours - (currentHours % StaticData.UPDATE_INTERVAL)
-    const lastIntervalTime  = new Date()
-
-    lastIntervalTime.setHours(lastIntervalHours, StaticData.UPDATE_INTERVAL_DELAY, 0, 0)
-
-    return (
-      (status?.status === StatisticsInterface.STATUS_FINISHED)
-      && (status?.timestamp > lastIntervalTime)
-    )
   }
 
   /**

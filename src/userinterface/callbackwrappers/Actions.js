@@ -23,7 +23,7 @@ export default class Action {
   }
 
   /**
-   * Action for Generic Inputs (SaveButton, ResetButton, SortCheckbox) that only extract
+   * Action for Generic Inputs (SaveButton, ResetButton) that only extract
    * the input data and execute the callback function.
    * @param   {object}   event_           - The event
    * @param   {Function} callbackFunction - The callback function to be executed

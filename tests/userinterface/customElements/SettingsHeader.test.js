@@ -82,24 +82,6 @@ describe('SettingsHeader', () => {
       attributes     : { 'data-lastvalue': true },
       eventListeners : CallbackWrapperFactory.create('ActiveCheckBox', configCallback),
     })
-    expect(InputElementFactory.create).toHaveBeenCalledWith('checkbox', {
-      checked        : true,
-      name           : 'test-prefix-header-sort-checkbox',
-      id             : 'test-prefix-header-sort-checkbox',
-      classList      : [ 'feature-header-sortCheckbox' ],
-      attributes     : { 'data-lastvalue': true },
-      eventListeners : CallbackWrapperFactory.create('SortCheckbox', configCallback),
-    })
-  })
-
-  it('should not append sort checkbox if config.sortData is false', () => {
-    config.sortData = false
-
-    const instance = new SettingsHeader(config, configCallback)
-
-    const sortCheckboxCalls = InputElementFactory.create.mock.calls.filter(call => call[1].id === 'test-prefix-header-sort-checkbox')
-
-    expect(sortCheckboxCalls).toHaveLength(0)
   })
 
   it('should return the created element', () => {

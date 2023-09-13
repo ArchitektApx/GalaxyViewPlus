@@ -1,14 +1,13 @@
-import LogLevel             from '../enum/LogLevel.js'
-import Mindash              from '../mindash/Mindash.js'
-import StaticData           from '../staticdata/StaticData.js'
-import StorageInterface     from '../storageinterface/StorageInterface.js'
-import Validator            from '../validator/Validator.js'
-import ChangeDataCommand    from './commands/ChangeDataCommand.js'
-import ChangeSortingCommand from './commands/ChangeSortingCommand.js'
-import ChangeStatusCommand  from './commands/ChangeStatusCommand.js'
-import RemoveRowCommand     from './commands/RemoveRowCommand.js'
-import ResetConfigCommand   from './commands/ResetConfigCommand.js'
-import SaveConfigCommand    from './commands/SaveConfigCommand.js'
+import LogLevel            from '../enum/LogLevel.js'
+import Mindash             from '../mindash/Mindash.js'
+import StaticData          from '../staticdata/StaticData.js'
+import StorageInterface    from '../storageinterface/StorageInterface.js'
+import Validator           from '../validator/Validator.js'
+import ChangeDataCommand   from './commands/ChangeDataCommand.js'
+import ChangeStatusCommand from './commands/ChangeStatusCommand.js'
+import RemoveRowCommand    from './commands/RemoveRowCommand.js'
+import ResetConfigCommand  from './commands/ResetConfigCommand.js'
+import SaveConfigCommand   from './commands/SaveConfigCommand.js'
 
 /**
  * The ConfigManager is a singleton class that manages the config.
@@ -131,12 +130,11 @@ export default class ConfigManager {
    */
   #initCommands() {
     this.commandMap = {
-      changeData    : { class: ChangeDataCommand,    systemInput: this.#runningConfig           },
-      changeSorting : { class: ChangeSortingCommand, systemInput: this.#runningConfig           },
-      changeStatus  : { class: ChangeStatusCommand,  systemInput: this.#runningConfig           },
-      removeRow     : { class: RemoveRowCommand,     systemInput: this.#runningConfig           },
-      resetConfig   : { class: ResetConfigCommand,   systemInput: this.#resetConfig.bind(this)  },
-      saveConfig    : { class: SaveConfigCommand,    systemInput: this.#updateConfig.bind(this) },
+      changeData   : { class: ChangeDataCommand,    systemInput: this.#runningConfig           },
+      changeStatus : { class: ChangeStatusCommand,  systemInput: this.#runningConfig           },
+      removeRow    : { class: RemoveRowCommand,     systemInput: this.#runningConfig           },
+      resetConfig  : { class: ResetConfigCommand,   systemInput: this.#resetConfig.bind(this)  },
+      saveConfig   : { class: SaveConfigCommand,    systemInput: this.#updateConfig.bind(this) },
     }
   }
 

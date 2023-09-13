@@ -64,31 +64,6 @@ export default class SettingsHeader {
         }
       )
     )
-
-    if (config.sortData) {
-      this.element.append(
-        HtmlElementFactory.create(
-          'label',
-          {
-            forId       : `${ this.prefix }sort-checkbox`,
-            textContent : 'Sortieren:',
-          }
-        )
-      )
-      this.element.append(
-        InputElementFactory.create(
-          'checkbox',
-          {
-            attributes     : { 'data-lastvalue': config.active },
-            checked        : config.sortData,
-            classList      : [ `${ this.baseClass }-sortCheckbox` ],
-            eventListeners : CallbackWrapperFactory.create('SortCheckbox', configCallback),
-            id             : `${ this.prefix }sort-checkbox`,
-            name           : `${ this.prefix }sort-checkbox`,
-          }
-        )
-      )
-    }
   }
 
   /**

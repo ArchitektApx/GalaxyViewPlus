@@ -44,7 +44,6 @@ describe('ConfigManager', () => {
       const manager = new ConfigManager()
 
       expect(manager.commandMap.changeData).toBeDefined()
-      expect(manager.commandMap.changeSorting).toBeDefined()
       expect(manager.commandMap.changeStatus).toBeDefined()
       expect(manager.commandMap.removeRow).toBeDefined()
       expect(manager.commandMap.resetConfig).toBeDefined()

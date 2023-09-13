@@ -16,7 +16,7 @@ export default class StaticData {
   static DEBUG_LOG_MAX_ENTRIES = 20
   // default config of this build
   static DEFAULT_CONFIG = {
-    configVersion : '1.0.6',
+    configVersion : '1.0.7',
     features      : [
       {
         active           : true,
@@ -30,7 +30,6 @@ export default class StaticData {
         keyDisplayName   : 'Username',
         keyInputType     : 'text',
         keyName          : 'Username',
-        sortData         : true,
         valueDefault     : '#ffa700',
         valueDescription : 'Die Farbe welche für den Usernamen verwendet wird',
         valueDisplayName : 'Farbe',
@@ -53,7 +52,6 @@ export default class StaticData {
         keyDisplayName   : 'Rank',
         keyInputType     : 'number',
         keyName          : 'Rank',
-        sortData         : true,
         valueDefault     : '#2cba00',
         valueDescription : 'Die Farbe welche für den Rang verwendet wird',
         valueDisplayName : 'Farbe',
@@ -314,10 +312,8 @@ export default class StaticData {
     { op: 'remove', path: [ 'features', 2, 'data' ] },
     { op: 'remove', path: [ 'features', 2, 'active' ] },
     { op: 'remove', path: [ 'features', 1, 'data' ] },
-    { op: 'remove', path: [ 'features', 1, 'sortData' ] },
     { op: 'remove', path: [ 'features', 1, 'active' ] },
     { op: 'remove', path: [ 'features', 0, 'data' ] },
-    { op: 'remove', path: [ 'features', 0, 'sortData' ] },
     { op: 'remove', path: [ 'features', 0, 'active' ] },
   ]
 

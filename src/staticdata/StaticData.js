@@ -187,14 +187,14 @@ export default class StaticData {
         data: [
           {
             checked          : true,
-            displayName      : 'Sync shortcut auf E',
+            displayName      : 'Sync Shortcut auf E',
             inputType        : 'checkbox',
             key              : 'syncbutton',
             value            : 'syncbutton',
             valueDescription : 'Shortcut der den Sync Button auf die e-Taste legt',
           },
           {
-            checked          : true,
+            checked          : false,
             displayName      : 'Debug Infos anzeigen',
             inputType        : 'checkbox',
             key              : 'debugInfo',
@@ -202,7 +202,7 @@ export default class StaticData {
             valueDescription : 'Zeigt Informationen über das Script an',
           },
           {
-            checked          : true,
+            checked          : false,
             displayName      : 'Debug Log anzeigen',
             inputType        : 'checkbox',
             key              : 'debugLog',

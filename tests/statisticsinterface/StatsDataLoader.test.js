@@ -21,7 +21,7 @@ describe('StatsDataLoader', () => {
       // Mock the storage calls
       StorageInterface.getStorageItem.mockReturnValueOnce({
         status    : StatsDataLoader.STATUS_FINISHED,
-        timestamp : Date.now(Date.now()),
+        timestamp : Date.now(),
       })
       StorageInterface.getStorageItem.mockReturnValueOnce({ key: 'value' })
 

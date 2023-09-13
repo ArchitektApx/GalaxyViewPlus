@@ -18,39 +18,36 @@ export default class SettingsInterface {
     const config                                 = configManagerInstance.getCurrentConfig()
     const actionCallback                         = configManagerInstance.getActionCallback()
     const { features, userInterface: { title } } = config
+    const prefix                                 = 'settings-interface'
 
-    this.element = HtmlElementFactory.create('div', { id: 'settings-interface-wrapper' })
+    this.element = HtmlElementFactory.create('div', { id: `${ prefix }-wrapper` })
 
-    const details = HtmlElementFactory.create('details', { id: 'settings-interface-details' })
-    const summary = HtmlElementFactory.create('summary', { id: 'settings-interface-summary' })
+    const details = HtmlElementFactory.create('details', {
+      id       : `${ prefix }-details`,
+      children : [
+        HtmlElementFactory.create('summary', { id: `${ prefix }-summary`, title: title }),
 
-    summary.textContent = title
+        ...features.map(feature => FeatureSettingsFactory.create(feature, actionCallback)),
 
-    const featureSettings = features.map(
-      feature => FeatureSettingsFactory.create(feature, actionCallback)
-    )
-
-    details.append(summary)
-    featureSettings.map(feature => details.append(feature))
-
-    const footer     = HtmlElementFactory.create('div', { id: 'settings-interface-footer' })
-    const SaveButton = ButtonElementFactory.create('save', {
-      classList      : 'settings-save-button',
-      eventListeners : CallbackWrapperFactory.create('SaveConfig', actionCallback),
-      id             : 'save-button',
-      textContent    : 'Speichern',
+        HtmlElementFactory.create('div', {
+          id       : 'settings-interface-footer',
+          children : [
+            ButtonElementFactory.create('save', {
+              classList      : 'settings-save-button',
+              eventListeners : CallbackWrapperFactory.create('SaveConfig', actionCallback),
+              id             : 'save-button',
+              textContent    : 'Speichern',
+            }),
+            ButtonElementFactory.create('reset', {
+              classList      : 'settings-reset-button',
+              eventListeners : CallbackWrapperFactory.create('ResetConfig', actionCallback),
+              id             : 'reset-button',
+              textContent    : 'Zurücksetzen',
+            }),
+          ],
+        }),
+      ],
     })
-
-    const ResetButton = ButtonElementFactory.create('reset', {
-      classList      : 'settings-reset-button',
-      eventListeners : CallbackWrapperFactory.create('ResetConfig', actionCallback),
-      id             : 'reset-button',
-      textContent    : 'Zurücksetzen',
-    })
-
-    footer.append(SaveButton)
-    footer.append(ResetButton)
-    details.append(footer)
 
     this.element.append(details)
   }

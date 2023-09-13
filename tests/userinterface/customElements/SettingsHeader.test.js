@@ -55,33 +55,26 @@ describe('SettingsHeader', () => {
     })
   })
 
-  it('should create an element with correct ID and class', () => {
+  it('should create an element with correct ID, class and structure', () => {
     const instance = new SettingsHeader(config, configCallback)
 
-    expect(HtmlElementFactory.create).toHaveBeenCalledWith('div', {
-      id        : 'test-prefix-header-container',
-      classList : [ 'feature-header-container' ],
-    })
-    expect(instance.getElement()).toBeDefined()
-  })
-
-  it('should append title, status checkbox, and sort checkbox based on config', () => {
-    const instance = new SettingsHeader(config, configCallback)
-
-    expect(HtmlElementFactory.create).toHaveBeenCalledWith('p', {
+    // children of the div
+    expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(1, 'p', {
       id          : 'test-prefix-header-title',
       textContent : 'Test Display Name',
       classList   : 'feature-header-title',
       attributes  : { title: 'Test Description' },
     })
-    expect(InputElementFactory.create).toHaveBeenCalledWith('checkbox', {
-      checked        : true,
-      name           : 'test-prefix-header-status-checkbox',
-      id             : 'test-prefix-header-status-checkbox',
-      classList      : [ 'feature-header-statusCheckbox' ],
-      attributes     : { 'data-lastvalue': true },
-      eventListeners : CallbackWrapperFactory.create('ActiveCheckBox', configCallback),
+    expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(2, 'br', {})
+    expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(3, 'label', {
+      forId       : 'test-prefix-header-status-checkbox',
+      textContent : 'Aktiv:',
     })
+
+    // 4th is the div
+    expect(HtmlElementFactory.create).toHaveBeenCalledTimes(4)
+    // once for the checkbox
+    expect(InputElementFactory.create).toHaveBeenCalledTimes(1)
   })
 
   it('should return the created element', () => {

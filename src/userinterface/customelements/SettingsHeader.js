@@ -17,53 +17,32 @@ export default class SettingsHeader {
   constructor(config, configCallback) {
     this.prefix    = `${ config.htmlPrefix }-header-`
     this.baseClass = 'feature-header'
-    this.element   = HtmlElementFactory.create(
-      'div',
-      {
-        classList : [ `${ this.baseClass }-container` ],
-        id        : `${ this.prefix }container`,
-      }
-    )
 
-    this.element.append(
-      HtmlElementFactory.create(
-        'p',
-        {
+    this.element = HtmlElementFactory.create('div', {
+      classList : [ `${ this.baseClass }-container` ],
+      id        : `${ this.prefix }container`,
+      children  : [
+        HtmlElementFactory.create('p', {
           attributes  : { title: config.description },
           classList   : `${ this.baseClass }-title`,
           id          : `${ this.prefix }title`,
           textContent : config.displayName,
-        }
-      )
-    )
-
-    this.element.append(
-      HtmlElementFactory.create('br', {})
-    )
-
-    this.element.append(
-      HtmlElementFactory.create(
-        'label',
-        {
-          forId       : `${ this.prefix }-status-checkbox`,
+        }),
+        HtmlElementFactory.create('br', {}),
+        HtmlElementFactory.create('label', {
+          forId       : `${ this.prefix }status-checkbox`,
           textContent : 'Aktiv:',
-        }
-      )
-    )
-
-    this.element.append(
-      InputElementFactory.create(
-        'checkbox',
-        {
+        }),
+        InputElementFactory.create('checkbox', {
           attributes     : { 'data-lastvalue': config.active },
           checked        : config.active,
           classList      : [ `${ this.baseClass }-statusCheckbox` ],
           eventListeners : CallbackWrapperFactory.create('StatusCheckbox', configCallback),
           id             : `${ this.prefix }status-checkbox`,
           name           : `${ this.prefix }status-checkbox`,
-        }
-      )
-    )
+        }),
+      ],
+    })
   }
 
   /**

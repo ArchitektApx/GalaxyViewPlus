@@ -96,9 +96,9 @@ describe('StorageInterface', () => {
       expect(console.log).toHaveBeenCalledWith(expect.stringContaining('Failed to delete a key from Storage'))
     })
 
-    it('should handle errors while retrieving from storage', () => {
+    it('should handle errors while retrieving from storage by returning default value', () => {
       jest.spyOn(localStorage, 'getItem').mockImplementation(() => { throw new Error('Test Error') })
-      expect(StorageInterface.getStorageItem('testKey')).toBe(false)
+      expect(StorageInterface.getStorageItem('testKey')).toEqual({})
       expect(console.log).toHaveBeenCalledWith(expect.stringContaining('Failed to get a key from Storage'))
     })
 

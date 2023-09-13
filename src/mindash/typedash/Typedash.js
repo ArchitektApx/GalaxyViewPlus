@@ -189,16 +189,7 @@ export default class Typedash {
       throw new TypeError('Path must be a string.')
     }
 
-    const keys = []
-    path.split('.').forEach((value) => {
-      if (value.includes('[')) {
-        const [ key, ...rest ] = value.split('[')
-        keys.push(key, ...rest.map(k => k.replace(']', '')))
-      } else {
-        keys.push(value)
-      }
-    })
-    return keys
+    return Typedash.#splitPathsToKeys(path)
   }
 
   /**
@@ -215,5 +206,26 @@ export default class Typedash {
       return Object.entries(input)
     }
     return Typedash.forceArray(Typedash.defaultTo(input, []))
+  }
+
+  /**
+   * Converts a dot-notation string path to an array of keys.
+   * @param   {string}          path - The dot-notation path (e.g., 'a.b[0].c').
+   * @param paths
+   * @returns {Array<string|number>} - Array of keys representing the path.
+   * @private
+   * @static
+   */
+  static #splitPathsToKeys(paths) {
+    const keys = []
+    paths.split('.').forEach((value) => {
+      if (value.includes('[')) {
+        const [ key, ...rest ] = value.split('[')
+        keys.push(key, ...rest.map(k => k.replace(']', '')))
+      } else {
+        keys.push(value)
+      }
+    })
+    return keys
   }
 }

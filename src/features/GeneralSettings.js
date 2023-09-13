@@ -18,10 +18,6 @@ export default class GeneralSettings {
    * @static
    */
   static execute({ features: featureConfig }, startTime) {
-    const settings = featureConfig.find(feature => feature.feature === 'generalsettings')
-
-    if (!settings) { return } // Return early if the settings are not found
-
     const classMap = {
       configOpen : { Class: ConfigOpen,           params: undefined },
       debugInfo  : { Class: DebugInfo,            params: startTime },
@@ -29,10 +25,12 @@ export default class GeneralSettings {
       syncbutton : { Class: SyncButtonShortcut,   params: undefined },
     }
 
-    settings.data.forEach((setting) => {
-      if (setting.checked) {
+    const settings = featureConfig.find(feature => feature.feature === 'generalsettings')
+    if (settings?.data) {
+      settings.data.filter(setting => setting.checked)
+      .forEach((setting) => {
         classMap[setting.key].Class.execute(classMap[setting.key].params)
-      }
-    })
+      })
+    }
   }
 }

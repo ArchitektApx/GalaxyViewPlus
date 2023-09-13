@@ -92,6 +92,40 @@ export default class ConfigManager {
   }
 
   /**
+   * handles loadConfig case where the config is empty
+   * @private
+   */
+  #handleEmptyConfig() {
+    ConfigManager.log('config is empty. loading default config.', LogLevel.WARN)
+    this.#runningConfig = StaticData.DEFAULT_CONFIG
+    this.#saveConfig()
+  }
+
+  /**
+   * handles loadConfig case where the config is invalid
+   * @param  {object} storedConfig - The config from storage
+   * @private
+   */
+  #handleInvalidConfig(storedConfig) {
+    ConfigManager.log('config is invalid or needs an update. starting migration', LogLevel.WARN)
+    this.#runningConfig = Validator.migrateConfig(storedConfig, StaticData.DEFAULT_CONFIG)
+    // ask users so we have a chance to prevent reload loops incase the config is invalid
+    // eslint-disable-next-line no-restricted-globals
+    const response = confirm('Deine Config war ungültig oder hat ein Update benötigt und wurde daher migriert. Willst du die migrierte Config speichern und neu laden?')
+    this.#saveConfig(response)
+  }
+
+  /**
+   * handles loadConfig case where the config is valid
+   * @param  {object} storedConfig - The config from storage
+   * @private
+   */
+  #handleValidConfig(storedConfig) {
+    ConfigManager.log('using valid config from storage', LogLevel.DEBUG)
+    this.#runningConfig = storedConfig
+  }
+
+  /**
    * initializes the commandMap
    * @private
    */
@@ -116,25 +150,17 @@ export default class ConfigManager {
     const storedConfig = StorageInterface.getStorageItem(storageKeys.USER_CONFIG, '{}')
 
     if (Mindash.isEmptyObject(storedConfig)) {
-      ConfigManager.log('config is empty. loading default config.', LogLevel.WARN)
-      this.#runningConfig = StaticData.DEFAULT_CONFIG
-      this.#saveConfig()
+      this.#handleEmptyConfig()
       return
     }
 
     if (Validator.validateConfig(storedConfig)) {
-      ConfigManager.log('using valid config from storage', LogLevel.DEBUG)
-      this.#runningConfig = storedConfig
+      this.#handleValidConfig(storedConfig)
       return
     }
 
     // config exists but is not valid
-    ConfigManager.log('config is invalid or needs an update. starting migration', LogLevel.WARN)
-    this.#runningConfig = Validator.migrateConfig(storedConfig, StaticData.DEFAULT_CONFIG)
-    // ask users so we have a chance to prevent reload loops incase the config is invalid
-    // eslint-disable-next-line no-restricted-globals
-    const response = confirm('Deine Config war ungültig oder hat ein Update benötigt und wurde daher migriert. Willst du die migrierte Config speichern und neu laden?')
-    this.#saveConfig(response)
+    this.#handleInvalidConfig(storedConfig)
   }
 
   /**

@@ -37,19 +37,16 @@ export default class Extract {
    * @public
    */
   static extractInputPairData(row) {
-    if (!row.children || row.children.length < 2) {
-      console.error('Error: The row does not have the expected number of children.')
-      return
+    if (row.children && row.children.length === 2) {
+      const {
+        children: [
+          { firstChild: keyInput },
+          { firstChild: valueInput },
+        ],
+      } = row
+
+      return [ keyInput, valueInput ].map(input => Extract.extractInputData(input))
     }
-
-    const {
-      children: [
-        { firstChild: keyInput },
-        { firstChild: valueInput },
-      ],
-    } = row
-
-    return [ keyInput, valueInput ].map(input => Extract.extractInputData(input))
   }
 
   /**

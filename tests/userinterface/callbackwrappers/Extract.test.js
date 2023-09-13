@@ -49,12 +49,12 @@ describe('Extract class', () => {
     expect(data.value).toBe(5)
   })
 
-  it('extractInputPairData method - no children', () => {
+  it('extractInputPairData method shoul fail silently with no children', () => {
     const row             = { children: [] }
     const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
     const result          = Extract.extractInputPairData(row)
     expect(result).toBeUndefined()
-    expect(consoleErrorSpy).toHaveBeenCalledWith('Error: The row does not have the expected number of children.')
+    expect(consoleErrorSpy).not.toHaveBeenCalled()
     consoleErrorSpy.mockRestore()
   })
 

@@ -27,38 +27,17 @@ export default class RankRecolor {
    * @public
    */
   execute(currentElement) {
-    const playerID    = currentElement.childNodes[1].attributes.playerid.value
-    const playerIDInt = Number.parseInt(playerID, 10)
+    const playerID = currentElement.childNodes[1].attributes.playerid.value
 
     // try to get user rank from StatsInterface else use fallback method
-    let userRank
+    const userRank    = this.#fetchUserRank(playerID, currentElement)
+    const rankElement = this.#createRankElement(userRank)
 
-    try {
-      userRank = this.statsInstance.getPlayerRank(playerIDInt, this.rankType)
-    } catch {
-      userRank             = RankRecolor.userRankFallback(currentElement)
-      this.rankDisplayName = 'Gesamt'
-    }
-
-    const rankElement = HtmlElementFactory.create('span', {})
-    const rankText    = `${ this.rankDisplayName }: ${ userRank }`
-
-    rankElement.append(HtmlElementFactory.create('br', {}))
-    rankElement.append(HtmlElementFactory.create('span', { textContent: rankText }))
-
-    const matchingRankData = this.rankRecolorData.sort(
-      (a, b) => b.key - a.key
-    ).find(data => userRank >= data.key)
-
-    if (matchingRankData) {
-      rankElement.style.color = matchingRankData.value
-    }
-
-    currentElement.parentNode.append(rankElement)
+    currentElement.parentNode.append(this.#setRankElementColor(rankElement, userRank))
   }
 
   /**
-   * Gets the rank type and display name. from the rankTypeData
+   * Gets the rank type and display name from the rankTypeData
    * @returns {void}
    * @public
    */
@@ -82,6 +61,56 @@ export default class RankRecolor {
     this.rankRecolorData = Mindash.isType(configData, []) ? configData : []
     this.statsInstance   = Mindash.defaultTo(parameters?.stats, {})
     this.rankTypeData    = Mindash.forceArray(Mindash.defaultTo(parameters?.rank, []))
+  }
+
+  /**
+   * Creates the rank element.
+   * @param   {string} userRank - The user rank
+   * @returns {HTMLElement}     - The rank element
+   * @private
+   */
+  #createRankElement(userRank) {
+    const rankElement = HtmlElementFactory.create('span', {})
+    const rankText    = `${ this.rankDisplayName }: ${ userRank }`
+
+    rankElement.append(HtmlElementFactory.create('br', {}))
+    rankElement.append(HtmlElementFactory.create('span', { textContent: rankText }))
+    return rankElement
+  }
+
+  /**
+   * Fetches the user rank from the stats instance or falls back to the html
+   * @param   {string}      playerID       - The player id
+   * @param   {HTMLElement} currentElement - The current element
+   * @returns {string}                     - The user rank
+   * @private
+   */
+  #fetchUserRank(playerID, currentElement) {
+    try {
+      return this.statsInstance.getPlayerRank(Number.parseInt(playerID, 10), this.rankType)
+    } catch {
+      this.rankDisplayName = 'Gesamt'
+      return RankRecolor.userRankFallback(currentElement)
+    }
+  }
+
+  /**
+   * Sets the rank element color.
+   * @param   {HTMLElement} rankElement - The rank element
+   * @param   {string}      userRank    - The user rank
+   * @returns {HTMLElement}             - The rank element
+   * @private
+   */
+  #setRankElementColor(rankElement, userRank) {
+    const matchingRankData = this.rankRecolorData.sort(
+      (a, b) => b.key - a.key
+    ).find(data => userRank >= data.key)
+
+    if (matchingRankData) {
+      rankElement.style.color = matchingRankData.value
+    }
+
+    return rankElement
   }
 
   /**

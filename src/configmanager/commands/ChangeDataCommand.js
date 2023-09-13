@@ -44,23 +44,14 @@ export default class ChangeDataCommand {
    * @static
    */
   static updateKeyValueData(data, key, value) {
-    // check if there is a line were both key and value match the lastvalue of the input,
-    // if not we can push it and return, even if it might be a copy
-    if (!(data.some(row => row.key === key.lastvalue && row.value === value.lastvalue))) {
+    const matchingRow = data.find(row => row.key === key.lastvalue && row.value === value.lastvalue)
+
+    if (matchingRow) {
+      matchingRow.key   = key.value
+      matchingRow.value = value.value
+    } else {
       data.push({ key: key.value, value: value.value })
-
-      return
     }
-
-    // get the row that is matching
-    const row = data.find(
-      datarow => datarow.key === key.lastvalue
-      && datarow.value === value.lastvalue
-    )
-
-    // update the row with the new values, we don't need to know exactly which one was changed
-    row.key   = key.value
-    row.value = value.value
   }
 
   /**
@@ -73,7 +64,7 @@ export default class ChangeDataCommand {
    */
   static updateValueData(data, value) {
     if (value.type === 'radio') {
-      data.forEach((datarow) => { datarow.checked = datarow.value === value.value })
+      ChangeDataCommand.updateValueDataRadio(data, value)
       return
     }
 
@@ -81,5 +72,17 @@ export default class ChangeDataCommand {
     value.type === 'checkbox'
       ? valueRow.checked = value.checked
       : valueRow.value   = value.value
+  }
+
+  /**
+   * Updates the data of the config for edge case of radio buttons.
+   * @param   {Array}  data  - The data to update
+   * @param   {object} value - The value to update
+   * @returns {void}
+   * @public
+   * @static
+   */
+  static updateValueDataRadio(data, value) {
+    data.forEach((datarow) => { datarow.checked = datarow.value === value.value })
   }
 }

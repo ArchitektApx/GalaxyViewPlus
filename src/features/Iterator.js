@@ -44,23 +44,20 @@ export default class Iterator {
    * @public
    */
   invokeFeatures(featureConfig) {
-    const positions = Mindash.mapAny(
-      [ ...document.querySelectorAll(Iterator.selector) ],
-      x => x.parentNode
-    )
+    const positions = Iterator.#getPositions()
 
-    // filter out inactive/invalid and create instances
-    featureConfig.filter(config => (
+    // filter out inactive/invalid features and create instances
+    featureConfig
+    .filter(config => (
       this.featureMap[config.feature] && config.active
     ))
-    .map(config => (
-      new this.featureMap[config.feature].Class(
+    .forEach((config) => {
+      const instance = new this.featureMap[config.feature].Class(
         config.data, this.featureMap[config.feature].params
       )
-    ))
-    .forEach(instance => (
+
       positions.forEach(position => instance.execute(position))
-    ))
+    })
   }
 
   /**
@@ -73,5 +70,18 @@ export default class Iterator {
    */
   static log(message, level = LogLevel.INFO, error = '') {
     StorageInterface.writeLog(message, level, Iterator.#logName, error)
+  }
+
+  /**
+   * Gets the positions of the elements to be iterated over.
+   * @returns {Array} - The positions
+   * @private
+   * @static
+   */
+  static #getPositions() {
+    return Mindash.mapAny(
+      [ ...document.querySelectorAll(Iterator.selector) ],
+      x => x.parentNode
+    )
   }
 }

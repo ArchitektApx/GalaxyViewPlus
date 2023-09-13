@@ -106,7 +106,7 @@ describe('RangeInfo', () => {
       const toolTipContent = "<table style='width:240px'><tr><th colspan='2'>Spieler architekt auf Platz 78</th></tr><tr><tr><td><a href='#' playerid='6177' onclick='return Dialog.Playercard(6177);'>Playercard</a></td></tr><tr><td><a href='?page=statistics&who=1&start=78'>Statistiken</a></td></tr><tr><th colspan='2'>Planeten</th></tr><tr><th colspan='2' style='text-align: center'><a href='https://pr0game.com/uni2/game.php?page=galaxy&galaxy=1&system=154'>[1:154:15] M</a></th></tr><tr><th colspan='2' style='text-align: center'><a href='https://pr0game.com/uni2/game.php?page=galaxy&galaxy=1&system=154'>[1:154:8]</a></th></tr><tr><th colspan='2' style='text-align: center'><a href='https://pr0game.com/uni2/game.php?page=galaxy&galaxy=1&system=17'>[1:17:8]</a></th></tr><tr><td colspan='2' style='text-align: center'><span>[1:31:10] M</span></td></tr><tr><td colspan='2' style='text-align: center'><span>[1:31:6]</span></td></tr><tr><td colspan='2' style='text-align: center'><span>[1:31:8]</span></td></tr><tr><th colspan='2' style='text-align: center'><a href='https://pr0game.com/uni2/game.php?page=galaxy&galaxy=1&system=384'>[1:384:10]</a></th></tr><tr><th colspan='2' style='text-align: center'><a href='https://pr0game.com/uni2/game.php?page=galaxy&galaxy=1&system=70'>[1:70:6]</a></th></tr></table>"
       const coords         = RangeInfo.getCoordsFromToolTip(toolTipContent)
       const totalRange     = rangeInfo.getTotalRange()
-      const nearByCounts   = RangeInfo.getNearbyCounts(coords, totalRange, '1')
+      const nearByCounts   = rangeInfo.getNearbyCounts(coords, totalRange)
       const correctResult  = { nearPlanets: 3, nearMoons: 1 }
 
       expect(nearByCounts).toEqual(correctResult)
@@ -175,9 +175,12 @@ describe('RangeInfo', () => {
 
   describe('getNearbyCounts', () => {
     it('should return near planets as 0 and near moons as 0 if none are found', () => {
-      const coords       = []
-      const totalRange   = [ 1, 2, 3, 4, 5 ]
-      const nearByCounts = RangeInfo.getNearbyCounts(coords, totalRange, '1')
+      const coords         = []
+      const totalRange     = [ 1, 2, 3, 4, 5 ]
+      const inputData      = [ { value: '25' }, { value: '1' }, { value: '400' } ]
+      const inputParameter = { currentGalaxy: '1', currentSystem: '31' }
+      const rangeInfo      = new RangeInfo(inputData, inputParameter)
+      const nearByCounts   = rangeInfo.getNearbyCounts(coords, totalRange)
 
       expect(nearByCounts).toEqual({ nearPlanets: 0, nearMoons: 0 })
     })

@@ -29,21 +29,7 @@ export default class Objectdash {
   static getNestedValueOrDefault(object, path, defaultValue) {
     const keys = Typedash.pathToKeys(path)
 
-    const diveDeep = (object_, remainingKeys) => {
-      if (remainingKeys.length === 0) {
-        return object_
-      }
-
-      const key = remainingKeys[0]
-
-      if (!Object.hasOwn(object_, key)) {
-        return defaultValue
-      }
-
-      return diveDeep(object_[key], remainingKeys.slice(1))
-    }
-
-    return diveDeep(object, keys)
+    return Objectdash.#diveDeep(object, keys, defaultValue)
   }
 
   /**
@@ -104,6 +90,28 @@ export default class Objectdash {
     })
 
     current[keys.at(-1)] = value
+  }
+
+  /**
+   * Nesting helper function for getNestedValueOrDefault.
+   * @param   {object} object_       - The object to get the nested value from.
+   * @param   {Array}  remainingKeys - The remaining keys in the path.
+   * @param   {*}      defaultValue  - The default value to return if the nested value doesn't exist.
+   * @returns {*}                    - The nested value or default value.
+   * @private
+   * @static
+   * @see     Objectdash.getNestedValueOrDefault
+   */
+  static #diveDeep(object_, remainingKeys, defaultValue) {
+    if (remainingKeys.length === 0) {
+      return object_
+    }
+
+    const key = remainingKeys[0]
+
+    return Object.hasOwn(object_, key)
+      ? Objectdash.#diveDeep(object_[key], remainingKeys.slice(1), defaultValue)
+      : defaultValue
   }
 
   /**

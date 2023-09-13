@@ -23,22 +23,25 @@ export default class RemoveRowCommand {
    */
   execute() {
     // Only Key Value Pairs can be removed so return if that's not the case
-    if (!Array.isArray(this.removeData) || this.removeData.length !== 2) {
-      return
-    }
-
-    const prefix  = this.removeData[0].id.split('-')[0]
-    const feature = this.config.features.find(
-      featureSettings => featureSettings.htmlPrefix === prefix
-    )
-
-    const filtered = feature.data.filter(
-      row => !(
-        row.key === this.removeData[0].value
-        && row.value === this.removeData[1].value
+    if (Array.isArray(this.removeData) && this.removeData.length === 2) {
+      const prefix  = this.removeData[0].id.split('-')[0]
+      const feature = this.config.features.find(
+        featureSettings => featureSettings.htmlPrefix === prefix
       )
-    )
 
-    feature.data = filtered
+      feature.data = this.#filterData(feature.data)
+    }
+  }
+
+  /**
+   * Filters the data of the feature (= removes matching rows).
+   * @param   {Array} featuredata - The data of the feature
+   * @returns {Array}             - The filtered data
+   * @private
+   */
+  #filterData(featuredata) {
+    return featuredata.filter(
+      row => !(row.key === this.removeData[0].value && row.value === this.removeData[1].value)
+    )
   }
 }

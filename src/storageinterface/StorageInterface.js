@@ -40,11 +40,10 @@ export default class StorageInterface {
    */
   static getStorageItem(key) {
     try {
-      return JSON.parse(localStorage.getItem(key) || '{}')
+      return JSON.parse(localStorage.getItem(key))
     } catch (error) {
       StorageInterface.log('Failed to get a key from Storage', LogLevel.ERROR, error)
-
-      return false
+      return {}
     }
   }
 

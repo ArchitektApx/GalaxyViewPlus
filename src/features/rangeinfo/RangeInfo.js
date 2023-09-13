@@ -38,7 +38,7 @@ export default class RangeInfo {
   execute(currentElement) {
     const totalRange  = this.getTotalRange()
     const coords      = RangeInfo.getCoordsFromToolTip(currentElement.dataset.tooltipContent)
-    const nearCounts  = RangeInfo.getNearbyCounts(coords, totalRange, this.currentGalaxy)
+    const nearCounts  = this.getNearbyCounts(coords, totalRange)
     const nearElement = RangeInfo.createNearElement(RangeInfo.formatNearText(nearCounts))
 
     currentElement.parentNode.append(nearElement)
@@ -58,6 +58,27 @@ export default class RangeInfo {
       { length: (end - start + range) % range },
       (_, index) => ((start + index - this.minSys) % range) + this.minSys
     )
+  }
+
+  /**
+   * Gets the nearby counts
+   * @param   {Array}  coords        - The coords to check
+   * @param   {Array}  totalRange    - The total range of systems to check
+   * @returns {object}               - The nearby counts
+   * @public
+   * @static
+   */
+  getNearbyCounts(coords, totalRange) {
+    this.nearPlanets = -1 // -1 to account for current planet
+    this.nearMoons   = 0;
+
+    [ ...coords ].forEach(([ , gala, sys,, moon ]) => {
+      this.#updateCounts(gala, sys, moon, totalRange)
+    })
+
+    if (this.nearPlanets === -1) { this.nearPlanets = 0 }
+
+    return { nearMoons: this.nearMoons, nearPlanets: this.nearPlanets }
   }
 
   /**
@@ -89,6 +110,33 @@ export default class RangeInfo {
           ...this.getCircularNumberRange(this.minSys, rangeEnd + 1) ]
 
     return [ ...rangeBefore, ...rangeAfter ]
+  }
+
+  /**
+   * Adds to the moon count if the moon exists
+   * @param   {string} moon      - The moon
+   * @returns {void}
+   * @private
+   */
+  #addMoonCount(moon) {
+    if (moon) { this.nearMoons++ }
+  }
+
+  /**
+   * Updates the Planet and Moon counts based on the current galaxy, system, and moon
+   * @param   {string} gala       - The galaxy
+   * @param   {string} sys        - The system
+   * @param   {string} moon       - The moon
+   * @param   {Array}  totalRange - The total range of systems to check
+   * @returns {void}
+   * @private
+   */
+  #updateCounts(gala, sys, moon, totalRange) {
+    const sysInt = Number.parseInt(sys, 10)
+    if (gala === this.currentGalaxy && totalRange.includes(sysInt)) {
+      this.nearPlanets++
+      this.#addMoonCount(moon)
+    }
   }
 
   /**
@@ -164,35 +212,5 @@ export default class RangeInfo {
       .split(':')
 
     return { currentGalaxy, currentSystem }
-  }
-
-  /**
-   * Gets the nearby counts
-   * @param   {Array}  coords        - The coords to check
-   * @param   {Array}  totalRange    - The total range of systems to check
-   * @param   {string} currentGalaxy - The current galaxy
-   * @returns {object}               - The nearby counts
-   * @public
-   * @static
-   */
-  static getNearbyCounts(coords, totalRange, currentGalaxy) {
-    let nearPlanets = -1 // -1 to account for current planet
-    let nearMoons   = 0;
-
-    [ ...coords ].map(
-      ([ , gala, sys, , moon ]) => ({ gala, moon, sys })
-    )
-    .filter((coordElement) => {
-      const sysInt = Number.parseInt(coordElement.sys, 10)
-      return coordElement.gala === currentGalaxy && totalRange.includes(sysInt)
-    })
-    .forEach((coordElement) => {
-      nearPlanets++
-      if (coordElement.moon) { nearMoons++ }
-    })
-
-    if (nearPlanets === -1) { nearPlanets = 0 }
-
-    return { nearMoons, nearPlanets }
   }
 }

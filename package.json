@@ -70,6 +70,7 @@
     "verbose": true
   },
   "dependencies": {
+    "fta-cli": "^0.2.0",
     "just-diff-apply": "^5.5.0"
   }
 }

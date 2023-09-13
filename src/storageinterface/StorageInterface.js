@@ -106,7 +106,7 @@ export default class StorageInterface {
    */
   static #createLogMessage(message, level, module) {
     const timestamp = new Date(Date.now()).toISOString()
-    return `[${ __scriptName__ }_${ module } ${ timestamp }] [${ level }]: ${ message }`
+    return `[${ module } ${ timestamp }] [${ level }]: ${ message }`
   }
 
   /**

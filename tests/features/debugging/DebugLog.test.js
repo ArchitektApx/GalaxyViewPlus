@@ -65,7 +65,7 @@ describe('DebugLog', () => {
     delete global.document
   })
 
-  it('should get debug log and append it after the last child of settings element', () => {
+  it('should get debug log and show them in reverse order', () => {
     const mockDebugLog = [ 'log1', 'log2', 'log3' ]
 
     StorageInterface.getStorageItem.mockReturnValue(mockDebugLog)
@@ -76,7 +76,7 @@ describe('DebugLog', () => {
 
     expect(debugLogElement.props.id).toBe('debug-log')
     expect(debugLogElement.children).toHaveLength(mockDebugLog.length)
-    mockDebugLog.forEach((log, index) => {
+    mockDebugLog.toReversed().forEach((log, index) => {
       expect(debugLogElement.children[index].props.textContent).toBe(log)
     })
   })

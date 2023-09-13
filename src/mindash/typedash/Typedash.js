@@ -61,7 +61,9 @@ export default class Typedash {
    * @static
    */
   static isEmptyArray(input) {
-    return Array.isArray(input) && Typedash.hasZeroLength(input)
+    return !!input
+    && Array.isArray(input)
+    && Typedash.hasZeroLength(input)
   }
 
   /**
@@ -72,7 +74,7 @@ export default class Typedash {
    * @static
    */
   static isEmptyObject(input) {
-    return typeof input === 'object'
+    return !!input // protect from null and undefined
       && Typedash.hasZeroLength(Object.keys(input))
       && input.constructor === Object
   }
@@ -210,8 +212,7 @@ export default class Typedash {
 
   /**
    * Converts a dot-notation string path to an array of keys.
-   * @param   {string}          path - The dot-notation path (e.g., 'a.b[0].c').
-   * @param paths
+   * @param   {string}         paths - The dot-notation path (e.g., 'a.b[0].c').
    * @returns {Array<string|number>} - Array of keys representing the path.
    * @private
    * @static

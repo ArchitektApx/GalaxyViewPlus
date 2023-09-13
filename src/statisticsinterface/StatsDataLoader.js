@@ -38,9 +38,7 @@ export default class StatsDataLoader {
    * @static
    */
   static isDataValid(statsData) {
-    console.log('StatsDataLoader.isDataValid')
-    console.dir(statsData)
-    return !Mindash.isEmptyObject(statsData)
+    return !Mindash.isEmptyObject(statsData || {})
   }
 
   /**
@@ -52,16 +50,8 @@ export default class StatsDataLoader {
    * @static
    */
   static isDataValidWithTimestamp(status, statsData) {
-    console.log('StatsDataLoader.isDataValidWithTimestamp')
-    console.dir(status)
-    console.dir(statsData)
-    console.log(!Mindash.isEmptyObject(statsData))
-    console.log(status?.status === StatsDataLoader.STATUS_FINISHED)
-    console.log(status?.timestamp)
-    console.log(status?.timestamp > StatsDataTimer.calculate())
-    console.log(StatsDataTimer.calculate())
     return (
-      !Mindash.isEmptyObject(statsData)
+      StatsDataLoader.isDataValid(statsData)
       && (status?.status === StatsDataLoader.STATUS_FINISHED)
       && (status?.timestamp > StatsDataTimer.calculate())
     )

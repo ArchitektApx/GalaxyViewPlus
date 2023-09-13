@@ -37,7 +37,7 @@ export default class Extract {
    * @public
    */
   static extractInputPairData(row) {
-    if (row.children && row.children.length === 2) {
+    if (row.children && row.children.length > 2) {
       const {
         children: [
           { firstChild: keyInput },

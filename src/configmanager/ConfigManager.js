@@ -77,7 +77,7 @@ export default class ConfigManager {
    * executes the command with the given actionType and inputData
    * @param  {string} actionType - The command to execute in the commandMap
    * @param  {object} inputData  - The data to pass to the command
-   * @public
+   * @private
    */
   #executeCommand(actionType, inputData) {
     const CommandClass     = this.commandMap[actionType].class
@@ -147,9 +147,9 @@ export default class ConfigManager {
   #loadConfig() {
     ConfigManager.log('loading config from storage', LogLevel.DEBUG)
     const storageKeys  = StaticData.STORAGE_KEYS
-    const storedConfig = StorageInterface.getStorageItem(storageKeys.USER_CONFIG, '{}')
+    const storedConfig = StorageInterface.getStorageItem(storageKeys.USER_CONFIG)
 
-    if (Mindash.isEmptyObject(storedConfig)) {
+    if (!Mindash.isSomething(storedConfig)) {
       this.#handleEmptyConfig()
       return
     }

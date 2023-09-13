@@ -6,7 +6,7 @@ describe('Extract class', () => {
   beforeEach(() => {
     target = {
       parentElement: {
-        children      : [ { firstChild: {} }, { firstChild: {} } ],
+        children      : [ { firstChild: {} }, { firstChild: {} }, { firstChild: {} } ],
         parentElement : {},
       },
     }

@@ -1,5 +1,6 @@
-import Mindash    from '../mindash/Mindash.js'
-import StaticData from '../staticdata/StaticData.js'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { diffApply } from 'just-diff-apply'
+import StaticData    from '../staticdata/StaticData.js'
 
 /**
  * The Validator class is a static class that provides methods to validate data.
@@ -32,15 +33,15 @@ export default class Validator {
   /**
    * returns a filtered deep copy of an object
    * @param   {object} object      - The object to copy
-   * @param   {Array}  ignorePaths - The paths to ignore within the features (user defined)
    * @returns {object}             - The copied object
+   * @throws  {Error}              - Throws an error if the object is not valid
    * @public
    * @static
    */
-  static getFilteredObject(object, ignorePaths = []) {
-    // see deletePropertyByPath for ignorePaths syntax explanation
-    const filteredObject = Validator.getObjectDeepCopy(object)
-    return Validator.#deletePropertyByPath(filteredObject, ignorePaths)
+  static getFilteredConfig(object) {
+    const deepCopy = Validator.getObjectDeepCopy(object)
+    diffApply(deepCopy, StaticData.JSON_PATCH_USERDATA)
+    return deepCopy
   }
 
   /**
@@ -154,21 +155,25 @@ export default class Validator {
    * validates a config object
    * @param   {object}  configObject  - The config object to validate
    * @param   {object}  defaultConfig - The default config to validate against
-   * @param   {Array}   ignorePaths   - The paths to ignore within the features (user defined)
    * @returns {boolean}               - True if the config object is valid
    * @public
    * @static
    */
   static validateConfig(
     configObject,
-    defaultConfig = StaticData.DEFAULT_CONFIG,
-    ignorePaths = StaticData.USER_DEFINED_FEATURE_PROPERTIES
+    defaultConfig = StaticData.DEFAULT_CONFIG
   ) {
-    // validate if a config object is valid (=everything besides user data matches the default config)
-    const filteredRunningConfig = Validator.getFilteredObject(configObject, ignorePaths)
-    const filteredDefaultConfig = Validator.getFilteredObject(defaultConfig, ignorePaths)
+    // get the filtered config objects (without user data)
+    let filteredRunning
+    // if usersdata paths are missing getFilteredConfig will throw => it's surely not valid
+    try {
+      filteredRunning = Validator.getFilteredConfig(configObject)
+    } catch {
+      return false
+    }
+    const filteredDefault = Validator.getFilteredConfig(defaultConfig)
 
-    return (Validator.isObjectEqual(filteredRunningConfig, filteredDefaultConfig))
+    return (Validator.isObjectEqual(filteredRunning, filteredDefault))
   }
 
   /**
@@ -198,44 +203,6 @@ export default class Validator {
   }
 
   /**
-   * Deletes properties from a feature within an object.
-   * @param   {object} feature      - The feature object.
-   * @param   {Array}  keysToRemove - The properties to delete.
-   * @returns {object}              - The feature without the deleted properties.
-   * @private
-   * @static
-   */
-  static #deletePropertiesFromFeature(feature, keysToRemove) {
-    keysToRemove.forEach((key) => {
-      delete feature[key]
-    })
-    return feature
-  }
-
-  /**
-   * Takes an object and user-defined feature properties and deletes them from the object.
-   * @param   {object} object            - The object to delete from.
-   * @param   {Array}  featureProperties - The properties to delete.
-   * @returns {object}                   - The object without the deleted properties.
-   * @private
-   * @static
-   */
-  static #deletePropertyByPath(object, featureProperties) {
-    if (!object?.features || !featureProperties) {
-      return object
-    }
-
-    const clone        = Validator.getObjectDeepCopy(object)
-    const keysToRemove = Mindash.forceArray(featureProperties)
-
-    clone.features = clone.features.map(
-      feature => this.#deletePropertiesFromFeature(feature, keysToRemove)
-    )
-
-    return clone
-  }
-
-  /**
    * helper for config migration to preserve user defined ata
    * @param   {object} oldFeature - the old config version containing the users config
    * @param   {object} newFeature - the new config version
@@ -247,6 +214,4 @@ export default class Validator {
     newFeature.data   = oldFeature.data || newFeature.data
     newFeature.active = oldFeature.active || newFeature.active
   }
-
-  // static private methods
 }

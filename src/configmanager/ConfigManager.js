@@ -131,7 +131,10 @@ export default class ConfigManager {
     // config exists but is not valid
     ConfigManager.log('config is invalid or needs an update. starting migration', LogLevel.WARN)
     this.#runningConfig = Validator.migrateConfig(storedConfig, StaticData.DEFAULT_CONFIG)
-    this.#saveConfig()
+    // ask users so we have a chance to prevent reload loops incase the config is invalid
+    // eslint-disable-next-line no-restricted-globals
+    const response = confirm('Deine Config war ungültig oder hat ein Update benötigt und wurde daher migriert. Willst du die migrierte Config speichern und neu laden?')
+    this.#saveConfig(response)
   }
 
   /**
@@ -147,11 +150,12 @@ export default class ConfigManager {
 
   /**
    * saves the config to storage
+   * @param  {boolean} reload - If true the page will be reloaded after saving
    * @private
    */
-  #saveConfig() {
+  #saveConfig(reload = true) {
     StorageInterface.setStorageItem(StaticData.STORAGE_KEYS.USER_CONFIG, this.#runningConfig)
-    document.location.reload()
+    if (reload) { document.location.reload() }
   }
 
   /**

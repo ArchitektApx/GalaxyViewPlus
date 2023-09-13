@@ -16,7 +16,7 @@ export default class StaticData {
   static DEBUG_LOG_MAX_ENTRIES = 20
   // default config of this build
   static DEFAULT_CONFIG = {
-    configVersion : '1.0.5',
+    configVersion : '1.0.6',
     features      : [
       {
         active           : true,
@@ -303,6 +303,24 @@ export default class StaticData {
     },
   }
 
+  // json patch definition to remove userdata from the config
+  static JSON_PATCH_USERDATA = [
+    { op: 'remove', path: [ 'features', 5, 'data' ] },
+    { op: 'remove', path: [ 'features', 5, 'active' ] },
+    { op: 'remove', path: [ 'features', 4, 'data' ] },
+    { op: 'remove', path: [ 'features', 4, 'active' ] },
+    { op: 'remove', path: [ 'features', 3, 'data' ] },
+    { op: 'remove', path: [ 'features', 3, 'active' ] },
+    { op: 'remove', path: [ 'features', 2, 'data' ] },
+    { op: 'remove', path: [ 'features', 2, 'active' ] },
+    { op: 'remove', path: [ 'features', 1, 'data' ] },
+    { op: 'remove', path: [ 'features', 1, 'sortData' ] },
+    { op: 'remove', path: [ 'features', 1, 'active' ] },
+    { op: 'remove', path: [ 'features', 0, 'data' ] },
+    { op: 'remove', path: [ 'features', 0, 'sortData' ] },
+    { op: 'remove', path: [ 'features', 0, 'active' ] },
+  ]
+
   // keys of all settings saved to storage
   static STORAGE_KEYS = {
     CLEANUP_STATUS : 'GalaxyViewPlus_CleanupStatus',
@@ -310,16 +328,10 @@ export default class StaticData {
     STATS_DATA     : 'GalaxyViewPlus_StatsData',
     UPDATE_STATUS  : 'GalaxyViewPlus_UpdateStatus',
     USER_CONFIG    : 'GalaxyViewPlus_Config',
-  }
+  } // allowed values are localStorage or GM
 
-  static STORAGE_TYPE = 'localStorage' // allowed values are localStorage or GM
-  static UPDATE_INTERVAL = 6 // in hours
-  static UPDATE_INTERVAL_DELAY = 2 // Minutes
-  static UPDATE_INTERVAL_STARTTIME = 0 // in hours
-  // properties in config.features.<property> which are user defined
-  static USER_DEFINED_FEATURE_PROPERTIES = [
-    'active',
-    'data',
-    'sortData',
-  ]
+  static STORAGE_TYPE = 'localStorage' // in hours
+  static UPDATE_INTERVAL = 6 // Minutes
+  static UPDATE_INTERVAL_DELAY = 2 // in hours
+  static UPDATE_INTERVAL_STARTTIME = 0
 }

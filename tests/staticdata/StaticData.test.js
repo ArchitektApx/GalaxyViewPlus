@@ -10,7 +10,7 @@ describe('StaticData', () => {
     expect(StaticData.UPDATE_INTERVAL).toBeDefined()
     expect(StaticData.UPDATE_INTERVAL_DELAY).toBeDefined()
     expect(StaticData.UPDATE_INTERVAL_STARTTIME).toBeDefined()
-    expect(StaticData.USER_DEFINED_FEATURE_PROPERTIES).toBeDefined()
+    expect(StaticData.JSON_PATCH_USERDATA).toBeDefined()
   })
 
   it('should have the correct keys for STORAGE_KEYS', () => {

@@ -23,70 +23,24 @@ describe('Validator', () => {
   })
 
   describe('getFilteredObject', () => {
-    it('should return an object without the specified paths', () => {
-      const object = {
-        features: [
-          { prop1: 'value1', prop2: 'value2', prop3: 'value3' } ],
-      }
+    it('should return a filtered deep copy of a valid config object', () => {
+      const object         = StaticData.DEFAULT_CONFIG
+      const filteredObject = Validator.getFilteredConfig(object)
 
-      const filteredObject = Validator.getFilteredObject(object, [ 'prop2' ])
-
-      expect(filteredObject).toEqual({
-        features: [
-          { prop1: 'value1', prop3: 'value3' } ],
-      })
+      expect(filteredObject.features).toHaveLength(6)
+      expect(filteredObject.features[0].feature).toBe('userRecolor')
+      expect(filteredObject.features[0].active).toBeUndefined()
+      expect(filteredObject.features[0].data).toBeUndefined()
+      expect(filteredObject.features[0].sortData).toBeUndefined()
+      expect(filteredObject.features[3].feature).toBe('rangeInfo')
+      expect(filteredObject.features[3].active).toBeUndefined()
+      expect(filteredObject.features[3].data).toBeUndefined()
     })
 
-    it('should return the same object if ignorepaths is empty', () => {
-      const object = {
-        features: [
-          { prop1: 'value1', prop2: 'value2', prop3: 'value3' } ],
-      }
+    it('should throw an error if the object is not valid', () => {
+      const object = { features: [ { feature: 'feature1', data: 'data1' } ] }
 
-      const filteredObject = Validator.getFilteredObject(object)
-
-      expect(filteredObject).toEqual(object)
-    })
-
-    it('should handle only one path as string', () => {
-      const object = {
-        features: [
-          { prop1: 'value1', prop2: 'value2', prop3: 'value3' } ],
-      }
-
-      const filteredObject = Validator.getFilteredObject(object, 'prop2')
-
-      expect(filteredObject).toEqual({
-        features: [
-          { prop1: 'value1', prop3: 'value3' } ],
-      })
-    })
-
-    it('should handle invalid paths', () => {
-      const object = {
-        features: [
-          { prop1: 'value1', prop2: 'value2', prop3: 'value3' } ],
-      }
-
-      const filteredObject = Validator.getFilteredObject(object, [ 'prop4' ])
-
-      expect(filteredObject).toEqual(object)
-    })
-
-    it('should handle empty input objects', () => {
-      const object = 'invalidObject'
-
-      const filteredObject = Validator.getFilteredObject(object, [ 'prop4' ])
-
-      expect(filteredObject).toEqual(object)
-    })
-
-    it('should handle empty object and empty string so #deletePropertyByPath uses its default parameters', () => {
-      const object = {}
-
-      const filteredObject = Validator.getFilteredObject(object, '')
-
-      expect(filteredObject).toEqual(object)
+      expect(() => Validator.getFilteredConfig(object)).toThrow()
     })
   })
 
@@ -299,37 +253,22 @@ describe('Validator', () => {
   })
 
   describe('validateConfig', () => {
-    it('should validate if a config object matches the default config', () => {
-      const configObject = {
-        features: [ { feature: 'feature1', data: 'oldData' } ],
-      }
+    it('should return true if config is valid', () => {
+      // load default config and modify some values users are allowed to modify
+      const object = StaticData.DEFAULT_CONFIG
+      object.features.forEach((feature) => { feature.active = false })
+      object.features[0].sortData = false
+      object.features[1].sortData = false
+      object.features[0].data     = [ { key: 'key1', value: 'value1' } ]
+      object.features[1].data     = [ { key: 'key2', value: 'value2' } ]
 
-      const defaultConfig = {
-        features: [ { feature: 'feature1', data: 'defaultData' } ],
-      }
-
-      expect(Validator.validateConfig(configObject, defaultConfig, [ 'data' ])).toBe(true)
+      expect(Validator.validateConfig(object)).toBe(true)
     })
 
-    it('should use default values if parameters are not provided', () => {
-      const configObject  = { features: [ { feature: 'feature1', data: 'oldData' } ] }
-      const defaultConfig = { features: [ { feature: 'feature1', data: 'defaultData' } ] }
+    it('should return false if config is invalid', () => {
+      const object = { features: [ { feature: 'feature1', data: 'data1' } ] }
 
-      StaticData.DEFAULT_CONFIG = defaultConfig
-
-      expect(Validator.validateConfig(configObject)).toBe(true)
-    })
-
-    it('should return false if config object does not match default config', () => {
-      const configObject = {
-        features: [ { feature: 'feature1', data: 'oldData' } ],
-      }
-
-      const defaultConfig = {
-        features: [ { feature: 'feature2', data: 'defaultData' } ],
-      }
-
-      expect(Validator.validateConfig(configObject, defaultConfig, [ 'data' ])).toBe(false)
+      expect(Validator.validateConfig(object)).toBe(false)
     })
   })
 })

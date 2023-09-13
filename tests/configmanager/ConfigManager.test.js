@@ -135,7 +135,8 @@ describe('ConfigManager', () => {
       jest.spyOn(Validator, 'validateConfig').mockReturnValueOnce(false)
       jest.spyOn(Validator, 'migrateConfig').mockReturnValueOnce({ migrated: 'config' })
 
-      const manager = new ConfigManager()
+      global.confirm = jest.fn(() => true)
+      const manager  = new ConfigManager()
 
       expect(manager.getCurrentConfig()).toEqual({ migrated: 'config' })
     })

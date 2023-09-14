@@ -31,7 +31,7 @@ export default class DebugLog {
   static #createDebugLogElement(debugLog) {
     const debugLogElement = HtmlElementFactory.create('div', { id: 'debug-log' })
 
-    debugLog.toReversed().forEach((log) => {
+    debugLog.reverse().forEach((log) => {
       debugLogElement.append(HtmlElementFactory.create('p', { textContent: `${ log }` }))
     })
 

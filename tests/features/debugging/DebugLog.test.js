@@ -76,8 +76,8 @@ describe('DebugLog', () => {
 
     expect(debugLogElement.props.id).toBe('debug-log')
     expect(debugLogElement.children).toHaveLength(mockDebugLog.length)
-    mockDebugLog.toReversed().forEach((log, index) => {
-      expect(debugLogElement.children[index].props.textContent).toBe(log)
+    mockDebugLog.forEach((log, index) => {
+      expect(debugLogElement.children[index].props.textContent).toBe(`${ log }`)
     })
   })
 

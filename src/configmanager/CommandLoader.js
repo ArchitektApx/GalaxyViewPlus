@@ -13,7 +13,7 @@ export default class CommandLoader {
    * @param   {object}   runningConfig - reference to the running config
    * @param   {Function} resetConfig   - bound function to reset the config
    * @param   {Function} saveConfig    - bound function to save the config
-   * @returns {object}               - The command map
+   * @returns {object}                 - The command map
    */
   static load(runningConfig, resetConfig, saveConfig) {
     return {

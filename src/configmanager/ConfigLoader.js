@@ -58,8 +58,8 @@ export default class ConfigLoader {
 
   /**
    * handles loadConfig case where the config is invalid
-   * @param  {object} storedConfig - The config from storage
-   * @returns {object}             - The config
+   * @param   {object} storedConfig - The config from storage
+   * @returns {object}              - The config
    * @private
    * @static
    */
@@ -75,8 +75,8 @@ export default class ConfigLoader {
 
   /**
    * handles loadConfig case where the config is valid
-   * @param  {object} storedConfig - The config from storage
-   * @returns {object}             - The config
+   * @param   {object} storedConfig - The config from storage
+   * @returns {object}              - The config
    * @private
    */
   static #handleValidConfig(storedConfig) {
@@ -98,8 +98,8 @@ export default class ConfigLoader {
 
   /**
    * saves the config to storage - ConfigLoader has it's own save method so it can handle new/migrated configs
-   * @param {object} configToSave - The config to save
-   * @param  {boolean} reload - If true the page will be reloaded after saving
+   * @param  {object}  configToSave - The config to save
+   * @param  {boolean} reload       - If true the page will be reloaded after saving
    * @private
    * @static
    */

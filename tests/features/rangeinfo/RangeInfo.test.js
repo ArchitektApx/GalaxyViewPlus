@@ -1,4 +1,5 @@
 /* eslint-disable sonarjs/no-duplicate-string */
+import RangeCalcUtils     from '../../../src/features/rangeinfo/RangeCalcUtils.js'
 import RangeInfo          from '../../../src/features/rangeinfo/RangeInfo.js'
 import HtmlElementFactory from '../../../src/userinterface/factories/HtmlElementFactory.js'
 
@@ -29,25 +30,25 @@ describe('RangeInfo', () => {
 
   describe('calculations', () => {
     it('should getCircularPosition(start without jump below 1): currentSystem 88, nearRange 14', () => {
-      const circularStart = RangeInfo.getCircularPosition((88 - 14), 1, 400)
+      const circularStart = RangeCalcUtils.getCircularPosition((88 - 14), 1, 400)
 
       expect(circularStart).toBe(74)
     })
 
     it('should getCircularPosition(start with jump below 1): currentSystem 19, nearRange 45', () => {
-      const circularStart = RangeInfo.getCircularPosition((19 - 45), 1, 400)
+      const circularStart = RangeCalcUtils.getCircularPosition((19 - 45), 1, 400)
 
       expect(circularStart).toBe(374)
     })
 
     it('should getCircularPosition(end without jump above 400): currentSystem 270, nearRange 31', () => {
-      const circularEnd = RangeInfo.getCircularPosition((270 + 31), 1, 400)
+      const circularEnd = RangeCalcUtils.getCircularPosition((270 + 31), 1, 400)
 
       expect(circularEnd).toBe(301)
     })
 
     it('should getCircularPosition(end with jump above 400): currentSystem 369, nearRange 40', () => {
-      const circularEnd = RangeInfo.getCircularPosition((369 + 40), 1, 400)
+      const circularEnd = RangeCalcUtils.getCircularPosition((369 + 40), 1, 400)
 
       expect(circularEnd).toBe(9)
     })
@@ -56,7 +57,7 @@ describe('RangeInfo', () => {
       const inputData      = [ { value: '20' }, { value: '1' }, { value: '400' } ]
       const inputParameter = { currentGalaxy: '1', currentSystem: '10' }
       const rangeInfo      = new RangeInfo(inputData, inputParameter)
-      const totalRange     = rangeInfo.getTotalRange()
+      const totalRange     = RangeCalcUtils.getTotalRange(20, 1, 400, 10)
 
       expect(totalRange).toEqual(
       // array from 390 to 400, then 1 to 30
@@ -66,10 +67,7 @@ describe('RangeInfo', () => {
     })
 
     it('should getTotalRange(nearRange gets above 400): currentSystem 385, nearRange 35', () => {
-      const inputData      = [ { value: '35' }, { value: '1' }, { value: '400' } ]
-      const inputParameter = { currentGalaxy: '1', currentSystem: '385' }
-      const rangeInfo      = new RangeInfo(inputData, inputParameter)
-      const totalRange     = rangeInfo.getTotalRange()
+      const totalRange = RangeCalcUtils.getTotalRange(35, 1, 400, 385)
 
       expect(totalRange).toEqual(
       // array from 365 to 400, then 1 to 20
@@ -80,7 +78,7 @@ describe('RangeInfo', () => {
 
     it('should getCoordsFromToolTip: test planet coordinates extreaction via regex', () => {
       const toolTipContent = "<table style='width:240px'><tr><th colspan='2'>Spieler architekt auf Platz 78</th></tr><tr><tr><td><a href='#' playerid='6177' onclick='return Dialog.Playercard(6177);'>Playercard</a></td></tr><tr><td><a href='?page=statistics&who=1&start=78'>Statistiken</a></td></tr><tr><th colspan='2'>Planeten</th></tr><tr><th colspan='2' style='text-align: center'><a href='https://pr0game.com/uni2/game.php?page=galaxy&galaxy=1&system=154'>[1:154:15] M</a></th></tr><tr><th colspan='2' style='text-align: center'><a href='https://pr0game.com/uni2/game.php?page=galaxy&galaxy=1&system=154'>[1:154:8]</a></th></tr><tr><th colspan='2' style='text-align: center'><a href='https://pr0game.com/uni2/game.php?page=galaxy&galaxy=1&system=17'>[1:17:8]</a></th></tr><tr><td colspan='2' style='text-align: center'><span>[1:31:10] M</span></td></tr><tr><td colspan='2' style='text-align: center'><span>[1:31:6]</span></td></tr><tr><td colspan='2' style='text-align: center'><span>[1:31:8]</span></td></tr><tr><th colspan='2' style='text-align: center'><a href='https://pr0game.com/uni2/game.php?page=galaxy&galaxy=1&system=384'>[1:384:10]</a></th></tr><tr><th colspan='2' style='text-align: center'><a href='https://pr0game.com/uni2/game.php?page=galaxy&galaxy=1&system=70'>[1:70:6]</a></th></tr></table>"
-      const coords         = RangeInfo.getCoordsFromToolTip(toolTipContent)
+      const coords         = RangeCalcUtils.getCoordsFromToolTip(toolTipContent)
       const coordsAsArray  = [ ...coords ].map(
         ([ gesamt, gala, sys, pos, mond ]) => ([ gesamt, gala, sys, pos, mond ])
       )
@@ -104,8 +102,8 @@ describe('RangeInfo', () => {
       const inputParameter = { currentGalaxy: '1', currentSystem: '31' }
       const rangeInfo      = new RangeInfo(inputData, inputParameter)
       const toolTipContent = "<table style='width:240px'><tr><th colspan='2'>Spieler architekt auf Platz 78</th></tr><tr><tr><td><a href='#' playerid='6177' onclick='return Dialog.Playercard(6177);'>Playercard</a></td></tr><tr><td><a href='?page=statistics&who=1&start=78'>Statistiken</a></td></tr><tr><th colspan='2'>Planeten</th></tr><tr><th colspan='2' style='text-align: center'><a href='https://pr0game.com/uni2/game.php?page=galaxy&galaxy=1&system=154'>[1:154:15] M</a></th></tr><tr><th colspan='2' style='text-align: center'><a href='https://pr0game.com/uni2/game.php?page=galaxy&galaxy=1&system=154'>[1:154:8]</a></th></tr><tr><th colspan='2' style='text-align: center'><a href='https://pr0game.com/uni2/game.php?page=galaxy&galaxy=1&system=17'>[1:17:8]</a></th></tr><tr><td colspan='2' style='text-align: center'><span>[1:31:10] M</span></td></tr><tr><td colspan='2' style='text-align: center'><span>[1:31:6]</span></td></tr><tr><td colspan='2' style='text-align: center'><span>[1:31:8]</span></td></tr><tr><th colspan='2' style='text-align: center'><a href='https://pr0game.com/uni2/game.php?page=galaxy&galaxy=1&system=384'>[1:384:10]</a></th></tr><tr><th colspan='2' style='text-align: center'><a href='https://pr0game.com/uni2/game.php?page=galaxy&galaxy=1&system=70'>[1:70:6]</a></th></tr></table>"
-      const coords         = RangeInfo.getCoordsFromToolTip(toolTipContent)
-      const totalRange     = rangeInfo.getTotalRange()
+      const coords         = RangeCalcUtils.getCoordsFromToolTip(toolTipContent)
+      const totalRange     = RangeCalcUtils.getTotalRange(25, 1, 400, 31)
       const nearByCounts   = rangeInfo.getNearbyCounts(coords, totalRange)
       const correctResult  = { nearPlanets: 3, nearMoons: 1 }
 
@@ -140,7 +138,7 @@ describe('RangeInfo', () => {
 
   describe('createNearElement', () => {
     it('should create a span element with correct text', () => {
-      const nearElement = RangeInfo.createNearElement('test')
+      const nearElement = RangeCalcUtils.createNearElement('test')
 
       expect(nearElement.tagName).toBe('span')
 

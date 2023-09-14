@@ -12,7 +12,6 @@ export default class ButtonElementFactory {
    * @param   {object}  options.attributes     - The attributes of the element
    * @param   {Array}   options.classList      - The classList of the element
    * @param   {Array}   options.children       - The array of child elements to add to the element
-   * @param   {string}  options.color          - The color property of the element
    * @param   {object}  options.eventListeners - The eventListeners in the form of an object { <eventType>, <callback> }
    * @param   {string}  options.id             - The id of the html element
    * @param   {string}  options.textContent    - The textContent of the element

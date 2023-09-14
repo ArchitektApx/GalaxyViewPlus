@@ -24,7 +24,6 @@ export default class BaseElement {
       attributes     : {},
       children       : [],
       classList      : [],
-      color          : '',
       eventListeners : {},
       id             : '',
       textContent    : '',

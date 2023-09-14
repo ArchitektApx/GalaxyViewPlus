@@ -25,7 +25,7 @@ export default class SettingsInterface {
     const details = HtmlElementFactory.create('details', {
       id       : `${ prefix }-details`,
       children : [
-        HtmlElementFactory.create('summary', { id: `${ prefix }-summary`, title: title }),
+        HtmlElementFactory.create('summary', { id: `${ prefix }-summary`, textContent: title }),
 
         ...features.map(feature => FeatureSettingsFactory.create(feature, actionCallback)),
 

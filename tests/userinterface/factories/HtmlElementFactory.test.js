@@ -12,7 +12,6 @@ class MockHTMLElement {
     }
     this.textContent = ''
     this.title       = ''
-    this.style       = {}
     this.id          = ''
     this.children    = []
     this.dataset     = {}
@@ -37,6 +36,8 @@ class MockHTMLElement {
     if (attribute.startsWith('data-')) {
       const key         = attribute.slice(5)  // remove 'data-' prefix
       this.dataset[key] = value
+    } else {
+      this[attribute] = value
     }
   }
 }
@@ -62,11 +63,9 @@ describe('HtmlElementFactory', () => {
 
   it('should apply provided options to the created element', () => {
     const options = {
-      attributes  : { 'data-test': 'value' },
+      attributes  : { 'data-test': 'value', 'title': 'test title', 'style': 'background-color: blue' },
       classList   : [ 'test-class' ],
       textContent : 'test content',
-      title       : 'test title',
-      style       : { backgroundColor: 'blue' },
       id          : 'test-id',
     }
 
@@ -76,7 +75,7 @@ describe('HtmlElementFactory', () => {
     expect(element.classList.contains('test-class')).toBeTruthy()
     expect(element.textContent).toBe('test content')
     expect(element.title).toBe('test title')
-    expect(element.style.backgroundColor).toBe('blue')
+    expect(element.style).toBe('background-color: blue')
     expect(element.id).toBe('test-id')
   })
 

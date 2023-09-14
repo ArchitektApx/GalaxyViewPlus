@@ -67,7 +67,7 @@ describe('SettingsHeader', () => {
     })
     expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(2, 'br', {})
     expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(3, 'label', {
-      forId       : 'test-prefix-header-status-checkbox',
+      attributes  : { for: 'test-prefix-header-status-checkbox' },
       textContent : 'Aktiv:',
     })
 

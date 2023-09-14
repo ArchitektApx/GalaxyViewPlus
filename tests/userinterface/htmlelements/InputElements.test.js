@@ -16,6 +16,7 @@ class MockHTMLElement extends HTMLElement {
     this.after            = jest.fn()
     this.children         = []
     this.style            = {}
+    this.title            = ''
   }
 }
 
@@ -41,18 +42,18 @@ describe('InputElement', () => {
 
   it('should create an input element with provided properties', () => {
     const input = new InputElement('text', {
-      name      : 'testName',
-      value     : 'testValue',
-      classList : [ 'testClass' ],
-      id        : 'testId',
-      title     : 'testTitle',
+      name       : 'testName',
+      value      : 'testValue',
+      classList  : [ 'testClass' ],
+      id         : 'testId',
+      attributes : { title: 'testTitle' },
     })
     expect(input.getElement().type).toBe('text')
     expect(input.getElement().name).toBe('testName')
     expect(input.getElement().value).toBe('testValue')
     expect(input.getElement().classList.add).toHaveBeenCalledWith('testClass')
     expect(input.getElement().id).toBe('testId')
-    expect(input.getElement().title).toBe('testTitle')
+    expect(input.getElement().setAttribute).toHaveBeenCalledWith('title', 'testTitle')
   })
 
   it('should set checked property for checkbox type', () => {

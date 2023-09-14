@@ -12,14 +12,9 @@ export default class BaseElement {
    * @param   {object}  options.attributes     - The attributes of the element
    * @param   {Array}   options.classList      - The classList of the element
    * @param   {Array}   options.children       - The array of child elements to add to the element
-   * @param   {string}  options.color          - The color property of the element
    * @param   {object}  options.eventListeners - The eventListeners in the form of an object { <eventType>, <callback> }
-   * @param   {string}  options.forId          - The forId property of the element
-   * @param   {boolean} options.open           - The open property of the element (details)
    * @param   {string}  options.id             - The id of the html element
-   * @param   {object}  options.style          - The style key value pairs
    * @param   {string}  options.textContent    - The textContent of the element
-   * @param   {string}  options.title          - The title property of the element
    * @returns {void}                           - The element instance will be returned with getElement()
    * @public
    * @class
@@ -31,12 +26,8 @@ export default class BaseElement {
       classList      : [],
       color          : '',
       eventListeners : {},
-      forId          : '',
       id             : '',
-      open           : false,
-      style          : {},
       textContent    : '',
-      title          : '',
     }
 
     // Merge options with defaults
@@ -66,18 +57,6 @@ export default class BaseElement {
    */
   addEventListener(eventType, callback) {
     this.element.addEventListener(eventType, callback)
-  }
-
-  /**
-   * Adds a title to the element.
-   * @param   {string} title - The title
-   * @returns {void}
-   * @public
-   */
-  addTitle(title) {
-    if (title) {
-      this.element.title = title
-    }
   }
 
   /**
@@ -120,14 +99,9 @@ export default class BaseElement {
     this.#setAttributes(this.attributes)
     this.#addClasses(this.classList)
     this.appendChildren(this.children)
-    this.setSpanColor(this.color)
     this.#addEventListeners(this.eventListeners)
-    this.setFor(this.forId)
-    this.setDetailsOpen(this.open)
     this.setId(this.id)
-    this.setStyle(this.style)
     this.setTextContent(this.textContent)
-    this.addTitle(this.title)
 
     // output the final "real" html object
     return this.element
@@ -145,30 +119,6 @@ export default class BaseElement {
   }
 
   /**
-   * sets the open property of a details element
-   * @param   {boolean} open - The open property of the element (details) i.e. true or false
-   * @returns {void}
-   * @public
-   */
-  setDetailsOpen(open) {
-    if (this.tag === 'details') {
-      this.element.open = open
-    }
-  }
-
-  /**
-   * sets the for attribute of a label element
-   * @param   {string} forId - The element id to which this label belongs
-   * @returns {void}
-   * @public
-   */
-  setFor(forId) {
-    if (this.tag === 'label' && forId) {
-      this.element.setAttribute('for', forId)
-    }
-  }
-
-  /**
    * sets the id of the element
    * @param   {string} id - The id
    * @returns {void}
@@ -178,30 +128,6 @@ export default class BaseElement {
     if (id) {
       this.element.id = id
     }
-  }
-
-  /**
-   * sets the color of a span element
-   * @param   {string} color - The color property of the element
-   * @returns {void}
-   * @public
-   */
-  setSpanColor(color) {
-    if (this.tag === 'span' && color) {
-      this.element.style.color = color
-    }
-  }
-
-  /**
-   * sets style attributes to the element
-   * @param   {object} style - The style
-   * @returns {void}
-   * @public
-   */
-  setStyle(style) {
-    Mindash.forAny(style, ([ key, value ]) => {
-      this.element.style[key] = value
-    }, true)
   }
 
   /**

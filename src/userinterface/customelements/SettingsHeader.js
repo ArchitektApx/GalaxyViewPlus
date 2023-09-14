@@ -30,7 +30,7 @@ export default class SettingsHeader {
         }),
         HtmlElementFactory.create('br', {}),
         HtmlElementFactory.create('label', {
-          forId       : `${ this.prefix }status-checkbox`,
+          attributes  : { for: `${ this.prefix }status-checkbox` },
           textContent : 'Aktiv:',
         }),
         InputElementFactory.create('checkbox', {

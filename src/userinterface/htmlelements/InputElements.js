@@ -17,8 +17,6 @@ export default class InputElement extends BaseElement {
    * @param   {object}  options.eventListeners - The eventListeners
    * @param   {string}  options.id             - The id of the html element
    * @param   {string}  options.name           - The name property of the input
-   * @param   {object}  options.style          - The style key value pairs
-   * @param   {string}  options.title          - The title property of the element
    * @param   {string}  options.value          - The value property of the input
    * @returns {void}
    */

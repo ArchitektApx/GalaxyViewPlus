@@ -50,10 +50,12 @@ export default class ValueListElement {
     return [
       HtmlElementFactory.create('td', {
         children: HtmlElementFactory.create('label', {
+          attributes: {
+            for   : `${ this.prefix }-input-${ dataRow.key }`,
+            title : dataRow.valueDescription,
+          },
           classList   : `${ this.prefix }-${ dataRow.key }-label`,
-          forId       : `${ this.prefix }-input-${ dataRow.key }`,
           textContent : dataRow.displayName,
-          title       : dataRow.valueDescription,
         }),
       }),
       HtmlElementFactory.create('td', {

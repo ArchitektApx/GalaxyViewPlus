@@ -14,12 +14,8 @@ export default class ButtonElementFactory {
    * @param   {Array}   options.children       - The array of child elements to add to the element
    * @param   {string}  options.color          - The color property of the element
    * @param   {object}  options.eventListeners - The eventListeners in the form of an object { <eventType>, <callback> }
-   * @param   {string}  options.forId          - The forId property of the element
-   * @param   {boolean} options.open           - The open property of the element (details)
    * @param   {string}  options.id             - The id of the html element
-   * @param   {object}  options.style          - The style key value pairs
    * @param   {string}  options.textContent    - The textContent of the element
-   * @param   {string}  options.title          - The title property of the element
    * @returns {HTMLElement|undefined}          - The Button Element generated from the type and options
    * @public
    * @static

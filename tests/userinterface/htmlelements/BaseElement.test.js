@@ -48,12 +48,6 @@ describe('BaseElement', () => {
     expect(element.getElement().addEventListener).toHaveBeenCalledWith('click', mockCallback)
   })
 
-  it('should set title for the element', () => {
-    const element = new BaseElement('div')
-    element.addTitle('test-title')
-    expect(element.getElement().title).toBe('test-title')
-  })
-
   it('should append child element', () => {
     const element = new BaseElement('div')
     const child   = new MockHTMLElement('span')
@@ -80,14 +74,8 @@ describe('BaseElement', () => {
     expect(element.getElement().setAttribute).toHaveBeenCalledWith('data-test', 'value')
   })
 
-  it('should set details open property when tag is details', () => {
-    const element = new BaseElement('details', { open: true })
-    element.getElement()
-    expect(element.getElement().open).toBe(true)
-  })
-
   it('should set for attribute when tag is label', () => {
-    const element = new BaseElement('label', { forId: 'test-id' })
+    const element = new BaseElement('label', { attributes: { for: 'test-id' } })
     element.getElement()
     expect(element.getElement().setAttribute).toHaveBeenCalledWith('for', 'test-id')
   })
@@ -99,15 +87,15 @@ describe('BaseElement', () => {
   })
 
   it('should set color for span element', () => {
-    const element = new BaseElement('span', { color: 'red' })
+    const element = new BaseElement('span', { attributes: { style: 'color: red' } })
     element.getElement()
-    expect(element.getElement().style.color).toBe('red')
+    expect(element.getElement().setAttribute).toHaveBeenCalledWith('style', 'color: red')
   })
 
   it('should set styles for the element', () => {
-    const element = new BaseElement('div', { style: { backgroundColor: 'blue' } })
+    const element = new BaseElement('div', { attributes: { style: 'backgroundColor: blue' } })
     element.getElement()
-    expect(element.getElement().style.backgroundColor).toBe('blue')
+    expect(element.getElement().setAttribute).toHaveBeenCalledWith('style', 'backgroundColor: blue')
   })
 
   it('should set textContent for the element without children', () => {

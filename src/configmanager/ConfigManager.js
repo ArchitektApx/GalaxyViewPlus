@@ -1,13 +1,9 @@
-import LogLevel            from '../enum/LogLevel.js'
-import Mindash             from '../mindash/Mindash.js'
-import StaticData          from '../staticdata/StaticData.js'
-import StorageInterface    from '../storageinterface/StorageInterface.js'
-import Validator           from '../validator/Validator.js'
-import ChangeDataCommand   from './commands/ChangeDataCommand.js'
-import ChangeStatusCommand from './commands/ChangeStatusCommand.js'
-import RemoveRowCommand    from './commands/RemoveRowCommand.js'
-import ResetConfigCommand  from './commands/ResetConfigCommand.js'
-import SaveConfigCommand   from './commands/SaveConfigCommand.js'
+import LogLevel         from '../enum/LogLevel.js'
+import StaticData       from '../staticdata/StaticData.js'
+import StorageInterface from '../storageinterface/StorageInterface.js'
+import Validator        from '../validator/Validator.js'
+import CommandLoader    from './CommandLoader.js'
+import ConfigLoader     from './ConfigLoader.js'
 
 /**
  * The ConfigManager is a singleton class that manages the config.
@@ -30,8 +26,13 @@ export default class ConfigManager {
     if (ConfigManager.#instance) { return ConfigManager.#instance }
     ConfigManager.#instance = this
 
-    this.#loadConfig()
-    this.#initCommands()
+    this.#runningConfig = ConfigLoader.load()
+
+    this.commandMap = CommandLoader.load(
+      this.#runningConfig,
+      this.#resetConfig.bind(this),
+      this.#updateConfig.bind(this)
+    )
   }
 
   /**
@@ -88,77 +89,6 @@ export default class ConfigManager {
     } catch (error) {
       ConfigManager.log(`Error executing command ${ CommandClass.name }:`, LogLevel.ERROR, error)
     }
-  }
-
-  /**
-   * handles loadConfig case where the config is empty
-   * @private
-   */
-  #handleEmptyConfig() {
-    ConfigManager.log('config is empty. loading default config.', LogLevel.WARN)
-    this.#runningConfig = StaticData.DEFAULT_CONFIG
-    this.#saveConfig()
-  }
-
-  /**
-   * handles loadConfig case where the config is invalid
-   * @param  {object} storedConfig - The config from storage
-   * @private
-   */
-  #handleInvalidConfig(storedConfig) {
-    ConfigManager.log('config is invalid or needs an update. starting migration', LogLevel.WARN)
-    this.#runningConfig = Validator.migrateConfig(storedConfig, StaticData.DEFAULT_CONFIG)
-    // ask users so we have a chance to prevent reload loops incase the config is invalid
-    // eslint-disable-next-line no-restricted-globals
-    const response = confirm('Deine Config war ungültig oder hat ein Update benötigt und wurde daher migriert. Willst du die migrierte Config speichern und neu laden?')
-    this.#saveConfig(response)
-  }
-
-  /**
-   * handles loadConfig case where the config is valid
-   * @param  {object} storedConfig - The config from storage
-   * @private
-   */
-  #handleValidConfig(storedConfig) {
-    ConfigManager.log('using valid config from storage', LogLevel.DEBUG)
-    this.#runningConfig = storedConfig
-  }
-
-  /**
-   * initializes the commandMap
-   * @private
-   */
-  #initCommands() {
-    this.commandMap = {
-      changeData   : { class: ChangeDataCommand,    systemInput: this.#runningConfig           },
-      changeStatus : { class: ChangeStatusCommand,  systemInput: this.#runningConfig           },
-      removeRow    : { class: RemoveRowCommand,     systemInput: this.#runningConfig           },
-      resetConfig  : { class: ResetConfigCommand,   systemInput: this.#resetConfig.bind(this)  },
-      saveConfig   : { class: SaveConfigCommand,    systemInput: this.#updateConfig.bind(this) },
-    }
-  }
-
-  /**
-   * loads the config from storage and validates it
-   * @private
-   */
-  #loadConfig() {
-    ConfigManager.log('loading config from storage', LogLevel.DEBUG)
-    const storageKeys  = StaticData.STORAGE_KEYS
-    const storedConfig = StorageInterface.getStorageItem(storageKeys.USER_CONFIG)
-
-    if (!Mindash.isSomething(storedConfig)) {
-      this.#handleEmptyConfig()
-      return
-    }
-
-    if (Validator.validateConfig(storedConfig)) {
-      this.#handleValidConfig(storedConfig)
-      return
-    }
-
-    // config exists but is not valid
-    this.#handleInvalidConfig(storedConfig)
   }
 
   /**

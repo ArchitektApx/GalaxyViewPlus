@@ -62,8 +62,8 @@ describe('SettingsInterface', () => {
 
     expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(1, 'div', { id: 'settings-interface-wrapper' })
     expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(2, 'summary', {
-      id    : 'settings-interface-summary',
-      title : 'Test Title',
+      id          : 'settings-interface-summary',
+      textContent : 'Test Title',
     })
     expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(3, 'div', {
       id       : 'settings-interface-footer',

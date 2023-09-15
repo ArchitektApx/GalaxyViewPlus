@@ -1,26 +1,12 @@
-import ValueListElement       from '../../../src/userinterface/customelements/ValueLists.js'
-import CallbackWrapperFactory from '../../../src/userinterface/factories/CallbackWrapperFactory.js'
-import HtmlElementFactory     from '../../../src/userinterface/factories/HtmlElementFactory.js'
-import InputElementFactory    from '../../../src/userinterface/factories/InputElementFactory.js'
-
-const mockElement = {}
-
-global.document = {
-  createElement: jest.fn().mockReturnValue(mockElement),
-}
-
-jest.mock('../../../src/userinterface/factories/CallbackWrapperFactory.js')
-jest.mock('../../../src/userinterface/factories/InputElementFactory.js')
-jest.mock('../../../src/userinterface/factories/HtmlElementFactory.js', () => ({
-  create: jest.fn(() => mockElement), // Return a mock table element
-}))
+/* eslint-disable import/order */
+import {
+  HtmlElementFactory, InputElementFactory,
+} from '../mocks/MockFactoriesSetup.js'
+import ValueListElement from '../../../src/userinterface/customelements/ValueLists.js'
 
 describe('ValueListElement', () => {
   beforeEach(() => {
-    HtmlElementFactory.create.mockClear()
-    CallbackWrapperFactory.create.mockClear()
-    InputElementFactory.create.mockClear()
-    HtmlElementFactory.create.mockClear()
+    jest.clearAllMocks()
   })
 
   it('should create a ValueListElement', () => {
@@ -110,6 +96,7 @@ describe('ValueListElement', () => {
       classList : [ 'test-prefix1', 'ValueList' ],
       id        : 'test-prefix1-tablecontainer',
     })
+    expect(InputElementFactory.create).toHaveBeenCalledTimes(1)
     expect(instance.getElement).toBeDefined()
   })
 })

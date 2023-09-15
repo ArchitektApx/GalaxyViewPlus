@@ -1,9 +1,6 @@
-import SettingsBody       from '../../../src/userinterface/customelements/SettingsBody.js'
-import DataTypeFactory    from '../../../src/userinterface/factories/DataTypeFactory.js'
-import HtmlElementFactory from '../../../src/userinterface/factories/HtmlElementFactory.js'
-
-jest.mock('../../../src/userinterface/factories/DataTypeFactory.js')
-jest.mock('../../../src/userinterface/factories/HtmlElementFactory.js')
+/* eslint-disable import/order */
+import { HtmlElementFactory, DataTypeFactory } from '../mocks/MockFactoriesSetup.js'
+import SettingsBody                            from '../../../src/userinterface/customelements/SettingsBody.js'
 
 describe('SettingsBody', () => {
   let config
@@ -16,29 +13,8 @@ describe('SettingsBody', () => {
     }
     configCallback = jest.fn()
 
-    // Mocking document.createElement
-    global.document = {
-      createElement: jest.fn().mockReturnValue({
-        appendChild : jest.fn(),
-        classList   : {
-          add: jest.fn(),
-        },
-        append: jest.fn(),
-      }),
-    }
-
     // Resetting mocks
-    DataTypeFactory.create.mockReset()
-    HtmlElementFactory.create.mockReset()
-
-    // Mocking HtmlElementFactory.create
-    HtmlElementFactory.create = jest.fn().mockReturnValue({
-      appendChild : jest.fn(),
-      classList   : {
-        add: jest.fn(),
-      },
-      append: jest.fn(),
-    })
+    jest.clearAllMocks()
   })
 
   it('should create an element with correct ID and class', () => {

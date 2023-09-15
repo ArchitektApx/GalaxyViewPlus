@@ -1,13 +1,7 @@
-import SettingsInterface      from '../../../src/userinterface/container/SettingsInterface.js'
-import ButtonElementFactory   from '../../../src/userinterface/factories/ButtonElementFactory.js'
-import CallbackWrapperFactory from '../../../src/userinterface/factories/CallbackWrapperFactory.js'
-import FeatureSettingsFactory from '../../../src/userinterface/factories/FeatureSettingsFactory.js'
-import HtmlElementFactory     from '../../../src/userinterface/factories/HtmlElementFactory.js'
-
-jest.mock('../../../src/userinterface/factories/ButtonElementFactory.js')
-jest.mock('../../../src/userinterface/factories/CallbackWrapperFactory.js')
-jest.mock('../../../src/userinterface/factories/FeatureSettingsFactory.js')
-jest.mock('../../../src/userinterface/factories/HtmlElementFactory.js')
+import {
+  ButtonElementFactory, HtmlElementFactory, FeatureSettingsFactory,
+} from '../mocks/MockFactoriesSetup.js'
+import SettingsInterface from '../../../src/userinterface/container/SettingsInterface.js'
 
 describe('SettingsInterface', () => {
   let configManagerInstance
@@ -23,38 +17,7 @@ describe('SettingsInterface', () => {
       getActionCallback: jest.fn().mockReturnValue(jest.fn()),
     }
 
-    // Mocking document.createElement
-    global.document = {
-      createElement: jest.fn().mockReturnValue({
-        appendChild : jest.fn(),
-        classList   : {
-          add: jest.fn(),
-        },
-        append: jest.fn(),
-      }),
-    }
-
-    // Resetting mocks
-    ButtonElementFactory.create.mockReset()
-    CallbackWrapperFactory.create.mockReset()
-    FeatureSettingsFactory.create.mockReset()
-    HtmlElementFactory.create.mockReset()
-
-    // Mocking factories
-    HtmlElementFactory.create     = jest.fn().mockReturnValue({
-      appendChild : jest.fn(),
-      classList   : {
-        add: jest.fn(),
-      },
-      append: jest.fn(),
-    })
-    FeatureSettingsFactory.create = jest.fn().mockReturnValue({
-      appendChild : jest.fn(),
-      classList   : {
-        add: jest.fn(),
-      },
-      append: jest.fn(),
-    })
+    jest.clearAllMocks()
   })
 
   it('should create a settings interface with correct elements', () => {

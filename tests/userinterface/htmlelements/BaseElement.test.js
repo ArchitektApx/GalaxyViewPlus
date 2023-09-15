@@ -1,26 +1,20 @@
-/* eslint-disable unicorn/prefer-dom-node-dataset */
-import BaseElement     from '../../../src/userinterface/htmlelements/BaseElement.js'
-import MockHTMLElement from '../mocks/MockHtmlElement.js'
+import BaseElement          from '../../../src/userinterface/htmlelements/BaseElement.js'
+import MockHtmlElementSetup from '../mocks/MockHtmlElementSetup.js'
 
-const testcontent = 'test content'
-const testclass   = 'test-class'
+// Mock HTMLElement Type and document.createElement
+const { createElementMock, MockHTMLElement } = MockHtmlElementSetup()
+const testcontent                            = 'test content'
+const testclass                              = 'test-class'
 
 describe('BaseElement', () => {
-  let createElementMock
-
   beforeEach(() => {
-    // Mocking document.createElement
-    global.HTMLElement = MockHTMLElement
-    createElementMock  = jest.fn(tag => new MockHTMLElement(tag))
-    global.document    = {
-      createElement: createElementMock,
-    }
+    jest.clearAllMocks()
   })
 
   it('should create an element with the given tag', () => {
     const element = new BaseElement('div')
     expect(createElementMock).toHaveBeenCalledWith('div')
-    expect(element.getElement().tagName).toBe('DIV')
+    expect(element.element.tagName).toBe('DIV')
   })
 
   describe('handling classes', () => {
@@ -154,6 +148,7 @@ describe('BaseElement', () => {
 
     it('should set an attribute using setAttribute method', () => {
       const element = new BaseElement('div')
+      // eslint-disable-next-line unicorn/prefer-dom-node-dataset
       element.setAttribute('data-test', 'value')
       expect(element.getElement().setAttribute).toHaveBeenCalledWith('data-test', 'value')
     })

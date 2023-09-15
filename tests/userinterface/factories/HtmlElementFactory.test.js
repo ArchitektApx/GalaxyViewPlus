@@ -1,16 +1,12 @@
-import HtmlElementFactory from '../../../src/userinterface/factories/HtmlElementFactory.js'
-import MockHTMLElement    from '../mocks/MockHtmlElement.js'
+import HtmlElementFactory   from '../../../src/userinterface/factories/HtmlElementFactory.js'
+import MockHtmlElementSetup from '../mocks/MockHtmlElementSetup.js'
+
+// Mock HTMLElement Type and document.createElement
+const { createElementMock } = MockHtmlElementSetup()
 
 describe('HtmlElementFactory', () => {
-  let createElementMock
-
   beforeEach(() => {
-    // Mocking document.createElement
-    global.HTMLElement = MockHTMLElement
-    createElementMock  = jest.fn(tag => new MockHTMLElement(tag))
-    global.document    = {
-      createElement: createElementMock,
-    }
+    jest.clearAllMocks()
   })
 
   it('should create an element with the given tag', () => {

@@ -1,17 +1,13 @@
 /* eslint-disable unicorn/prefer-dom-node-dataset */
-import InputElement    from '../../../src/userinterface/htmlelements/InputElements.js'
-import MockHTMLElement from '../mocks/MockHtmlElement.js'
+import InputElement         from '../../../src/userinterface/htmlelements/InputElements.js'
+import MockHtmlElementSetup from '../mocks/MockHtmlElementSetup.js'
+
+// Mock HTMLElement Type and document.createElement
+const { createElementMock } = MockHtmlElementSetup()
 
 describe('InputElements', () => {
-  let createElementMock
-
   beforeEach(() => {
-    // Mocking document.createElement
-    global.HTMLElement = MockHTMLElement
-    createElementMock  = jest.fn(tag => new MockHTMLElement(tag))
-    global.document    = {
-      createElement: createElementMock,
-    }
+    jest.clearAllMocks()
   })
 
   it('should create an input element with default properties', () => {

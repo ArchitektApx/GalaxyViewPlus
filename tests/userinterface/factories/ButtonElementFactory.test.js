@@ -1,16 +1,12 @@
 import ButtonElementFactory from '../../../src/userinterface/factories/ButtonElementFactory.js'
-import MockHTMLElement      from '../mocks/MockHtmlElement.js'
+import MockHtmlElementSetup from '../mocks/MockHtmlElementSetup.js'
+
+// Mock HTMLElement Type and document.createElement
+MockHtmlElementSetup()
 
 describe('ButtonElementFactory', () => {
-  let createElementMock
-
   beforeEach(() => {
-    // Mocking document.createElement
-    global.HTMLElement = MockHTMLElement
-    createElementMock  = jest.fn(tag => new MockHTMLElement(tag))
-    global.document    = {
-      createElement: createElementMock,
-    }
+    jest.clearAllMocks()
   })
 
   it('should create an addRow button with default properties', () => {

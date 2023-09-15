@@ -11,11 +11,8 @@ describe('StatsDataFetcher', () => {
   })
 
   it('makes the correct request using data from StaticData', async () => {
-    const fakeResolve = jest.fn()
-
     GM.xmlHttpRequest.mockImplementationOnce(({ onload }) => {
       onload()
-
       return {}
     })
 
@@ -35,7 +32,6 @@ describe('StatsDataFetcher', () => {
 
     GM.xmlHttpRequest.mockImplementationOnce(({ onload }) => {
       onload(data)
-
       return {}
     })
 
@@ -49,7 +45,6 @@ describe('StatsDataFetcher', () => {
 
     GM.xmlHttpRequest.mockImplementationOnce(({ onerror }) => {
       onerror(error)
-
       return {}
     })
 

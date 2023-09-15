@@ -1,48 +1,17 @@
-/* eslint-disable no-loops/no-loops */
-/* eslint-disable sonarjs/no-duplicate-string */
 import LogLevel         from '../../src/enum/LogLevel.js'
 import StaticData       from '../../src/staticdata/StaticData.js'
 import StorageInterface from '../../src/storageinterface/StorageInterface.js'
+import LocalStorageMock from './mocks/SetupLocalStorageMock.js'
 
 describe('StorageInterface', () => {
-  // Mock localStorage using LocalStorageMock
   let localStorageMock
 
-  class LocalStorageMock {
-    constructor() {
-      this.store = {}
-    }
-
-    clear() {
-      this.store = {}
-    }
-
-    getItem(key) {
-      return this.store[key] || null
-    }
-
-    keys() {
-    // Filter out internal properties
-      return Object.keys(this.store).filter(k => k !== 'store')
-    }
-
-    removeItem(key) {
-      delete this.store[key]
-    }
-
-    setItem(key, value) {
-      this.store[key] = value
-    }
-  }
-
   beforeAll(() => {
-    global.localStorage = new LocalStorageMock()
-    localStorageMock    = global.localStorage
-    // eslint-disable-next-line no-underscore-dangle
+    global.localStorage   = new LocalStorageMock()
+    localStorageMock      = global.localStorage
     global.__scriptName__ = 'TestScript'
   })
 
-  // Clear mock localStorage before each test
   beforeEach(() => {
     localStorageMock.clear()
   })
@@ -72,19 +41,19 @@ describe('StorageInterface', () => {
     })
 
     it('should handle errors while saving to storage', () => {
-      jest.spyOn(localStorage, 'setItem').mockImplementation(() => { throw new Error('Test Error') })
+      jest.spyOn(localStorage, 'setItem').mockImplementation(() => { throw new Error('Test Error1') })
       expect(StorageInterface.setStorageItem('testKey', { test: 'value' })).toBe(false)
       expect(console.log).toHaveBeenCalledWith(expect.stringContaining('Failed to save a key from Storage'))
     })
 
     it('should handle errors while deleting from storage', () => {
-      jest.spyOn(localStorage, 'removeItem').mockImplementation(() => { throw new Error('Test Error') })
+      jest.spyOn(localStorage, 'removeItem').mockImplementation(() => { throw new Error('Test Error2') })
       expect(StorageInterface.deleteStorageItem('testKey')).toBe(false)
       expect(console.log).toHaveBeenCalledWith(expect.stringContaining('Failed to delete a key from Storage'))
     })
 
     it('should handle errors while retrieving from storage by returning default value', () => {
-      jest.spyOn(localStorage, 'getItem').mockImplementation(() => { throw new Error('Test Error') })
+      jest.spyOn(localStorage, 'getItem').mockImplementation(() => { throw new Error('Test Error3') })
       expect(StorageInterface.getStorageItem('testKey')).toEqual({})
       expect(console.log).toHaveBeenCalledWith(expect.stringContaining('Failed to get a key from Storage'))
     })
@@ -102,9 +71,7 @@ describe('StorageInterface', () => {
 
     it('should add a log entry', () => {
       StorageInterface.writeLog('Test log')
-
       const logs = StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.DEBUG_LOG)
-
       expect(logs[0]).toContain('Test log')
     })
 
@@ -115,15 +82,17 @@ describe('StorageInterface', () => {
     })
 
     it('should handle removing old logs when max entries is reached', () => {
-      for (let index = 0; index < StaticData.DEBUG_LOG_MAX_ENTRIES + 1; index++) {
+      Array.from({ length: StaticData.DEBUG_LOG_MAX_ENTRIES }, (_, index) => index + 1)
+      .forEach((index) => {
         StorageInterface.writeLog(`Test log ${ index }`)
-      }
+      })
 
-      const logs = StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.DEBUG_LOG)
+      const logs          = StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.DEBUG_LOG)
+      const lastlognumber = String(StaticData.DEBUG_LOG_MAX_ENTRIES)
 
       expect(logs).toHaveLength(StaticData.DEBUG_LOG_MAX_ENTRIES)
       expect(logs[0]).toContain('Test log 1')
-      expect(logs[StaticData.DEBUG_LOG_MAX_ENTRIES - 1]).toContain('Test log 20')
+      expect(logs[StaticData.DEBUG_LOG_MAX_ENTRIES - 1]).toContain(`Test log ${ lastlognumber }`)
     })
 
     it('should have static log method that calls its logwrite method StorageInterface.writeLog', () => {

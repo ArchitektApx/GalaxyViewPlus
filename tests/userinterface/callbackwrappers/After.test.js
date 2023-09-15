@@ -1,3 +1,4 @@
+import event_  from '../mocks/MockCallbackEventSetup.js'
 import Mindash from '../../../src/mindash/Mindash.js'
 import After   from '../../../src/userinterface/callbackwrappers/After.js'
 
@@ -5,20 +6,7 @@ describe('After class', () => {
   let target
 
   beforeEach(() => {
-    target = {
-      checked       : true,
-      parentElement : {
-        nextSibling: {
-          classList: {
-            add    : jest.fn(),
-            remove : jest.fn(),
-          },
-        },
-      },
-      dataset : {},
-      type    : 'text',
-      value   : 'test',
-    }
+    target = event_.target
   })
 
   afterEach(() => {

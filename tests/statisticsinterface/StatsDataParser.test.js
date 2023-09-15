@@ -61,7 +61,7 @@ describe('StatsDataParser', () => {
           key   : StaticData.STORAGE_KEYS.UPDATE_STATUS,
           value : {
             status    : StatsDataParser.STATUS_IN_PROGRESS, // Initial status
-            timestamp : 1_234_567_890, // Validate the timestamp value here
+            timestamp : 1_234_567_890,
           },
         },
         {
@@ -72,7 +72,7 @@ describe('StatsDataParser', () => {
           key   : StaticData.STORAGE_KEYS.UPDATE_STATUS,
           value : {
             status    : StatsDataParser.STATUS_FINISHED, // Updated status
-            timestamp : 1_234_567_890, // Validate the timestamp value here
+            timestamp : 1_234_567_890,
           },
         },
       ])

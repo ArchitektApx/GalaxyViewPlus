@@ -1,11 +1,5 @@
-import SettingsBody           from '../../../src/userinterface/customelements/SettingsBody.js'
-import SettingsHeader         from '../../../src/userinterface/customelements/SettingsHeader.js'
-import FeatureSettingsFactory from '../../../src/userinterface/factories/FeatureSettingsFactory.js'
-import HtmlElementFactory     from '../../../src/userinterface/factories/HtmlElementFactory.js'
-
-jest.mock('../../../src/userinterface/customelements/SettingsBody.js')
-jest.mock('../../../src/userinterface/customelements/SettingsHeader.js')
-jest.mock('../../../src/userinterface/factories/HtmlElementFactory.js')
+import { SettingsBody, SettingsHeader, HtmlElementFactory } from '../mocks/MockSettingsElementsSetup.js'
+import FeatureSettingsFactory                               from '../../../src/userinterface/factories/FeatureSettingsFactory.js'
 
 describe('FeatureSettingsFactory', () => {
   let config
@@ -17,44 +11,8 @@ describe('FeatureSettingsFactory', () => {
     }
     configCallback = jest.fn()
 
-    // Mocking document.createElement
-    global.document = {
-      createElement: jest.fn().mockReturnValue({
-        appendChild : jest.fn(),
-        classList   : {
-          add: jest.fn(),
-        },
-        append: jest.fn(),
-      }),
-    }
-
     // Resetting mocks
-    SettingsBody.mockReset()
-    SettingsHeader.mockReset()
-    HtmlElementFactory.create.mockReset()
-
-    // Mocking factories and classes
-    HtmlElementFactory.create           = jest.fn().mockReturnValue({
-      appendChild : jest.fn(),
-      classList   : {
-        add: jest.fn(),
-      },
-      append: jest.fn(),
-    })
-    SettingsBody.prototype.getElement   = jest.fn().mockReturnValue({
-      appendChild : jest.fn(),
-      classList   : {
-        add: jest.fn(),
-      },
-      append: jest.fn(),
-    })
-    SettingsHeader.prototype.getElement = jest.fn().mockReturnValue({
-      appendChild : jest.fn(),
-      classList   : {
-        add: jest.fn(),
-      },
-      append: jest.fn(),
-    })
+    jest.clearAllMocks()
   })
 
   it('should create a feature settings container with correct ID and class', () => {

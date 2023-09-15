@@ -1,35 +1,19 @@
-/* eslint-disable sonarjs/no-duplicate-string */
-import ValueTableElement      from '../../../src/userinterface/customelements/ValueTable.js'
-import ButtonElementFactory   from '../../../src/userinterface/factories/ButtonElementFactory.js'
-import CallbackWrapperFactory from '../../../src/userinterface/factories/CallbackWrapperFactory.js'
-import HtmlElementFactory     from '../../../src/userinterface/factories/HtmlElementFactory.js'
-import InputElementFactory    from '../../../src/userinterface/factories/InputElementFactory.js'
-
-// Mock for document.createElement
-const mockElement = {}
-
-global.document = {
-  createElement: jest.fn().mockReturnValue(mockElement),
-}
-
-jest.mock('../../../src/userinterface/factories/ButtonElementFactory.js')
-jest.mock('../../../src/userinterface/factories/CallbackWrapperFactory.js')
-jest.mock('../../../src/userinterface/factories/InputElementFactory.js')
-jest.mock('../../../src/userinterface/factories/HtmlElementFactory.js', () => ({
-  create: jest.fn(() => mockElement), // Return a mock table element
-}))
+/* eslint-disable import/order */
+import {
+  ButtonElementFactory,
+  CallbackWrapperFactory,
+  HtmlElementFactory, InputElementFactory,
+} from '../mocks/MockFactoriesSetup.js'
+import ValueTableElement from '../../../src/userinterface/customelements/ValueTable.js'
 
 describe('ValueTableElement', () => {
   beforeEach(() => {
-    ButtonElementFactory.create.mockClear()
-    CallbackWrapperFactory.create.mockClear()
-    InputElementFactory.create.mockClear()
-    HtmlElementFactory.create.mockClear()
+    jest.clearAllMocks()
   })
 
   it('should create a ValueTableElement instance', () => {
     const config = {
-      htmlPrefix       : 'test-prefix',
+      htmlPrefix       : 'test-prefix1',
       dataType         : 'ValueTable',
       keyInputType     : 'text',
       valueInputType   : 'text',
@@ -46,11 +30,14 @@ describe('ValueTableElement', () => {
     expect(instance).toBeInstanceOf(ValueTableElement)
 
     expect(HtmlElementFactory.create).toHaveBeenCalled()
+    expect(InputElementFactory.create).toHaveBeenCalled()
+    expect(ButtonElementFactory.create).toHaveBeenCalled()
+    expect(CallbackWrapperFactory.create).toHaveBeenCalled()
   })
 
   it('should return the created element', () => {
     const config = {
-      htmlPrefix       : 'test-prefix',
+      htmlPrefix       : 'test-prefix2',
       dataType         : 'ValueTable',
       keyInputType     : 'text',
       valueInputType   : 'text',
@@ -70,7 +57,7 @@ describe('ValueTableElement', () => {
 
   it('should add a default table row', () => {
     const config = {
-      htmlPrefix       : 'test-prefix',
+      htmlPrefix       : 'test-prefix3',
       dataType         : 'ValueTable',
       keyInputType     : 'text',
       valueInputType   : 'text',
@@ -91,6 +78,8 @@ describe('ValueTableElement', () => {
 
     instance.addDefaultTableRow(mockTbody, configCallback)
 
+    expect(InputElementFactory.create).toHaveBeenCalledTimes(2)
+    expect(ButtonElementFactory.create).toHaveBeenCalledTimes(2)
     expect(mockTbody.append).toHaveBeenCalled()
   })
 

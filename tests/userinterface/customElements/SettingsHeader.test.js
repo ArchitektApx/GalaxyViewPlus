@@ -1,12 +1,8 @@
-/* eslint-disable sonarjs/no-duplicate-string */
-import SettingsHeader         from '../../../src/userinterface/customelements/SettingsHeader.js'
-import CallbackWrapperFactory from '../../../src/userinterface/factories/CallbackWrapperFactory.js'
-import HtmlElementFactory     from '../../../src/userinterface/factories/HtmlElementFactory.js'
-import InputElementFactory    from '../../../src/userinterface/factories/InputElementFactory.js'
-
-jest.mock('../../../src/userinterface/factories/CallbackWrapperFactory.js')
-jest.mock('../../../src/userinterface/factories/InputElementFactory.js')
-jest.mock('../../../src/userinterface/factories/HtmlElementFactory.js')
+/* eslint-disable import/order */
+import {
+  HtmlElementFactory, InputElementFactory,
+} from '../mocks/MockFactoriesSetup.js'
+import SettingsHeader from '../../../src/userinterface/customelements/SettingsHeader.js'
 
 describe('SettingsHeader', () => {
   let config
@@ -22,37 +18,8 @@ describe('SettingsHeader', () => {
     }
     configCallback = jest.fn()
 
-    // Mocking document.createElement
-    global.document = {
-      createElement: jest.fn().mockReturnValue({
-        appendChild : jest.fn(),
-        classList   : {
-          add: jest.fn(),
-        },
-        append: jest.fn(),
-      }),
-    }
-
     // Resetting mocks
-    CallbackWrapperFactory.create.mockReset()
-    InputElementFactory.create.mockReset()
-    HtmlElementFactory.create.mockReset()
-
-    // Mocking factories
-    HtmlElementFactory.create  = jest.fn().mockReturnValue({
-      appendChild : jest.fn(),
-      classList   : {
-        add: jest.fn(),
-      },
-      append: jest.fn(),
-    })
-    InputElementFactory.create = jest.fn().mockReturnValue({
-      appendChild : jest.fn(),
-      classList   : {
-        add: jest.fn(),
-      },
-      append: jest.fn(),
-    })
+    jest.clearAllMocks()
   })
 
   it('should create an element with correct ID, class and structure', () => {

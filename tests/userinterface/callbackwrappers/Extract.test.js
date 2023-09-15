@@ -1,15 +1,11 @@
+import event_  from '../mocks/MockCallbackEventSetup.js'
 import Extract from '../../../src/userinterface/callbackwrappers/Extract.js'
 
 describe('Extract class', () => {
   let target
 
   beforeEach(() => {
-    target = {
-      parentElement: {
-        children      : [ { firstChild: {} }, { firstChild: {} }, { firstChild: {} } ],
-        parentElement : {},
-      },
-    }
+    target = event_.target
   })
 
   afterEach(() => {

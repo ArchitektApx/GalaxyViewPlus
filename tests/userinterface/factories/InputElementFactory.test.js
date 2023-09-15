@@ -1,16 +1,12 @@
-import InputElementFactory from '../../../src/userinterface/factories/InputElementFactory.js'
-import MockHTMLElement     from '../mocks/MockHtmlElement.js'
+import InputElementFactory  from '../../../src/userinterface/factories/InputElementFactory.js'
+import MockHtmlElementSetup from '../mocks/MockHtmlElementSetup.js'
+
+// Mock HTMLElement Type and document.createElement
+MockHtmlElementSetup()
 
 describe('InputElementFactory', () => {
-  let createElementMock
-
   beforeEach(() => {
-    // Mocking document.createElement
-    global.HTMLElement = MockHTMLElement
-    createElementMock  = jest.fn(tag => new MockHTMLElement(tag))
-    global.document    = {
-      createElement: createElementMock,
-    }
+    jest.clearAllMocks()
   })
 
   it('should create an input element of the given type with provided options', () => {

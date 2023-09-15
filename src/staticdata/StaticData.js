@@ -326,8 +326,7 @@ export default class StaticData {
     USER_CONFIG    : 'GalaxyViewPlus_Config',
   } // allowed values are localStorage or GM
 
-  static STORAGE_TYPE = 'localStorage' // in hours
-  static UPDATE_INTERVAL = 6 // Minutes
-  static UPDATE_INTERVAL_DELAY = 2 // in hours
-  static UPDATE_INTERVAL_STARTTIME = 0
+  static STORAGE_TYPE = 'localStorage'
+  static UPDATE_INTERVAL = 6 // in hours
+  static UPDATE_INTERVAL_DELAY = 2 // in minutes
 }

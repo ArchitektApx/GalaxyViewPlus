@@ -9,7 +9,6 @@ describe('StaticData', () => {
     expect(StaticData.STORAGE_TYPE).toBeDefined()
     expect(StaticData.UPDATE_INTERVAL).toBeDefined()
     expect(StaticData.UPDATE_INTERVAL_DELAY).toBeDefined()
-    expect(StaticData.UPDATE_INTERVAL_STARTTIME).toBeDefined()
     expect(StaticData.JSON_PATCH_USERDATA).toBeDefined()
   })
 

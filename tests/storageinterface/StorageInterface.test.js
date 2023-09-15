@@ -38,7 +38,6 @@ describe('StorageInterface', () => {
   beforeAll(() => {
     global.localStorage = new LocalStorageMock()
     localStorageMock    = global.localStorage
-    // Mock __scriptName__
     // eslint-disable-next-line no-underscore-dangle
     global.__scriptName__ = 'TestScript'
   })
@@ -46,18 +45,6 @@ describe('StorageInterface', () => {
   // Clear mock localStorage before each test
   beforeEach(() => {
     localStorageMock.clear()
-  })
-
-  // Clear mock localStorage before each test
-  beforeEach(() => {
-    localStorageMock.clear()
-  })
-
-  // ... rest of your tests ...
-
-  afterAll(() => {
-    // Restore the original localStorage
-    delete global.localStorage
   })
 
   describe('CRUD operations', () => {
@@ -163,14 +150,6 @@ describe('StorageInterface', () => {
       const error = new Error('test error')
       StorageInterface.log('test', LogLevel.ERROR, error)
       expect(StorageInterface.writeLog).toHaveBeenCalledWith('test', 'error', 'StorageInterface', error)
-    })
-
-    afterAll(() => {
-    // Restore the original localStorage
-      delete global.localStorage
-      // Cleanup mocked __scriptName__
-      // eslint-disable-next-line no-underscore-dangle
-      delete global.__scriptName__
     })
 
     afterEach(() => {

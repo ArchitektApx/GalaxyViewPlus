@@ -25,15 +25,17 @@ export default class InputElement extends BaseElement {
     const {
       checked        = false,
       name           = '',
+      placeholder    = '',
       value          = '',
     } = options
 
     // pass all others to the base class
     super('input', options)
 
-    this.element.type  = type
-    this.element.name  = name
-    this.element.value = value
+    this.element.type        = type
+    this.element.name        = name
+    this.element.placeholder = placeholder
+    this.element.value       = value
 
     if (type === 'checkbox' || type === 'radio') {
       this.element.checked = checked

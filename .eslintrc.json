@@ -51,7 +51,8 @@
       ],
       "rules": {
         "no-unused-vars": "off",
-        "sort-keys-plus/sort-keys": "off"
+        "sort-keys-plus/sort-keys": "off",
+        "jsdoc/require-jsdoc": "off"
       }
     }
   ],

@@ -60,7 +60,9 @@ describe('SettingsInterface', () => {
   it('should create a settings interface with correct elements', () => {
     const instance = new SettingsInterface(configManagerInstance)
 
-    expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(1, 'div', { id: 'settings-interface-wrapper' })
+    expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(1, 'div', {
+      id: 'settings-interface-wrapper',
+    })
     expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(2, 'summary', {
       id          : 'settings-interface-summary',
       textContent : 'Test Title',

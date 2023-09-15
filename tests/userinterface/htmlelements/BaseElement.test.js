@@ -1,30 +1,18 @@
 /* eslint-disable unicorn/prefer-dom-node-dataset */
-import BaseElement from '../../../src/userinterface/htmlelements/BaseElement.js'
+import BaseElement     from '../../../src/userinterface/htmlelements/BaseElement.js'
+import MockHTMLElement from '../mocks/MockHtmlElement.js'
 
-class MockHTMLElement {
-  constructor(tagName) {
-    this.tagName          = tagName.toUpperCase()
-    this.classList        = {
-      add: jest.fn(),
-    }
-    this.addEventListener = jest.fn()
-    this.setAttribute     = jest.fn()
-    this.append           = jest.fn()
-    this.after            = jest.fn()
-    this.children         = []
-    this.style            = {}
-  }
-}
-
-global.HTMLElement = MockHTMLElement
+const testcontent = 'test content'
+const testclass   = 'test-class'
 
 describe('BaseElement', () => {
   let createElementMock
 
   beforeEach(() => {
     // Mocking document.createElement
-    createElementMock = jest.fn(tag => new MockHTMLElement(tag))
-    global.document   = {
+    global.HTMLElement = MockHTMLElement
+    createElementMock  = jest.fn(tag => new MockHTMLElement(tag))
+    global.document    = {
       createElement: createElementMock,
     }
   })
@@ -35,146 +23,171 @@ describe('BaseElement', () => {
     expect(element.getElement().tagName).toBe('DIV')
   })
 
-  it('should add class to the element', () => {
-    const element = new BaseElement('div')
-    element.addClass('test-class')
-    expect(element.getElement().classList.add).toHaveBeenCalledWith('test-class')
+  describe('handling classes', () => {
+    it('should add class to the element', () => {
+      const element = new BaseElement('div', {
+        classList: [ testclass ],
+      })
+
+      expect(element.getElement().classList.add).toHaveBeenCalledWith(testclass)
+    })
+
+    it('should add multiple classes to the element', () => {
+      const element = new BaseElement('div', {
+        classList: [ 'test-class1', 'test-class2' ],
+      })
+
+      expect(element.getElement().classList.add).toHaveBeenCalledWith('test-class1')
+      expect(element.getElement().classList.add).toHaveBeenCalledWith('test-class2')
+    })
+
+    it('should add multiple classes from a string', () => {
+      const element = new BaseElement('div', { classList: 'class1 class2' })
+      element.getElement()
+      expect(element.element.classList.add).toHaveBeenCalledWith('class1')
+      expect(element.element.classList.add).toHaveBeenCalledWith('class2')
+    })
   })
 
-  it('should add event listener to the element', () => {
-    const element      = new BaseElement('div')
-    const mockCallback = jest.fn()
-    element.addEventListener('click', mockCallback)
-    expect(element.getElement().addEventListener).toHaveBeenCalledWith('click', mockCallback)
+  describe('handling eventListeners', () => {
+    it('should add eventListener to the element', () => {
+      const element = new BaseElement('div', {
+        eventListeners: [ { eventType: 'click', callback: jest.fn() } ],
+      })
+
+      expect(element.getElement().addEventListener).toHaveBeenCalledWith('click', expect.any(Function))
+    })
+
+    it('should add multiple event listeners to the element', () => {
+      const element = new BaseElement('div', {
+        eventListeners: [
+          { eventType: 'click', callback: jest.fn() },
+          { eventType: 'hover', callback: jest.fn() },
+        ],
+      })
+
+      expect(element.getElement().addEventListener).toHaveBeenCalledWith('click', expect.any(Function))
+      expect(element.getElement().addEventListener).toHaveBeenCalledWith('hover', expect.any(Function))
+    })
+
+    it('should not add event listeners if no eventType provided', () => {
+      const element = new BaseElement('div', { eventListeners: { callback: jest.fn() } })
+      expect(element.getElement().addEventListener).not.toHaveBeenCalled()
+    })
+
+    it('should not add event listeners if no callback provided', () => {
+      const element = new BaseElement('div', { eventListeners: { eventType: 'click' } })
+      expect(element.getElement().addEventListener).not.toHaveBeenCalled()
+    })
   })
 
-  it('should append child element', () => {
-    const element = new BaseElement('div')
-    const child   = new MockHTMLElement('span')
-    element.append(child)
-    expect(element.getElement().append).toHaveBeenCalledWith(child)
+  describe('handling childelements', () => {
+    it('should append child element of own type and render child', () => {
+      const child   = new BaseElement('span')
+      const element = new BaseElement('div', {
+        children: [ child ],
+      })
+
+      expect(element.getElement().append).toHaveBeenCalledWith(child.getElement())
+    })
+
+    it('should append child element of HTMLElement type', () => {
+      const child   = new MockHTMLElement('span')
+      const element = new BaseElement('div', {
+        children: [ child ],
+      })
+
+      expect(element.getElement().append).toHaveBeenCalledWith(child)
+    })
+
+    it('should append multiple child elements', () => {
+      const child1  = new MockHTMLElement('span')
+      const child2  = new MockHTMLElement('span')
+      const element = new BaseElement('div', {
+        children: [
+          child1,
+          child2,
+        ],
+      })
+
+      element.getElement()
+      expect(element.element.append).toHaveBeenCalledWith(child1)
+      expect(element.element.append).toHaveBeenCalledWith(child2)
+      expect(element.element.children).toHaveLength(2)
+    })
+
+    it('should attach element after the current element when after method is called', () => {
+      const sibling = new MockHTMLElement('span')
+      const element = new BaseElement('div')
+
+      element.after(sibling)
+      expect(element.element.after).toHaveBeenCalledWith(sibling)
+    })
+
+    it('should log an error for invalid child type', () => {
+      console.error = jest.fn()
+      const element = new BaseElement('div')
+      element.append('string')
+      expect(console.error).toHaveBeenCalledWith('append expects an instance of BaseElement or HTMLElement')
+    })
   })
 
-  it('should attach element after the current element', () => {
-    const element = new BaseElement('div')
-    const child   = new MockHTMLElement('span')
-    element.after(child)
-    expect(element.getElement().after).toHaveBeenCalledWith(child)
+  describe('handling attributes', () => {
+    it('should set a single attribute for the element', () => {
+      const element = new BaseElement('div', { attributes: { style: 'somecss' } })
+      element.getElement()
+      expect(element.element.setAttribute).toHaveBeenCalledWith('style', 'somecss')
+    })
+
+    it('should set multiple attributes for the element', () => {
+      const element = new BaseElement('div', {
+        attributes: {
+          'href'      : 'value',
+          'data-test' : 'value',
+        },
+      })
+      element.getElement()
+
+      expect(element.element.setAttribute).toHaveBeenCalledWith('href', 'value')
+      expect(element.element.setAttribute).toHaveBeenCalledWith('data-test', 'value')
+    })
+
+    it('should set an attribute using setAttribute method', () => {
+      const element = new BaseElement('div')
+      element.setAttribute('data-test', 'value')
+      expect(element.getElement().setAttribute).toHaveBeenCalledWith('data-test', 'value')
+    })
   })
 
-  it('should set a single attribute for the element', () => {
-    const element = new BaseElement('div', { attributes: { 'data-test': 'value' } })
-    element.getElement()
-    expect(element.getElement().setAttribute).toHaveBeenCalledWith('data-test', 'value')
-  })
+  describe('handling textContent', () => {
+    it('should set textContent for elements without children', () => {
+      const element = new BaseElement('div', { textContent: testcontent })
+      element.getElement()
+      expect(element.element.textContent).toBe(testcontent)
+    })
 
-  it('should set attributes for the element', () => {
-    const element = new BaseElement('div', { attributes: { 'data-test': 'value' } })
-    element.getElement()
-    expect(element.getElement().setAttribute).toHaveBeenCalledWith('data-test', 'value')
-  })
+    it('should not set textContent for elements with children', () => {
+      const child   = new BaseElement('span')
+      const element = new BaseElement('div', {
+        textContent : testcontent,
+        children    : [ child ],
+      })
 
-  it('should set for attribute when tag is label', () => {
-    const element = new BaseElement('label', { attributes: { for: 'test-id' } })
-    element.getElement()
-    expect(element.getElement().setAttribute).toHaveBeenCalledWith('for', 'test-id')
+      element.getElement()
+      expect(element.element.textContent).toBeUndefined()
+    })
   })
 
   it('should set id for the element', () => {
     const element = new BaseElement('div', { id: 'test-id' })
     element.getElement()
-    expect(element.getElement().id).toBe('test-id')
+    expect(element.element.id).toBe('test-id')
   })
 
-  it('should set color for span element', () => {
-    const element = new BaseElement('span', { attributes: { style: 'color: red' } })
-    element.getElement()
-    expect(element.getElement().setAttribute).toHaveBeenCalledWith('style', 'color: red')
-  })
-
-  it('should set styles for the element', () => {
-    const element = new BaseElement('div', { attributes: { style: 'backgroundColor: blue' } })
-    element.getElement()
-    expect(element.getElement().setAttribute).toHaveBeenCalledWith('style', 'backgroundColor: blue')
-  })
-
-  it('should set textContent for the element without children', () => {
-    const element = new BaseElement('div', { textContent: 'test content' })
-    element.getElement()
-    expect(element.getElement().textContent).toBe('test content')
-  })
-
-  it('should add multiple classes from a string', () => {
-    const element = new BaseElement('div', { classList: 'class1 class2' })
-    element.getElement()
-    expect(element.getElement().classList.add).toHaveBeenCalledWith('class1')
-    expect(element.getElement().classList.add).toHaveBeenCalledWith('class2')
-  })
-
-  it('should add multiple event listeners', () => {
-    const mockCallback1 = jest.fn()
-    const mockCallback2 = jest.fn()
-    const element       = new BaseElement('div', { eventListeners: [ { eventType: 'click', callback: mockCallback1 }, { eventType: 'hover', callback: mockCallback2 } ] })
-    element.getElement()
-    expect(element.getElement().addEventListener).toHaveBeenCalledWith('click', mockCallback1)
-    expect(element.getElement().addEventListener).toHaveBeenCalledWith('hover', mockCallback2)
-  })
-
-  it('should log an error for invalid child type', () => {
-    console.error = jest.fn() // Mock console.error to suppress expected error messages
-    const element = new BaseElement('div')
-    element.append('string') // Passing a string instead of an HTMLElement or BaseElement
-    expect(console.error).toHaveBeenCalledWith('append expects an instance of BaseElement or HTMLElement')
-  })
-
-  it('should set multiple attributes', () => {
-    const element = new BaseElement('div', { attributes: { 'data-test1': 'value1', 'data-test2': 'value2' } })
-    element.getElement()
-    expect(element.getElement().setAttribute).toHaveBeenCalledWith('data-test1', 'value1')
-    expect(element.getElement().setAttribute).toHaveBeenCalledWith('data-test2', 'value2')
-  })
-
-  it('should not add event listeners if no eventType provided', () => {
-    const element = new BaseElement('div', { eventListeners: { callback: jest.fn() } })
-    expect(element.getElement().addEventListener).not.toHaveBeenCalled()
-  })
-
-  it('should not add event listeners if no callback provided', () => {
-    const element = new BaseElement('div', { eventListeners: { eventType: 'click' } })
-    expect(element.getElement().addEventListener).not.toHaveBeenCalled()
-  })
-
-  it('should handle childelement of type BaseElement', () => {
-    const element = new BaseElement('div')
-    const child   = new BaseElement('span')
-    element.append(child)
-    expect(element.getElement().append).toHaveBeenCalledWith(child.getElement())
-  })
-
-  it('should handle childelement of type HTMLElement', () => {
-    const element = new BaseElement('div')
-    const child   = new MockHTMLElement('span')
-    element.append(child)
-    expect(element.getElement().append).toHaveBeenCalledWith(child)
-  })
-
-  it('should handle childelement of type string', () => {
-    const element = new BaseElement('div')
-    element.append('string')
-    expect(element.getElement().append).not.toHaveBeenCalled()
-  })
-
-  it('should set an attribute using setAttribute method', () => {
-    const element = new BaseElement('div')
-    element.setAttribute('data-test', 'value')
-    expect(element.getElement().setAttribute).toHaveBeenCalledWith('data-test', 'value')
-  })
-
-  it('should set multiple children', () => {
-    const element = new BaseElement('div')
-    const child1  = new BaseElement('span')
-    const child2  = new BaseElement('span')
-    element.appendChildren([ child1, child2 ])
-    expect(element.getElement().append).toHaveBeenCalledTimes(2)
+  it('should return the element', () => {
+    const element     = new BaseElement('div', { id: 'test-id' })
+    const htmlelement = element.element
+    const returned    = element.getElement()
+    expect(returned).toBe(htmlelement)
   })
 })

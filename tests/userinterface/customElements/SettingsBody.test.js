@@ -23,7 +23,7 @@ describe('SettingsBody', () => {
         classList   : {
           add: jest.fn(),
         },
-        append: jest.fn(), // Add this line to mock the append method
+        append: jest.fn(),
       }),
     }
 

@@ -44,6 +44,7 @@ describe('ValueTableElement', () => {
     const instance       = new ValueTableElement(config, configCallback)
 
     expect(instance).toBeInstanceOf(ValueTableElement)
+
     expect(HtmlElementFactory.create).toHaveBeenCalled()
   })
 
@@ -112,8 +113,30 @@ describe('ValueTableElement', () => {
     const classList = 'test-classList'
 
     const headerElement = instance.buildTableHeader(classList)
+    expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(1, 'th', {
+      id          : 'test-prefixcell-key',
+      textContent : 'Key',
+    })
+    expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(2, 'th', {
+      id          : 'test-prefixcell-value',
+      textContent : 'Value',
+    })
+    expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(3, 'th', {
+      id          : 'test-prefixcell-delete',
+      textContent : 'Löschen',
+    })
+    expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(4, 'tr', {
+      children  : [ expect.anything(), expect.anything(), expect.anything() ],
+      classList : 'valuetable-header valuetable-header-row',
+      id        : 'test-prefixrow',
+    })
+    expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(5, 'thead', {
+      children  : expect.anything(),
+      classList : 'valuetable-header',
+      id        : 'test-prefix-tableheader',
+    })
 
-    expect(headerElement).toBeDefined()
+    expect(instance).toBeDefined()
     expect(HtmlElementFactory.create).toHaveBeenCalledTimes(12)
   })
 
@@ -140,6 +163,29 @@ describe('ValueTableElement', () => {
     const headerElement = instance.buildTableHeader(classList, thNames, thIds)
 
     expect(headerElement).toBeDefined()
+    expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(8, 'th', {
+      id          : 'test-prefixcell-id1',
+      textContent : 'Name1',
+    })
+    expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(9, 'th', {
+      id          : 'test-prefixcell-id2',
+      textContent : 'Name2',
+    })
+    expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(10, 'th', {
+      id          : 'test-prefixcell-id3',
+      textContent : 'Name3',
+    })
+    expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(11, 'tr', {
+      children  : [ expect.anything(), expect.anything(), expect.anything() ],
+      classList : 'test-classList test-classList-row',
+      id        : 'test-prefixrow',
+    })
+    expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(12, 'thead', {
+      children  : expect.anything(),
+      classList : 'valuetable-header',
+      id        : 'test-prefix-tableheader',
+    })
+
     expect(HtmlElementFactory.create).toHaveBeenCalledTimes(12)
   })
 })

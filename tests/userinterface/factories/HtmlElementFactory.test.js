@@ -1,56 +1,14 @@
-/* eslint-disable no-underscore-dangle */
 import HtmlElementFactory from '../../../src/userinterface/factories/HtmlElementFactory.js'
-
-class MockHTMLElement {
-  constructor(tagName) {
-    this.tagName     = tagName.toUpperCase()
-    this.attributes  = {}
-    this._classList  = []  // internal array to store classes
-    this.classList   = {
-      contains : cls => this._classList.includes(cls),  // check if class exists
-      add      : cls => this._classList.push(cls),  // add class to internal array
-    }
-    this.textContent = ''
-    this.title       = ''
-    this.id          = ''
-    this.children    = []
-    this.dataset     = {}
-  }
-
-  getAttribute(attribute) {
-    return this.attributes[attribute]
-  }
-
-  getElement() {
-    // Simulate the behavior of BaseElement.getElement
-    if (this._textContent && this.children.length === 0) {
-      this.textContent = this._textContent
-    }
-    // ... handle other properties similarly
-
-    return this
-  }
-
-  setAttribute(attribute, value) {
-    this.attributes[attribute] = value
-    if (attribute.startsWith('data-')) {
-      const key         = attribute.slice(5)  // remove 'data-' prefix
-      this.dataset[key] = value
-    } else {
-      this[attribute] = value
-    }
-  }
-}
-
-global.HTMLElement = MockHTMLElement
+import MockHTMLElement    from '../mocks/MockHtmlElement.js'
 
 describe('HtmlElementFactory', () => {
   let createElementMock
 
   beforeEach(() => {
     // Mocking document.createElement
-    createElementMock = jest.fn(tag => new MockHTMLElement(tag))
-    global.document   = {
+    global.HTMLElement = MockHTMLElement
+    createElementMock  = jest.fn(tag => new MockHTMLElement(tag))
+    global.document    = {
       createElement: createElementMock,
     }
   })
@@ -62,22 +20,19 @@ describe('HtmlElementFactory', () => {
   })
 
   it('should apply provided options to the created element', () => {
+    const child1  = HtmlElementFactory.create('div')
     const options = {
-      attributes  : { 'data-test': 'value', 'title': 'test title', 'style': 'background-color: blue' },
-      classList   : [ 'test-class' ],
-      textContent : 'test content',
-      id          : 'test-id',
+      attributes     : { style: 'somestyle' },
+      classList      : [ 'test-class' ],
+      children       : [ child1 ],
+      eventListeners : [ { eventType: 'click', callback: jest.fn() } ],
+      id             : 'test-id',
     }
 
     const element = HtmlElementFactory.create('div', options)
-    element.getElement()
-    expect(element.dataset.test).toBe('value')
-    expect(element.classList.contains('test-class')).toBeTruthy()
-    expect(element.textContent).toBe('test content')
-    expect(element.title).toBe('test title')
-    expect(element.style).toBe('background-color: blue')
+    expect(element.setAttribute).toHaveBeenCalledWith('style', 'somestyle')
+    expect(element.classList.add).toHaveBeenCalledWith('test-class')
+    expect(element.children).toHaveLength(1)
     expect(element.id).toBe('test-id')
   })
-
-  // ... Add more tests for other options and edge cases.
 })

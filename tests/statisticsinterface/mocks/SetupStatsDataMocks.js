@@ -1,7 +1,3 @@
-import StatsDataFetcherMock from '../../../src/statisticsinterface/StatsDataFetcher.js'
-import StatsDataLoaderMock  from '../../../src/statisticsinterface/StatsDataLoader.js'
-import StorageInterfaceMock from '../../../src/storageinterface/StorageInterface.js'
-
 jest.mock('../../../src/storageinterface/StorageInterface.js', () => ({
   getStorageItem : jest.fn(),
   setStorageItem : jest.fn(),

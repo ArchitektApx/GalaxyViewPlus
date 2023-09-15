@@ -34,6 +34,4 @@ describe('StaticData', () => {
 
     expect(Object.keys(StaticData.DEFAULT_CONFIG)).toEqual(expectedKeys)
   })
-
-  // ... you can add more detailed tests if needed for nested objects/values ...
 })

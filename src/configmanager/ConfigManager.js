@@ -107,9 +107,9 @@ export default class ConfigManager {
    * @param  {boolean} reload - If true the page will be reloaded after saving
    * @private
    */
-  #saveConfig(reload = true) {
+  #saveConfig() {
     StorageInterface.setStorageItem(StaticData.STORAGE_KEYS.USER_CONFIG, this.#runningConfig)
-    if (reload) { document.location.reload() }
+    document.location.reload()
   }
 
   /**

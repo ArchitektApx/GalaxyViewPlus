@@ -82,16 +82,17 @@ describe('StorageInterface', () => {
     })
 
     it('should handle removing old logs when max entries is reached', () => {
-      Array.from({ length: StaticData.DEBUG_LOG_MAX_ENTRIES }, (_, index) => index + 1)
+      const overMax = 5
+      Array.from({ length: StaticData.DEBUG_LOG_MAX_ENTRIES + overMax }, (_, index) => index + 1)
       .forEach((index) => {
         StorageInterface.writeLog(`Test log ${ index }`)
       })
 
       const logs          = StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.DEBUG_LOG)
-      const lastlognumber = String(StaticData.DEBUG_LOG_MAX_ENTRIES)
+      const lastlognumber = String(StaticData.DEBUG_LOG_MAX_ENTRIES + overMax)
 
       expect(logs).toHaveLength(StaticData.DEBUG_LOG_MAX_ENTRIES)
-      expect(logs[0]).toContain('Test log 1')
+      expect(logs[0]).toContain('Test log 6')
       expect(logs[StaticData.DEBUG_LOG_MAX_ENTRIES - 1]).toContain(`Test log ${ lastlognumber }`)
     })
 

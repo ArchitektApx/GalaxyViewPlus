@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import LogLevel         from '../../src/enum/LogLevel.js'
 import StaticData       from '../../src/staticdata/StaticData.js'
 import StatsDataParser  from '../../src/statisticsinterface/StatsDataParser.js' // Adjust the import path as needed
@@ -105,9 +104,9 @@ describe('StatsDataParser', () => {
         responseText: JSON.stringify([
           {
             playerId      : 1,
-            playerName    : 'Player 1',
+            playerName    : 'Player 3',
             allianceId    : 101,
-            allianceName  : 'Alliance 1',
+            allianceName  : 'Alliance 3',
             rank          : 3,
             researchRank  : 2,
             buildingRank  : 4,
@@ -124,11 +123,11 @@ describe('StatsDataParser', () => {
       expect(result).toEqual({
         1: {
           allianceId    : 101,
-          allianceName  : 'Alliance 1',
+          allianceName  : 'Alliance 3',
           buildingRank  : 4,
           defensiveRank : 1,
           fleetRank     : 5,
-          playerName    : 'Player 1',
+          playerName    : 'Player 3',
           rank          : 3,
           researchRank  : 2,
         },

@@ -24,7 +24,6 @@ describe('ConfigManager', () => {
     jest.spyOn(Validator, 'validateConfig').mockReturnValue(true)
     jest.spyOn(Validator, 'migrateConfig').mockReturnValue({ migrated: 'config' })
 
-    // eslint-disable-next-line no-underscore-dangle
     ConfigManager._resetInstance()
   })
 
@@ -111,7 +110,7 @@ describe('ConfigManager', () => {
     })
   })
 
-  describe('#loadConfig', () => {
+  describe('Config loading&migration using ConfigLoader', () => {
     it('should load default config when no config is found in storage', () => {
       jest.spyOn(StorageInterface, 'getStorageItem').mockReturnValue({})
 

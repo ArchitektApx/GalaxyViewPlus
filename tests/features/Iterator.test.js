@@ -38,7 +38,7 @@ describe('Iterator', () => {
         { feature: 'rankRecolor', active: true, data: {} },
       ]
 
-      new Iterator({ features: featureConfig }, {})
+      const instance = new Iterator({ features: featureConfig }, {})
 
       // Assert that the features were instantiated and executed
       expect(InactiveRecolor).toHaveBeenCalledTimes(1)
@@ -57,7 +57,7 @@ describe('Iterator', () => {
     it('should log when constructor and invokeFeatures are called', () => {
       const featureConfig = []
 
-      new Iterator({ features: featureConfig }, {})
+      const instance = new Iterator({ features: featureConfig }, {})
 
       expect(StorageInterface.writeLog).toHaveBeenCalledTimes(2)
       expect(StorageInterface.writeLog).toHaveBeenCalledWith('Starting feature iterator ', LogLevel.DEBUG, 'IteratorModule', '')

@@ -12,8 +12,13 @@ export default class After {
    * @static
    * @public
    */
-  static changeTableVisibility(target) {
-    const { checked, parentElement: { nextSibling: tablebody } } = target
+  static changeTableVisibility(target = {}) {
+    const {
+      checked = false,
+      parentElement: {
+        nextSibling: tablebody,
+      } = {},
+    } = target
 
     // check if tablebody exists and has a classList just to be sure
     if (tablebody?.classList) {
@@ -30,9 +35,9 @@ export default class After {
    * @static
    * @public
    */
-  static refreshLastValue(target) {
+  static refreshLastValue(target = {}) {
     const { dataset, checked, value, type } = target
-    if (dataset) {
+    if (dataset?.lastvalue) {
       dataset.lastvalue = Mindash.isThisOrThat(type, 'checkbox', 'radio')
         ? checked
         : value

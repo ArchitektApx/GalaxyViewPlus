@@ -43,7 +43,8 @@ jest.mock('../../../src/userinterface/factories/HtmlElementFactory.js', () => ({
     classList   : {
       add: jest.fn(),
     },
-    append: jest.fn(),
+    append : jest.fn(),
+    after  : jest.fn(),
   }),
 }))
 jest.mock('../../../src/userinterface/factories/DataTypeFactory.js')

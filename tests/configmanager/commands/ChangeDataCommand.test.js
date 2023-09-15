@@ -49,7 +49,11 @@ describe('ChangeDataCommand', () => {
     it('should update existing data', () => {
       const data = [ { key: 'old', value: 'value1' } ]
 
-      ChangeDataCommand.updateKeyValueData(data, { lastvalue: 'old', value: 'new' }, { lastvalue: 'value1', value: 'value2' })
+      ChangeDataCommand.updateKeyValueData(
+        data,
+        { lastvalue: 'old', value: 'new' },
+        { lastvalue: 'value1', value: 'value2' }
+      )
 
       expect(data).toEqual([ { key: 'new', value: 'value2' } ])
     })
@@ -57,9 +61,16 @@ describe('ChangeDataCommand', () => {
     it('should add new data', () => {
       const data = [ { key: 'old', value: 'value1' } ]
 
-      ChangeDataCommand.updateKeyValueData(data, { lastvalue: 'new', value: 'new' }, { lastvalue: 'value2', value: 'value2' })
+      ChangeDataCommand.updateKeyValueData(
+        data,
+        { lastvalue: 'new', value: 'new' },
+        {  lastvalue: 'value2', value: 'value2' }
+      )
 
-      expect(data).toEqual([ { key: 'old', value: 'value1' }, { key: 'new', value: 'value2' } ])
+      expect(data).toEqual([
+        { key: 'old', value: 'value1' },
+        { key: 'new', value: 'value2' },
+      ])
     })
   })
 
@@ -81,7 +92,12 @@ describe('ChangeDataCommand', () => {
     })
 
     it('should update checkbox', () => {
-      ChangeDataCommand.updateValueData(data, { name: 'checkbox', type: 'checkbox', checked: true, value: 'newValue' })
+      ChangeDataCommand.updateValueData(data, {
+        name    : 'checkbox',
+        type    : 'checkbox',
+        checked : true,
+        value   : 'newValue',
+      })
       expect(data[1].checked).toBe(true)
     })
 

@@ -69,7 +69,7 @@ export default class ConfigLoader {
     // eslint-disable-next-line no-restricted-globals
     const response = confirm('Deine Config ist ungültig oder benötigt ein Update und wird daher migriert. Willst du die migrierte Config speichern und neu laden?')
     const config   = Validator.migrateConfig(storedConfig, StaticData.DEFAULT_CONFIG)
-    this.#saveConfig(response)
+    ConfigLoader.#saveConfig(config, response)
     return config
   }
 

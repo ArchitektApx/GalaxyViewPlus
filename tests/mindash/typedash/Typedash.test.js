@@ -1,7 +1,7 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import Typedash from '../../../src/mindash/typedash/Typedash.js'
 
-describe('Typedash', () => {
+describe('Typedash general methods', () => {
   describe('defaultTo', () => {
     it('should return input when it is "something"', () => {
       expect(Typedash.defaultTo('Hello')).toBe('Hello')
@@ -40,18 +40,20 @@ describe('Typedash', () => {
     })
   })
 
-  describe('isArrayOrObject', () => {
-    it('should return true for arrays and objects', () => {
-      expect(Typedash.isArrayOrObject([])).toBe(true)
-      expect(Typedash.isArrayOrObject({})).toBe(true)
+  describe('prepareInput', () => {
+    it('should prepare the input for array-based actions', () => {
+      expect(Typedash.prepareInput('apple')).toEqual([ 'apple' ])
+      expect(Typedash.prepareInput([ 'apple', 'orange' ])).toEqual([ 'apple', 'orange' ])
     })
 
-    it('should return false for non-arrays and non-objects', () => {
-      expect(Typedash.isArrayOrObject('apple')).toBe(false)
-      expect(Typedash.isArrayOrObject(5)).toBe(false)
+    it('should convert objects to arrays of their entries if specified', () => {
+      const object = { fruit: 'apple', count: 5 }
+      expect(Typedash.prepareInput(object, true)).toEqual([ [ 'fruit', 'apple' ], [ 'count', 5 ] ])
     })
   })
+})
 
+describe('Typedash isEmpty methods', () => {
   describe('isEmptyArray', () => {
     it('should return true for empty arrays', () => {
       expect(Typedash.isEmptyArray([])).toBe(true)
@@ -85,6 +87,49 @@ describe('Typedash', () => {
       expect(Typedash.isNullOrEmptyString('apple')).toBe(false)
     })
   })
+})
+
+describe('Typedash isX methods', () => {
+  describe('isArrayOrObject', () => {
+    it('should return true for arrays and objects', () => {
+      expect(Typedash.isArrayOrObject([])).toBe(true)
+      expect(Typedash.isArrayOrObject({})).toBe(true)
+    })
+
+    it('should return false for non-arrays and non-objects', () => {
+      expect(Typedash.isArrayOrObject('apple')).toBe(false)
+      expect(Typedash.isArrayOrObject(5)).toBe(false)
+    })
+  })
+
+  describe('isType', () => {
+    it('should return true if input type matches the provided type', () => {
+      expect(Typedash.isType('apple', 'string')).toBe(true)
+      expect(Typedash.isType(5, 1)).toBe(true)
+      expect(Typedash.isType([ 1, 2, 3 ], [])).toBe(true)
+      expect(Typedash.isType({ test: 'test' },  {})).toBe(true)
+    })
+
+    it('should return false otherwise', () => {
+      expect(Typedash.isType('apple', 0)).toBe(false)
+      expect(Typedash.isType(5, 'string')).toBe(false)
+      expect(Typedash.isType([ 1, 2, 3 ], {})).toBe(false)
+      expect(Typedash.isType({ test: 'test' },  [])).toBe(false)
+    })
+
+    it('should handle null, undefined and falsy values', () => {
+      expect(Typedash.isType(null, {})).toBe(false)
+      expect(Typedash.isType(undefined, {})).toBe(false)
+      expect(Typedash.isType(0, 'number')).toBe(false)
+      expect(Typedash.isType(false, [])).toBe(false)
+    })
+
+    it('should default to undefined type if none provided', () => {
+    // eslint-disable-next-line unicorn/no-useless-undefined
+      expect(Typedash.isType(undefined)).toBe(true)
+      expect(Typedash.isType(5)).toBe(false)
+    })
+  })
 
   describe('isSomething', () => {
     it('should return true for non-empty strings, numbers, non-empty arrays, and non-empty objects', () => {
@@ -102,7 +147,9 @@ describe('Typedash', () => {
       expect(Typedash.isSomething({})).toBe(false)
     })
   })
+})
 
+describe('Typedash This/That methods', () => {
   describe('isThisAndThat', () => {
     it('should return true if input matches both of the two provided values', () => {
       expect(Typedash.isThisAndThat('apple', 'apple', 'apple')).toBe(true)
@@ -154,36 +201,9 @@ describe('Typedash', () => {
       expect(Typedash.isThisOrThatType(false, [], {})).toBe(false)
     })
   })
+})
 
-  describe('isType', () => {
-    it('should return true if input type matches the provided type', () => {
-      expect(Typedash.isType('apple', 'string')).toBe(true)
-      expect(Typedash.isType(5, 1)).toBe(true)
-      expect(Typedash.isType([ 1, 2, 3 ], [])).toBe(true)
-      expect(Typedash.isType({ test: 'test' },  {})).toBe(true)
-    })
-
-    it('should return false otherwise', () => {
-      expect(Typedash.isType('apple', 0)).toBe(false)
-      expect(Typedash.isType(5, 'string')).toBe(false)
-      expect(Typedash.isType([ 1, 2, 3 ], {})).toBe(false)
-      expect(Typedash.isType({ test: 'test' },  [])).toBe(false)
-    })
-
-    it('should handle null, undefined and falsy values', () => {
-      expect(Typedash.isType(null, {})).toBe(false)
-      expect(Typedash.isType(undefined, {})).toBe(false)
-      expect(Typedash.isType(0, 'number')).toBe(false)
-      expect(Typedash.isType(false, [])).toBe(false)
-    })
-
-    it('should default to undefined type if none provided', () => {
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      expect(Typedash.isType(undefined)).toBe(true)
-      expect(Typedash.isType(5)).toBe(false)
-    })
-  })
-
+describe('Typedash path methods', () => {
   describe('pathFromKeys', () => {
     it('should convert array of keys to dot-notation string path', () => {
       expect(Typedash.pathFromKeys([ 'a', 'b', 'c' ])).toBe('a.b.c')
@@ -199,18 +219,6 @@ describe('Typedash', () => {
 
     it('should throw an error if path is not a string', () => {
       expect(() => Typedash.pathToKeys(123)).toThrow(TypeError)
-    })
-  })
-
-  describe('prepareInput', () => {
-    it('should prepare the input for array-based actions', () => {
-      expect(Typedash.prepareInput('apple')).toEqual([ 'apple' ])
-      expect(Typedash.prepareInput([ 'apple', 'orange' ])).toEqual([ 'apple', 'orange' ])
-    })
-
-    it('should convert objects to arrays of their entries if specified', () => {
-      const object = { fruit: 'apple', count: 5 }
-      expect(Typedash.prepareInput(object, true)).toEqual([ [ 'fruit', 'apple' ], [ 'count', 5 ] ])
     })
   })
 })

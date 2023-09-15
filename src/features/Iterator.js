@@ -4,6 +4,7 @@ import StorageInterface from '../storageinterface/StorageInterface.js'
 import InactiveRecolor  from './inactiverecolor/InactiveRecolor.js'
 import RangeInfo        from './rangeinfo/RangeInfo.js'
 import RankRecolor      from './rankrecolor/RankRecolor.js'
+import RankUtils        from './rankrecolor/RankUtils.js'
 import UsernameRecolor  from './usernameRecolor/UsernameRecolor.js'
 
 /**
@@ -28,7 +29,7 @@ export default class Iterator {
     this.featureMap = {
       inactiveRecolor : { Class: InactiveRecolor, params: undefined },
       rangeInfo       : { Class: RangeInfo,       params: RangeInfo.getCurrentGalaxyAndSystem() },
-      rankRecolor     : { Class: RankRecolor,     params: RankRecolor.getParams(config, stats) },
+      rankRecolor     : { Class: RankRecolor,     params: RankUtils.getParams(config, stats) },
       userRecolor     : { Class: UsernameRecolor, params: undefined },
     }
 

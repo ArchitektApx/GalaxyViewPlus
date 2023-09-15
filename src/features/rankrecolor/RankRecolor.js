@@ -1,6 +1,6 @@
 import Mindash            from '../../mindash/Mindash.js'
 import HtmlElementFactory from '../../userinterface/factories/HtmlElementFactory.js'
-
+import RankUtils          from './RankUtils.js'
 /**
  * The RankRecolor class is used to recolor the rank of players in the galaxy view.
  * @class
@@ -43,7 +43,10 @@ export default class RankRecolor {
    */
   getRankTypeAndDisplayName() {
     // Find the checked row, or use a default if not found
-    const { value = 'rank', displayName = 'Gesamt' } = this.rankTypeData.find(row => row.checked === true) || {}
+    const {
+      value = 'rank',
+      displayName = 'Gesamt',
+    } = this.rankTypeData.find(row => row.checked === true) || {}
 
     this.rankType        = value
     this.rankDisplayName = displayName
@@ -90,7 +93,7 @@ export default class RankRecolor {
       return this.statsInstance.getPlayerRank(Number.parseInt(playerID, 10), this.rankType)
     } catch {
       this.rankDisplayName = 'Gesamt'
-      return RankRecolor.userRankFallback(currentElement)
+      return RankUtils.userRankFallback(currentElement)
     }
   }
 
@@ -111,49 +114,5 @@ export default class RankRecolor {
     }
 
     return rankElement
-  }
-
-  /**
-   * static helper which creates the formatted parameter for the constructor
-   * @param   {object} config       - The config
-   * @param   {object} statInstance - The stat instance
-   * @returns {object}              - The formatted parameters
-   * @public
-   * @static
-   */
-  static getParams(config, statInstance) {
-    return {
-      params: {
-        rank  : RankRecolor.getRankSelectorData(config),
-        stats : statInstance,
-      },
-    }
-  }
-
-  // eslint-disable-next-line jsdoc/require-returns-check
-  /**
-   * static helper which finds the rankselector data in the config and returns it if found
-   * @param   {object}           featureConfig - The feature config
-   * @returns {undefined|object}               - The rankselector data or undefined if not found
-   * @public
-   * @static
-   */
-  static getRankSelectorData(featureConfig) {
-    const rankSelectorConfig = Mindash.findAny(featureConfig, feature => feature.feature === 'rankSelector')
-
-    if (rankSelectorConfig?.data && Array.isArray(rankSelectorConfig.data)) {
-      return rankSelectorConfig.data
-    }
-  }
-
-  /**
-   * fallback to get total rank from html if StatsInterface is not available
-   * @param   {HTMLElement} currentElement - The current element
-   * @returns {string}                     - The user rank
-   * @public
-   * @static
-   */
-  static userRankFallback(currentElement) {
-    return currentElement.dataset.tooltipContent.split('</th')[0].split(' ').pop()
   }
 }

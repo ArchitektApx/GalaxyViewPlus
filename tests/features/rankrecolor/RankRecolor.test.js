@@ -1,4 +1,5 @@
 import RankRecolor        from '../../../src/features/rankrecolor/RankRecolor.js'
+import RankUtils          from '../../../src/features/rankrecolor/RankUtils.js'
 import HtmlElementFactory from '../../../src/userinterface/factories/HtmlElementFactory.js'
 
 jest.mock('../../../src/userinterface/factories/HtmlElementFactory.js', () => ({
@@ -122,11 +123,11 @@ describe('RankRecolor', () => {
         },
       }
 
-      jest.spyOn(RankRecolor, 'userRankFallback')
+      jest.spyOn(RankUtils, 'userRankFallback')
 
       instance.execute(mockCurrentElement)
 
-      expect(RankRecolor.userRankFallback).toHaveBeenCalled()
+      expect(RankUtils.userRankFallback).toHaveBeenCalled()
       expect(instance.rankDisplayName).toBe('Gesamt')
       expect(mockCurrentElement.parentNode.append).toHaveBeenCalled()
     })
@@ -192,7 +193,7 @@ describe('RankRecolor', () => {
         },
       }
 
-      const userRank = RankRecolor.userRankFallback(mockCurrentElement)
+      const userRank = RankUtils.userRankFallback(mockCurrentElement)
 
       expect(userRank).toBe('123')
     })
@@ -200,31 +201,31 @@ describe('RankRecolor', () => {
 
   describe('getRankSelectorData', () => {
     it('should return undefined if no featureConfig passed', () => {
-      const rankSelectorData = RankRecolor.getRankSelectorData()
+      const rankSelectorData = RankUtils.getRankSelectorData()
 
       expect(rankSelectorData).toBeUndefined()
     })
 
     it('should return undefined if no rankSelector featureConfig passed', () => {
-      const rankSelectorData = RankRecolor.getRankSelectorData([ { feature: 'test' } ])
+      const rankSelectorData = RankUtils.getRankSelectorData([ { feature: 'test' } ])
 
       expect(rankSelectorData).toBeUndefined()
     })
 
     it('should return undefined if no data property in rankSelector featureConfig', () => {
-      const rankSelectorData = RankRecolor.getRankSelectorData([ { feature: 'rankSelector' } ])
+      const rankSelectorData = RankUtils.getRankSelectorData([ { feature: 'rankSelector' } ])
 
       expect(rankSelectorData).toBeUndefined()
     })
 
     it('should return undefined if data property in rankSelector featureConfig is not an array', () => {
-      const rankSelectorData = RankRecolor.getRankSelectorData([ { feature: 'rankSelector', data: 'test' } ])
+      const rankSelectorData = RankUtils.getRankSelectorData([ { feature: 'rankSelector', data: 'test' } ])
 
       expect(rankSelectorData).toBeUndefined()
     })
 
     it('should return data property in rankSelector featureConfig', () => {
-      const rankSelectorData = RankRecolor.getRankSelectorData([ { feature: 'rankSelector', data: [] } ])
+      const rankSelectorData = RankUtils.getRankSelectorData([ { feature: 'rankSelector', data: [] } ])
 
       expect(rankSelectorData).toEqual([])
     })
@@ -238,7 +239,7 @@ describe('RankRecolor', () => {
 
       const mockStatsInstance = {}
 
-      const parameters = RankRecolor.getParams(mockConfig, mockStatsInstance)
+      const parameters = RankUtils.getParams(mockConfig, mockStatsInstance)
 
       expect(parameters).toEqual({
         params: {

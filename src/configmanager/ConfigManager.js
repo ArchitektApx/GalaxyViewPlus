@@ -104,7 +104,6 @@ export default class ConfigManager {
 
   /**
    * saves the config to storage
-   * @param  {boolean} reload - If true the page will be reloaded after saving
    * @private
    */
   #saveConfig() {

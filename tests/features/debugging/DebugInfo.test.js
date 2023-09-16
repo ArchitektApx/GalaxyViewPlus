@@ -7,6 +7,9 @@ import StorageInterface       from '../../../src/storageinterface/StorageInterfa
 jest.mock('../../../src/staticdata/StaticData.js')
 jest.mock('../../../src/storageinterface/StorageInterface.js')
 
+const mockStartTime   = 1000
+const mockElapsedTime = 1000
+
 describe('DebugInfo', () => {
   // Create global mock elements for the test environment
   let mockSettingsElement
@@ -38,10 +41,7 @@ describe('DebugInfo', () => {
   })
 
   it('should create and append debug info', () => {
-    // setup mock data
-    const mockStartTime   = 1000
-    const mockElapsedTime = 1000
-    const mockData        = {
+    const mockData = {
       GalaxyViewPlus_UpdateStatus: {
         status    : 'success',
         timestamp : Date.now(),
@@ -93,8 +93,50 @@ describe('DebugInfo', () => {
     expect(mockSettingsElement.append).toHaveBeenCalled()
   })
 
-  afterEach(() => {
-    jest.clearAllMocks()
+  it('should handle missing statsdata and other data', () => {
+    const mockData = {
+      GalaxyViewPlus_UpdateStatus : undefined,
+      GalaxyViewPlus_StatsData    : undefined,
+      GalaxyViewPlus_Config       : undefined,
+    }
+    const fallback = 'not available'
+
+    StorageInterface.getStorageItem.mockImplementation(key => mockData[key])
+    StaticData.DEFAULT_CONFIG = {
+      configVersion: '1.0.0',
+    }
+
+    // start the method
+    DebugInfo.execute(mockStartTime)
+
+    // the first call to create should be the debug info element
+    expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(
+      1,
+      'div',
+      { id: 'debug-info' }
+    )
+
+    // the values we expect to be in the debug info element
+    const expectedInfo = {
+      currentConfigVersion : fallback,
+      defaultConfigVersion : '1.0.0',
+      executionTime        : `${ mockElapsedTime }ms`,
+      scriptVersion        : '1.0.0',
+      statsDataCount       : '0 Players',
+      statsUpdateStatus    : fallback,
+      statsUpdateTimestamp : fallback,
+    }
+
+    Object.keys(expectedInfo).forEach((key, index) => {
+      expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(
+        index + 2, // index 0 is the second call to create and so on
+        'p',
+        { textContent: `${ key }: ${ expectedInfo[key] }` }
+      )
+    })
+
+    // the debug info element should be appended to the settings element
+    expect(mockSettingsElement.append).toHaveBeenCalled()
   })
 
   afterAll(() => {

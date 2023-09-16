@@ -8,6 +8,10 @@ import HtmlElementFactory from '../../userinterface/factories/HtmlElementFactory
  * @class
  */
 export default class DebugInfo {
+  static #getStorageItemOrDefault = key => StorageInterface.getStorageItem(key) ?? {}
+
+  static #returnOrFallback        = value => value ?? 'not available'
+
   /**
    * Executes the DebugInfo class.
    * @param   {number} startTime - The time the script started
@@ -51,18 +55,20 @@ export default class DebugInfo {
    * @static
    */
   static #getScriptInfoObject(elapsed) {
-    const statsUpdate = StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.UPDATE_STATUS)
-    const statsData   = StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.STATS_DATA) || {}
-    const config      = StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.USER_CONFIG)
+    const status    = DebugInfo.#getStorageItemOrDefault(StaticData.STORAGE_KEYS.UPDATE_STATUS)
+    const statsData = DebugInfo.#getStorageItemOrDefault(StaticData.STORAGE_KEYS.STATS_DATA)
+    const config    = DebugInfo.#getStorageItemOrDefault(StaticData.STORAGE_KEYS.USER_CONFIG)
 
     return {
-      currentConfigVersion : config.configVersion,
+      currentConfigVersion : DebugInfo.#returnOrFallback(config.configVersion),
       defaultConfigVersion : StaticData.DEFAULT_CONFIG.configVersion,
       executionTime        : `${ elapsed }ms`,
       scriptVersion        : GM.info.script.version,
       statsDataCount       : `${ Object.keys(statsData).length } Players`,
-      statsUpdateStatus    : statsUpdate.status,
-      statsUpdateTimestamp : new Date(statsUpdate.timestamp).toISOString(),
+      statsUpdateStatus    : DebugInfo.#returnOrFallback(status.status),
+      statsUpdateTimestamp : status.timestamp
+        ? new Date(status.timestamp).toISOString()
+        : 'not available',
     }
   }
 }

@@ -1,6 +1,6 @@
 import LogLevel         from '../../src/enum/LogLevel.js'
 import StaticData       from '../../src/staticdata/StaticData.js'
-import StatsDataParser  from '../../src/statisticsinterface/StatsDataParser.js' // Adjust the import path as needed
+import StatsDataParser  from '../../src/statsdata/StatsDataParser.js' // Adjust the import path as needed
 import StorageInterface from '../../src/storageinterface/StorageInterface.js'
 import Validator        from '../../src/validator/Validator.js'
 

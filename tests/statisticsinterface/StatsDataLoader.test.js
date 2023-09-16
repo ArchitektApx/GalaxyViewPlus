@@ -1,9 +1,9 @@
-import StatsDataLoader  from '../../src/statisticsinterface/StatsDataLoader.js' // Adjust the import path as needed
-import StatsDataTimer   from '../../src/statisticsinterface/StatsDataTimer.js' // Adjust the import path as needed
+import StatsDataLoader  from '../../src/statsdata/StatsDataLoader.js' // Adjust the import path as needed
+import StatsDataTimer   from '../../src/statsdata/StatsDataTimer.js' // Adjust the import path as needed
 import StorageInterface from '../../src/storageinterface/StorageInterface.js'
 
 jest.mock('../../src/storageinterface/StorageInterface.js')
-jest.mock('../../src/statisticsinterface/StatsDataTimer.js')
+jest.mock('../../src/statsdata/StatsDataTimer.js')
 
 describe('StatsDataLoader', () => {
   afterEach(() => {

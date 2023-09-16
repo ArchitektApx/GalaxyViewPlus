@@ -1,10 +1,10 @@
-import ConfigManager       from './configmanager/ConfigManager.js'
-import LogLevel            from './enum/LogLevel.js'
-import GeneralSettings     from './features/GeneralSettings.js'
-import Iterator            from './features/Iterator.js'
-import StatisticsInterface from './statisticsinterface/StatisticsInterface.js'
-import StorageInterface    from './storageinterface/StorageInterface.js'
-import UserInterface       from './userinterface/UserInterface.js'
+import ConfigManager      from './configmanager/ConfigManager.js'
+import LogLevel           from './enum/LogLevel.js'
+import GeneralSettings    from './features/GeneralSettings.js'
+import Iterator           from './features/Iterator.js'
+import StatsDataInterface from './statsdata/StatsDataInterface.js'
+import StorageInterface   from './storageinterface/StorageInterface.js'
+import UserInterface      from './userinterface/UserInterface.js'
 
 /**
  * The GalaxyViewPlus class is the entry point of the script.
@@ -24,7 +24,7 @@ export default class GalaxyViewPlus {
     StorageInterface.writeLog('Starting script', LogLevel.INFO, 'Main')
 
     const configManager       = new ConfigManager()
-    const statisticsInterface = new StatisticsInterface()
+    const statisticsInterface = new StatsDataInterface()
 
     await statisticsInterface.initialize()
 

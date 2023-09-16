@@ -4,14 +4,14 @@ jest.mock('../../../src/storageinterface/StorageInterface.js', () => ({
   writeLog       : jest.fn(),
 }))
 
-jest.mock('../../../src/statisticsinterface/StatsDataFetcher.js', () => ({
+jest.mock('../../../src/statsdata/StatsDataFetcher.js', () => ({
   fetchStatsJson: jest.fn(),
 }))
 
-jest.mock('../../../src/statisticsinterface/StatsDataLoader.js', () => ({
+jest.mock('../../../src/statsdata/StatsDataLoader.js', () => ({
   fromStorage: jest.fn(),
 }))
 
 export { default as StorageInterfaceMock } from '../../../src/storageinterface/StorageInterface.js'
-export { default as StatsDataFetcherMock } from '../../../src/statisticsinterface/StatsDataFetcher.js'
-export { default as StatsDataLoaderMock } from '../../../src/statisticsinterface/StatsDataLoader.js'
+export { default as StatsDataFetcherMock } from '../../../src/statsdata/StatsDataFetcher.js'
+export { default as StatsDataLoaderMock } from '../../../src/statsdata/StatsDataLoader.js'

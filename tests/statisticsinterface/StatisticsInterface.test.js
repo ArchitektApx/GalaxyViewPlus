@@ -3,10 +3,10 @@ import {
   StatsDataFetcherMock,
   StatsDataLoaderMock,
 } from './mocks/SetupStatsDataMocks.js'
-import LogLevel            from '../../src/enum/LogLevel.js'
-import StaticData          from '../../src/staticdata/StaticData.js'
-import StatisticsInterface from '../../src/statisticsinterface/StatisticsInterface.js'
-import Validator           from '../../src/validator/Validator.js'
+import LogLevel           from '../../src/enum/LogLevel.js'
+import StaticData         from '../../src/staticdata/StaticData.js'
+import StatsDataInterface from '../../src/statsdata/StatsDataInterface.js'
+import Validator          from '../../src/validator/Validator.js'
 
 Validator.getTimestamp = jest.fn().mockReturnValue(99_999)
 
@@ -18,21 +18,21 @@ const mockStatsData = {
 const logMessageRefresh = 'StatsData will be refreshed'
 const logMessageError   = 'Error while downloading StatsData:'
 
-describe('StatisticsInterface', () => {
+describe('StatsDataInterface', () => {
   let instance
 
   beforeEach(() => {
     // Reset mocks before each test
     jest.clearAllMocks()
     // Reset the singleton instance
-    StatisticsInterface._resetInstance()
+    StatsDataInterface._resetInstance()
 
-    instance = new StatisticsInterface()
+    instance = new StatsDataInterface()
   })
 
   describe('initialization', () => {
     it('should create a singleton instance', () => {
-      const secondInstance = new StatisticsInterface()
+      const secondInstance = new StatsDataInterface()
 
       expect(secondInstance).toBe(instance)
     })
@@ -74,7 +74,7 @@ describe('StatisticsInterface', () => {
 
     it('should load stats from storage if valid', async () => {
       const mockStatus = {
-        status    : StatisticsInterface.STATUS_FINISHED,
+        status    : StatsDataInterface.STATUS_FINISHED,
         timestamp : Date.now(),
       }
 
@@ -92,7 +92,7 @@ describe('StatisticsInterface', () => {
       staleTimestamp.setHours(staleTimestamp.getHours() - (StaticData.UPDATE_INTERVAL + 1))
 
       const mockStatus = {
-        status    : StatisticsInterface.STATUS_FINISHED,
+        status    : StatsDataInterface.STATUS_FINISHED,
         timestamp : staleTimestamp,
       }
 
@@ -110,7 +110,7 @@ describe('StatisticsInterface', () => {
 
     it('should fetch and process stats if data is missing', async () => {
       const mockStatus = {
-        status    : StatisticsInterface.STATUS_FINISHED,
+        status    : StatsDataInterface.STATUS_FINISHED,
         timestamp : Date.now(),
       }
 
@@ -129,13 +129,13 @@ describe('StatisticsInterface', () => {
 
   describe('logging', () => {
     it('should have static log method that calls StorageInterface.writeLog', () => {
-      StatisticsInterface.log('test', LogLevel.DEBUG)
+      StatsDataInterface.log('test', LogLevel.DEBUG)
       expect(StorageInterfaceMock.writeLog).toHaveBeenCalled()
     })
 
     it('should call writeLog when data is loaded from storage', async () => {
       const mockStatus = {
-        status    : StatisticsInterface.STATUS_FINISHED,
+        status    : StatsDataInterface.STATUS_FINISHED,
         timestamp : Date.now(),
       }
 
@@ -147,32 +147,32 @@ describe('StatisticsInterface', () => {
     })
 
     it('should use Loglevel enum as default', () => {
-      StatisticsInterface.log('test')
+      StatsDataInterface.log('test')
       expect(StorageInterfaceMock.writeLog).toHaveBeenCalledWith(
         'test',
         'info',
-        'StatisticsInterface',
+        'StatsDataInterface',
         ''
       )
     })
 
     it('should use its own class name for logging', () => {
-      StatisticsInterface.log('test', LogLevel.ERROR)
+      StatsDataInterface.log('test', LogLevel.ERROR)
       expect(StorageInterfaceMock.writeLog).toHaveBeenCalledWith(
         'test',
         'error',
-        'StatisticsInterface',
+        'StatsDataInterface',
         ''
       )
     })
 
     it('should use the provided error object for logging', () => {
       const error = new Error('test error')
-      StatisticsInterface.log('test', LogLevel.ERROR, error)
+      StatsDataInterface.log('test', LogLevel.ERROR, error)
       expect(StorageInterfaceMock.writeLog).toHaveBeenCalledWith(
         'test',
         'error',
-        'StatisticsInterface',
+        'StatsDataInterface',
         error
       )
     })
@@ -181,7 +181,7 @@ describe('StatisticsInterface', () => {
   describe('#fetchAndProcessStats', () => {
     it('should log error when fetch fails', async () => {
       const mockStatus = {
-        status    : StatisticsInterface.STATUS_FINISHED,
+        status    : StatsDataInterface.STATUS_FINISHED,
         timestamp : new Date(),
       }
 
@@ -195,16 +195,16 @@ describe('StatisticsInterface', () => {
       await instance.initialize()
 
       expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(
-        1, logMessageRefresh, LogLevel.DEBUG, 'StatisticsInterface', ''
+        1, logMessageRefresh, LogLevel.DEBUG, 'StatsDataInterface', ''
       )
       expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(
-        2, logMessageError, LogLevel.WARN, 'StatisticsInterface', ''
+        2, logMessageError, LogLevel.WARN, 'StatsDataInterface', ''
       )
     })
 
     it('should handle status not being 200', async () => {
       const mockStatus = {
-        status    : StatisticsInterface.STATUS_IN_PROGRESS,
+        status    : StatsDataInterface.STATUS_IN_PROGRESS,
         timestamp : new Date(),
       }
 
@@ -221,16 +221,16 @@ describe('StatisticsInterface', () => {
       await instance.initialize()
 
       expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(
-        1, logMessageRefresh, LogLevel.DEBUG, 'StatisticsInterface', ''
+        1, logMessageRefresh, LogLevel.DEBUG, 'StatsDataInterface', ''
       )
       expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(
-        2, logMessageError, LogLevel.WARN, 'StatisticsInterface', ''
+        2, logMessageError, LogLevel.WARN, 'StatsDataInterface', ''
       )
     })
 
     it('should handle using old data when fetch fails', async () => {
       const mockStatus = {
-        status    : StatisticsInterface.STATUS_IN_PROGRESS,
+        status    : StatsDataInterface.STATUS_IN_PROGRESS,
         timestamp : new Date(),
       }
 
@@ -240,16 +240,16 @@ describe('StatisticsInterface', () => {
 
       await instance.initialize()
       expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(
-        1, logMessageRefresh, LogLevel.DEBUG, 'StatisticsInterface', ''
+        1, logMessageRefresh, LogLevel.DEBUG, 'StatsDataInterface', ''
       )
       expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(
-        2, logMessageError, LogLevel.WARN, 'StatisticsInterface', ''
+        2, logMessageError, LogLevel.WARN, 'StatsDataInterface', ''
       )
       expect(StorageInterfaceMock.writeLog).toHaveBeenNthCalledWith(
         4,
         'Try using old StatsData as fallback if available',
         LogLevel.DEBUG,
-        'StatisticsInterface',
+        'StatsDataInterface',
         ''
       )
       expect(instance.statsData).toEqual(mockStatsData)

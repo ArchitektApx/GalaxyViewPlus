@@ -1,5 +1,5 @@
-/* eslint-disable sort-class-members/sort-class-members */
 import Arraydash  from './arraydash/Arraydash.js'
+import Cleandash  from './cleandash/Cleandash.js'
 import Objectdash from './objectdash/Objectdash.js'
 import Typedash   from './typedash/Typedash.js'
 
@@ -9,7 +9,7 @@ import Typedash   from './typedash/Typedash.js'
  */
 export default class Mindash {
   static {
-    [ Typedash, Arraydash, Objectdash ].forEach((currentClass) => {
+    [ Typedash, Arraydash, Objectdash, Cleandash ].forEach((currentClass) => {
       const methodNames = Object.getOwnPropertyNames(currentClass).filter(
         name => ![ 'length', 'prototype', 'name', 'constructor' ].includes(name) && typeof currentClass[name] === 'function'
       )

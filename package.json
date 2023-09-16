@@ -77,7 +77,7 @@
         "<rootDir>/tests/testreporters/slowTest.js",
         {
           "numTests": 5,
-          "warnOnSlowerThan": 50,
+          "warnOnSlowerThan": 500,
           "color": true
         }
       ]

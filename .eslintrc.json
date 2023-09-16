@@ -76,7 +76,6 @@
     "promise",
     "regexp",
     "sonarjs",
-    "sort-class-members",
     "sort-keys-plus",
     "jsdoc",
     "perfectionist"

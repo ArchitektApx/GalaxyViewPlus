@@ -136,7 +136,7 @@ export default class BaseElement {
    * @public
    */
   setTextContent(textContent) {
-    // textConent overwrites children so we only set it if there are no children
+    // textContent overwrites children so we only set it if there are no children
     if (textContent && this.element.children?.length === 0) {
       this.element.textContent = textContent
     }

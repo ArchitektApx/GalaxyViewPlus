@@ -36,43 +36,52 @@ export default class StatsDataInterface {
   // public methods
   /**
    * returns a player id that matches the player name
-   * @param   {string} playerName - The name of the player
-   * @returns {number}            - The player id
+   * @param   {string}            playerName - The name of the player
+   * @returns {number|undefined}             - The player id or undefined if statsdata not available
+   *                                           or player name not found
    * @public
    */
   getPlayerIDByName(playerName) {
-    return Object.keys(this.statsData).find(key => this.statsData[key].playerName === playerName)
+    if (this.statsAvailable && this.statsData) {
+      return Object.keys(this.statsData).find(key => this.statsData[key]?.playerName === playerName)
+    }
   }
 
   /**
    * returns a player name that matches the player id
    * @param   {number} playerId - The id of the player
-   * @returns {string}          - The player name
+   * @returns {string|undefined}          - The player name
    * @public
    */
   getPlayerNameById(playerId) {
-    return this.statsData[playerId].playerName
+    if (this.statsAvailable && this.statsData) {
+      return this.statsData[playerId]?.playerName
+    }
   }
 
   /**
    * returns the rank of a player for a specific rank type
    * @param   {number} playerId - The id of the player
    * @param   {string} rankType - The type of the rank
-   * @returns {number}          - The rank of the player
+   * @returns {number|undefined}          - The rank of the player
    * @public
    */
   getPlayerRank(playerId, rankType = 'rank') {
-    return this.statsData[playerId][rankType]
+    if (this.statsAvailable && this.statsData) {
+      return this.statsData[playerId]?.[rankType]
+    }
   }
 
   /**
    * returns the rank data (all ranks) of a player
    * @param   {number} playerId - The id of the player
-   * @returns {object}          - The rank data of the player
+   * @returns {object|undefined}          - The rank data of the player
    * @public
    */
   getPlayerRankData(playerId) {
-    return this.statsData[playerId]
+    if (this.statsAvailable && this.statsData) {
+      return this.statsData[playerId]
+    }
   }
 
   /**

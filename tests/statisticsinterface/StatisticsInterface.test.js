@@ -40,26 +40,93 @@ describe('StatsDataInterface', () => {
 
   describe('Interfaces', () => {
     it('should return player ID by name', () => {
-      instance.statsData = mockStatsData
+      instance.statsData      = mockStatsData
+      instance.statsAvailable = true
 
       expect(instance.getPlayerIDByName('John')).toBe('123')
     })
 
+    it('should return undefined for ID if player name is not found', () => {
+      instance.statsData      = mockStatsData
+      instance.statsAvailable = true
+
+      expect(instance.getPlayerIDByName('Jane')).toBeUndefined()
+    })
+
+    it('should return undefined for ID if stats are not available', () => {
+      instance.statsData      = mockStatsData
+      instance.statsAvailable = false
+
+      expect(instance.getPlayerIDByName('John')).toBeUndefined()
+    })
+
     it('should return player name by ID', () => {
-      instance.statsData = mockStatsData
+      instance.statsData      = mockStatsData
+      instance.statsAvailable = true
 
       expect(instance.getPlayerNameById('123')).toBe('John')
     })
 
-    it('should return player rank by ID', () => {
-      instance.statsData = mockStatsData
+    it('should return undefined if player ID is not found', () => {
+      instance.statsData      = mockStatsData
+      instance.statsAvailable = true
+
+      expect(instance.getPlayerNameById('999')).toBeUndefined()
+    })
+
+    it('should return undefined for playerName if stats are not available', () => {
+      instance.statsData      = mockStatsData
+      instance.statsAvailable = false
+
+      expect(instance.getPlayerNameById('123')).toBeUndefined()
+    })
+
+    it('should return playerrank by ID', () => {
+      instance.statsData      = mockStatsData
+      instance.statsAvailable = true
 
       expect(instance.getPlayerRank('123')).toBe(5)
     })
 
+    it('should return undefined for playerRank if player ID is not found', () => {
+      instance.statsData      = mockStatsData
+      instance.statsAvailable = true
+
+      expect(instance.getPlayerRank('999')).toBeUndefined()
+    })
+
+    it('shoul return undefined for playerRank if stats are not available', () => {
+      instance.statsData      = mockStatsData
+      instance.statsAvailable = false
+
+      expect(instance.getPlayerRank('123')).toBeUndefined()
+    })
+
     it('should return rank data for player by ID', () => {
-      instance.statsData = mockStatsData
+      instance.statsData      = mockStatsData
+      instance.statsAvailable = true
       expect(instance.getPlayerRankData('123')).toEqual(instance.statsData['123'])
+    })
+
+    it('should return undefined for rank data if player ID is not found', () => {
+      instance.statsData      = mockStatsData
+      instance.statsAvailable = true
+
+      expect(instance.getPlayerRankData('999')).toBeUndefined()
+    })
+
+    it('should return undefined for rank data if stats are not available', () => {
+      instance.statsData      = mockStatsData
+      instance.statsAvailable = false
+
+      expect(instance.getPlayerRankData('123')).toBeUndefined()
+    })
+
+    it('should return undefined if stats data is empty', () => {
+      instance.statsData      = {}
+      instance.statsAvailable = true
+
+      expect(instance.getPlayerRank('123')).toBeUndefined()
     })
   })
 

@@ -52,7 +52,7 @@ export default class DebugInfo {
    */
   static #getScriptInfoObject(elapsed) {
     const statsUpdate = StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.UPDATE_STATUS)
-    const statsData   = StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.STATS_DATA)
+    const statsData   = StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.STATS_DATA) || {}
     const config      = StorageInterface.getStorageItem(StaticData.STORAGE_KEYS.USER_CONFIG)
 
     return {

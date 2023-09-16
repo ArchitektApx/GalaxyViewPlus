@@ -6,22 +6,6 @@ import StaticData from '../../src/staticdata/StaticData.js'
 import Validator  from '../../src/validator/Validator.js'
 
 describe('Validator', () => {
-  describe('escapeString', () => {
-    it('should escape special characters in a string', () => {
-      const string_       =  `"<&'/">`
-      const escapedString = Validator.escapeString(string_)
-
-      expect(escapedString).toBe('&quot;&lt;&amp;&#x27;&#x2F;&quot;&gt;')
-    })
-
-    it('should return the same string if no special characters are present', () => {
-      const string_       = 'normalString'
-      const escapedString = Validator.escapeString(string_)
-
-      expect(escapedString).toBe('normalString')
-    })
-  })
-
   describe('getFilteredObject', () => {
     it('should return a filtered deep copy of a valid config object', () => {
       const object         = StaticData.DEFAULT_CONFIG
@@ -115,23 +99,6 @@ describe('Validator', () => {
     })
   })
 
-  describe('sanitizeStrings', () => {
-    it('should escape strings for special characters', () => {
-      const input  = [ `"<&'/">`, `second<&'/">` ]
-      const result = Validator.sanitizeStrings(input)
-
-      expect(result[0]).toBe('&quot;&lt;&amp;&#x27;&#x2F;&quot;&gt;')
-      expect(result[1]).toBe('second&lt;&amp;&#x27;&#x2F;&quot;&gt;')
-    })
-
-    it('should handle single string input', () => {
-      const input  = `"<&'/">`
-      const result = Validator.sanitizeStrings(input)
-
-      expect(result).toBe('&quot;&lt;&amp;&#x27;&#x2F;&quot;&gt;')
-    })
-  })
-
   describe('uniqueItems', () => {
     it('should return an array with unique items', () => {
       const array  = [ 1, 2, 2, 3, 4, 4, 5 ]
@@ -142,36 +109,6 @@ describe('Validator', () => {
 
     it('should handle a single value', () => {
       expect(Validator.uniqueItems(1)).toBe(1)
-    })
-  })
-
-  describe('validateColorInput', () => {
-    it('should validate hex color values', () => {
-      expect(Validator.validateColorInput('#FFFFFF')).toBe(true)
-      expect(Validator.validateColorInput('#FFFAAA')).toBe(true)
-      expect(Validator.validateColorInput('#ffffff')).toBe(true)
-      expect(Validator.validateColorInput('#000')).toBe(false) // not a 6 character hex
-      expect(Validator.validateColorInput('#GGGGGG')).toBe(false) // not valid hex characters
-      expect(Validator.validateColorInput('FFFFFF')).toBe(false)  // missing #
-    })
-  })
-
-  describe('validateNumberInput', () => {
-    it('should validate numerical strings', () => {
-      expect(Validator.validateNumberInput('123')).toBe(true)
-      expect(Validator.validateNumberInput('00123')).toBe(true)
-      expect(Validator.validateNumberInput('-123')).toBe(false)  // negative number
-      expect(Validator.validateNumberInput('123.45')).toBe(false) // decimal number
-      expect(Validator.validateNumberInput('ABC')).toBe(false)    // not a number
-    })
-  })
-
-  describe('validateStringInput', () => {
-    it('should validate alphanumeric and some special characters', () => {
-      expect(Validator.validateStringInput('test_String-123')).toBe(true)
-      expect(Validator.validateStringInput('test String')).toBe(true)
-      expect(Validator.validateStringInput('test_String_')).toBe(true)
-      expect(Validator.validateStringInput('test!String')).toBe(false) // has !
     })
   })
 

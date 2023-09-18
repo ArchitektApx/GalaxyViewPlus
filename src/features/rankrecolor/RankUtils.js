@@ -30,7 +30,9 @@ export default class RankUtils {
    * @static
    */
   static getRankSelectorData(featureConfig) {
-    const rankSelectorConfig = Mindash.findAny(featureConfig, feature => feature.feature === 'rankSelector')
+    const rankSelectorConfig = Mindash.findAny(
+      featureConfig, feature => feature.feature === 'rankSelector'
+    )
 
     if (rankSelectorConfig?.data && Array.isArray(rankSelectorConfig.data)) {
       return rankSelectorConfig.data

@@ -1,6 +1,6 @@
 # GalaxyViewPlus 
 
-Tampermonkey/Greasmonkey/ViolentMonkey(?) Plugin für pr0grame.com 
+Tampermonkey/Greasmonkey/ViolentMonkey(?) Plugin für pr0game.com 
 
 [GalaxyViewPlus installieren](https://raw.githubusercontent.com/ArchitektApx/GalaxyViewPlus/master/GalaxyViewPlus.user.js)
 ## Galaxy Menü

@@ -1,4 +1,3 @@
-/* eslint-disable sort-class-members/sort-class-members */
 import Arraydash  from './arraydash/Arraydash.js'
 import Objectdash from './objectdash/Objectdash.js'
 import Typedash   from './typedash/Typedash.js'

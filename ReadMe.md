@@ -25,3 +25,7 @@ The script adds a Settings menu under the Galaxy menu which controls various QoL
 ## Custom Features
 
 The script can be easily extended with your own features. Instructions tbd...
+
+## Breaking Changes 
+
+Configs saved before v1.7.0 have to be reset to get all english translations

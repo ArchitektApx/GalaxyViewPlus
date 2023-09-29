@@ -35,7 +35,7 @@ describe('SettingsHeader', () => {
     expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(2, 'br', {})
     expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(3, 'label', {
       attributes  : { for: 'test-prefix-header-status-checkbox' },
-      textContent : 'Aktiv:',
+      textContent : 'Active:',
     })
 
     // 4th is the div

@@ -1,27 +1,27 @@
 # GalaxyViewPlus 
 
-Tampermonkey/Greasmonkey/ViolentMonkey(?) Plugin für pr0game.com 
+Tampermonkey/Greasmonkey/ViolentMonkey(?) Plugin for pr0game.com 
 
-[GalaxyViewPlus installieren](https://raw.githubusercontent.com/ArchitektApx/GalaxyViewPlus/master/GalaxyViewPlus.user.js)
-## Galaxy Menü
+[Install GalaxyViewPlus](https://raw.githubusercontent.com/ArchitektApx/GalaxyViewPlus/master/GalaxyViewPlus.user.js)
+## Galaxy Menu
 
-Das Skript fügt unter dem Galaxy Menü ein Settings Menü hinzu welches diverse QoL Features steuert.
+The script adds a Settings menu under the Galaxy menu which controls various QoL features.
 
 ![galaxyiewmenu](media/galaxyviewmenu.png)
 
 ## Features
 
-- Usernamen einfärben
-- Rank anzeigen und einfärben
-- Inaktive einfärben
-- RangeInfo anzeigen (Planeten/Monde in der Umgebung)
-- Auswahl welcher Rank angezeigt wird 
-- Shortcut für den Syncbutton
-
-## Ergebnis
+- Colorize usernames
+- Show and color rank
+- Colorize inactive
+- Show RangeInfo (planets/moons in the area)
+- Select which rank to show 
+- Shortcut for the syncbutton
+  
+## Result
 
 ![result](media/result.png)
 
-## Eigene/Custom Features
+## Custom Features
 
-Das Skript lässt sich einfach um eigene Features erweitern. Anleitung folgt...
+The script can be easily extended with your own features. Instructions tbd...

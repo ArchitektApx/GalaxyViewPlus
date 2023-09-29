@@ -12,25 +12,25 @@ describe('ButtonElementFactory', () => {
   it('should create an addRow button with default properties', () => {
     const button = ButtonElementFactory.create('addRow')
     expect(button.classList.add).toHaveBeenCalledWith('add-row-btn')
-    expect(button.textContent).toBe('Hinzufügen')
+    expect(button.textContent).toBe('Add')
   })
 
   it('should create a removeRow button with default properties', () => {
     const button = ButtonElementFactory.create('removeRow')
     expect(button.classList.add).toHaveBeenCalledWith('remove-row-btn')
-    expect(button.textContent).toBe('Löschen')
+    expect(button.textContent).toBe('Delete')
   })
 
   it('should create a reset button with default properties', () => {
     const button = ButtonElementFactory.create('reset')
     expect(button.classList.add).toHaveBeenCalledWith('reset-config-btn')
-    expect(button.textContent).toBe('Zurücksetzen')
+    expect(button.textContent).toBe('Reset')
   })
 
   it('should create a save button with default properties', () => {
     const button = ButtonElementFactory.create('save')
     expect(button.classList.add).toHaveBeenCalledWith('save-config-btn')
-    expect(button.textContent).toBe('Speichern')
+    expect(button.textContent).toBe('Save')
   })
 
   it('should create a button with overridden properties', () => {

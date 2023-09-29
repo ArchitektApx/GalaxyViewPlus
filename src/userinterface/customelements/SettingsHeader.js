@@ -31,7 +31,7 @@ export default class SettingsHeader {
         HtmlElementFactory.create('br', {}),
         HtmlElementFactory.create('label', {
           attributes  : { for: `${ this.prefix }status-checkbox` },
-          textContent : 'Aktiv:',
+          textContent : 'Active:',
         }),
         InputElementFactory.create('checkbox', {
           attributes     : { 'data-lastvalue': config.active },

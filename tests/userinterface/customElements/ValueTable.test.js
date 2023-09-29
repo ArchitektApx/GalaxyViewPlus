@@ -112,7 +112,7 @@ describe('ValueTableElement', () => {
     })
     expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(3, 'th', {
       id          : 'test-prefixcell-delete',
-      textContent : 'Löschen',
+      textContent : 'Delete',
     })
     expect(HtmlElementFactory.create).toHaveBeenNthCalledWith(4, 'tr', {
       children  : [ expect.anything(), expect.anything(), expect.anything() ],

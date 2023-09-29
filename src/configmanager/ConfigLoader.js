@@ -67,7 +67,7 @@ export default class ConfigLoader {
     ConfigLoader.log('config is invalid or needs an update. starting migration', LogLevel.WARN)
     // ask users so we have a chance to prevent reload loops incase the config is invalid
     // eslint-disable-next-line no-restricted-globals
-    const response = confirm('Deine Config ist ungültig oder benötigt ein Update und wird daher migriert. Willst du die migrierte Config speichern und neu laden?')
+    const response = confirm('Config was deprecated or invalid and was migrated. Save and reload migrated Config?')
     const config   = Validator.migrateConfig(storedConfig, StaticData.DEFAULT_CONFIG)
     ConfigLoader.#saveConfig(config, response)
     return config

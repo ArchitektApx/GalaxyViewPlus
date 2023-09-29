@@ -37,7 +37,7 @@ export default class ValueTableElement {
         this.buildTableHeader('valuetable-header', [
           config.keyDisplayName,
           config.valueDisplayName,
-          'Löschen',
+          'Delete',
         ]),
         this.buildTableBody(config, configCallback),
         ValueTableElement.buildAddRowButton(this.addDefaultTableRow.bind(this), configCallback),

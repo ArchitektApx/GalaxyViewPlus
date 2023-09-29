@@ -21,11 +21,11 @@ export default class ButtonElementFactory {
    */
   static create(type, options = {}) {
     const buttonDefaults = {
-      addRow    : { classList: [ 'add-row-btn' ],      textContent: 'Hinzufügen'   },
+      addRow    : { classList: [ 'add-row-btn' ],      textContent: 'Add'   },
       button    : {},
-      removeRow : { classList: [ 'remove-row-btn' ],   textContent: 'Löschen'      },
-      reset     : { classList: [ 'reset-config-btn' ], textContent: 'Zurücksetzen' },
-      save      : { classList: [ 'save-config-btn' ],  textContent: 'Speichern'    },
+      removeRow : { classList: [ 'remove-row-btn' ],   textContent: 'Delete'      },
+      reset     : { classList: [ 'reset-config-btn' ], textContent: 'Reset' },
+      save      : { classList: [ 'save-config-btn' ],  textContent: 'Save'    },
     }
 
     const defaults = buttonDefaults[type]

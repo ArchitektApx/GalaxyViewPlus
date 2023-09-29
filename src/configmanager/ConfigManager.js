@@ -118,7 +118,7 @@ export default class ConfigManager {
   #updateConfig() {
     Validator.validateConfig(this.#runningConfig)
       ? this.#saveConfig()
-      : alert('etzadla iwas stimmd mid deina Gonfig nedd häddix8 ghabd')
+      : alert('Invalid config, aborting update')
   }
 
   /**

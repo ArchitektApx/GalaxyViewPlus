@@ -2,6 +2,7 @@ import Mindash    from '../../src/mindash/Mindash.js'
 import Arraydash  from '../../src/mindash/arraydash/Arraydash.js'
 import Objectdash from '../../src/mindash/objectdash/Objectdash.js'
 import Typedash   from '../../src/mindash/typedash/Typedash.js'
+import Cleandash  from '../../src/mindash/cleandash/Cleandash.js'
 
 describe('Mindash', () => {
   afterEach(() => {
@@ -33,6 +34,10 @@ describe('Mindash', () => {
 
   describe('Typedash methods', () => {
     checkMethodsExistence(Typedash, 'Typedash')
+  })
+
+  describe('Cleandash methods', () => {
+    checkMethodsExistence(Cleandash, 'Cleandash')
   })
 
   it('should not have had any errors while adding methods', () => {

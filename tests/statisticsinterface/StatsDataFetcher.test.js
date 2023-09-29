@@ -1,4 +1,4 @@
-import StatsDataFetcher from '../../src/statisticsinterface/StatsDataFetcher.js'
+import StatsDataFetcher from '../../src/statsdata/StatsDataFetcher.js'
 
 // Mocking the GM.xmlHttpRequest
 global.GM = {

@@ -5,74 +5,83 @@ import StatsDataLoader  from './StatsDataLoader.js'
 import StatsDataParser  from './StatsDataParser.js'
 
 /**
- * The StatisticsInterface is a singleton class that manages the stats data.
+ * The StatsDataInterface is a singleton class that manages the stats data.
  * It loads the stats data from storage or fetches it from the server.
  * It provides methods to access the stats data.
  * @class
  */
-export default class StatisticsInterface {
+export default class StatsDataInterface {
   static STATUS_FINISHED    = 'finished'
   static STATUS_IN_PROGRESS = 'inProgress'
   statsAvailable            = false
   statsData
   static #instance
-  static #logName           = 'StatisticsInterface'
+  static #logName           = 'StatsDataInterface'
 
   /**
-   * Creates a new StatisticsInterface instance if none exists.
+   * Creates a new StatsDataInterface instance if none exists.
    * Else it returns the existing instance (singleton).
    * executes async fetching of stats data
-   * @returns {StatisticsInterface} - The StatisticsInterface instance
+   * @returns {StatsDataInterface} - The StatsDataInterface instance
    * @class
    */
   constructor() {
-    if (StatisticsInterface.#instance) {
-      return StatisticsInterface.#instance
+    if (StatsDataInterface.#instance) {
+      return StatsDataInterface.#instance
     }
 
-    StatisticsInterface.#instance = this
+    StatsDataInterface.#instance = this
   }
 
   // public methods
   /**
    * returns a player id that matches the player name
-   * @param   {string} playerName - The name of the player
-   * @returns {number}            - The player id
+   * @param   {string}            playerName - The name of the player
+   * @returns {number|undefined}             - The player id or undefined if statsdata not available
+   *                                           or player name not found
    * @public
    */
   getPlayerIDByName(playerName) {
-    return Object.keys(this.statsData).find(key => this.statsData[key].playerName === playerName)
+    if (this.statsAvailable && this.statsData) {
+      return Object.keys(this.statsData).find(key => this.statsData[key]?.playerName === playerName)
+    }
   }
 
   /**
    * returns a player name that matches the player id
    * @param   {number} playerId - The id of the player
-   * @returns {string}          - The player name
+   * @returns {string|undefined}          - The player name
    * @public
    */
   getPlayerNameById(playerId) {
-    return this.statsData[playerId].playerName
+    if (this.statsAvailable && this.statsData) {
+      return this.statsData[playerId]?.playerName
+    }
   }
 
   /**
    * returns the rank of a player for a specific rank type
    * @param   {number} playerId - The id of the player
    * @param   {string} rankType - The type of the rank
-   * @returns {number}          - The rank of the player
+   * @returns {number|undefined}          - The rank of the player
    * @public
    */
   getPlayerRank(playerId, rankType = 'rank') {
-    return this.statsData[playerId][rankType]
+    if (this.statsAvailable && this.statsData) {
+      return this.statsData[playerId]?.[rankType]
+    }
   }
 
   /**
    * returns the rank data (all ranks) of a player
    * @param   {number} playerId - The id of the player
-   * @returns {object}          - The rank data of the player
+   * @returns {object|undefined}          - The rank data of the player
    * @public
    */
   getPlayerRankData(playerId) {
-    return this.statsData[playerId]
+    if (this.statsAvailable && this.statsData) {
+      return this.statsData[playerId]
+    }
   }
 
   /**
@@ -97,7 +106,7 @@ export default class StatisticsInterface {
       const result = await StatsDataFetcher.fetchStatsJson()
 
       if (result.status === 200) {
-        StatisticsInterface.log('StatsData was successfully downloaded', LogLevel.DEBUG)
+        StatsDataInterface.log('StatsData was successfully downloaded', LogLevel.DEBUG)
         this.statsData      = StatsDataParser.processStatsData(result)
         this.statsAvailable = true
       } else {
@@ -115,10 +124,10 @@ export default class StatisticsInterface {
    * @private
    */
   #handleErrorInFetching(response) {
-    StatisticsInterface.log('Error while downloading StatsData:', LogLevel.WARN)
-    StatisticsInterface.log('Response was:', LogLevel.WARN, response)
+    StatsDataInterface.log('Error while downloading StatsData:', LogLevel.WARN)
+    StatsDataInterface.log('Response was:', LogLevel.WARN, response)
 
-    StatisticsInterface.log('Try using old StatsData as fallback if available', LogLevel.DEBUG)
+    StatsDataInterface.log('Try using old StatsData as fallback if available', LogLevel.DEBUG)
     const statsData     = StatsDataLoader.fromStorage(true)
     this.statsData      = statsData
     this.statsAvailable = true
@@ -137,11 +146,11 @@ export default class StatisticsInterface {
     if (statsData) {
       this.statsData      = statsData
       this.statsAvailable = true
-      StatisticsInterface.log('StatsData successfully loaded from storage', LogLevel.DEBUG)
+      StatsDataInterface.log('StatsData successfully loaded from storage', LogLevel.DEBUG)
       return
     }
 
-    StatisticsInterface.log('StatsData will be refreshed', LogLevel.DEBUG)
+    StatsDataInterface.log('StatsData will be refreshed', LogLevel.DEBUG)
     await this.#fetchAndProcessStats()
   }
 
@@ -154,7 +163,7 @@ export default class StatisticsInterface {
    * @static
    */
   static log(message, level = LogLevel.INFO, error = '') {
-    StorageInterface.writeLog(message, level, StatisticsInterface.#logName, error)
+    StorageInterface.writeLog(message, level, StatsDataInterface.#logName, error)
   }
 
   /**
@@ -165,6 +174,6 @@ export default class StatisticsInterface {
    */
   // eslint-disable-next-line no-underscore-dangle
   static _resetInstance() {
-    StatisticsInterface.#instance = undefined
+    StatsDataInterface.#instance = undefined
   }
 }

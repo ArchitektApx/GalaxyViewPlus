@@ -31,6 +31,12 @@ describe('Arraydash', () => {
       const result = Arraydash.filterAny(input, ([ k, v ]) => v > 1, true)
       expect(result).toEqual([ [ 'b', 2 ], [ 'c', 3 ] ])
     })
+
+    it('should filter a single string as one array element', () => {
+      const input  = 'hello'
+      const result = Arraydash.filterAny(input, x => x === 'hello')
+      expect(result).toEqual([ 'hello' ])
+    })
   })
 
   describe('forAny', () => {

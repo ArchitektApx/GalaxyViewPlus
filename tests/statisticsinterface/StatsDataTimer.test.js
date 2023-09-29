@@ -1,4 +1,4 @@
-import StatsDataTimer from '../../src/statisticsinterface/StatsDataTimer.js' // Adjust the import path as needed
+import StatsDataTimer from '../../src/statsdata/StatsDataTimer.js' // Adjust the import path as needed
 
 describe('StatsDataTimer', () => {
   describe('calculate', () => {

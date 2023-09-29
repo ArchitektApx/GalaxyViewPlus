@@ -19,25 +19,40 @@ jest.mock('../../../src/userinterface/factories/HtmlElementFactory.js', () => ({
 }))
 
 describe('RankRecolor', () => {
+  let mockCurrentElement
+  let mockRankParameters
   const mockData = [
     { key: 1, value: 'red' },
     { key: 2, value: 'blue' },
   ]
 
-  const mockRankParameters = {
-    params: {
-      rank: [
-        { checked: false, value: 'rank', displayName: 'Gesamt' },
-        { checked: true, value: 'testRank', displayName: 'TestRank' },
-      ],
-      stats: {
-        getPlayerRank: jest.fn(),
-      },
-    },
-  }
-
   beforeEach(() => {
     jest.spyOn(HtmlElementFactory, 'create')
+
+    mockRankParameters = {
+      params: {
+        rank: [
+          { checked: false, value: 'rank', displayName: 'Gesamt' },
+          { checked: true, value: 'testRank', displayName: 'TestRank' },
+        ],
+        stats: {
+          getPlayerRank: jest.fn(),
+        },
+      },
+    }
+
+    mockCurrentElement = {
+      childNodes: [
+        {},
+        { attributes: { playerid: { value: '1' } } },
+      ],
+      parentNode: {
+        append: jest.fn(),
+      },
+      dataset: {
+        tooltipContent: '<th>this looks like a rank 123</th>',
+      },
+    }
   })
 
   afterEach(() => {
@@ -82,16 +97,7 @@ describe('RankRecolor', () => {
 
   describe('execute', () => {
     it('should add rank info to current element parent and recolor based on rank', () => {
-      const instance           = new RankRecolor(mockData, mockRankParameters)
-      const mockCurrentElement = {
-        childNodes: [
-          {},
-          { attributes: { playerid: { value: '1' } } },
-        ],
-        parentNode: {
-          append: jest.fn(),
-        },
-      }
+      const instance = new RankRecolor(mockData, mockRankParameters)
 
       mockRankParameters.params.stats.getPlayerRank.mockReturnValue(1)
 
@@ -106,22 +112,9 @@ describe('RankRecolor', () => {
     })
 
     it('should use fallback method if statsinterface is default value from constructor', () => {
-      const instance = new RankRecolor(mockData)
-
+      const instance         = new RankRecolor(mockData, mockRankParameters)
+      instance.statsInstance = {}
       expect(instance.statsInstance).toEqual({})
-
-      const mockCurrentElement = {
-        childNodes: [
-          {},
-          { attributes: { playerid: { value: '1' } } },
-        ],
-        parentNode: {
-          append: jest.fn(),
-        },
-        dataset: {
-          tooltipContent: '<th>this looks like a rank 123</th>',
-        },
-      }
 
       jest.spyOn(RankUtils, 'userRankFallback')
 
@@ -132,18 +125,43 @@ describe('RankRecolor', () => {
       expect(mockCurrentElement.parentNode.append).toHaveBeenCalled()
     })
 
-    it('should recolor rank info on rank bigger than ranks in rankData', () => {
+    it('should use fallback method if statsinterface returns undefined', () => {
       const instance = new RankRecolor(mockData, mockRankParameters)
 
-      const mockCurrentElement = {
-        childNodes: [
-          {},
-          { attributes: { playerid: { value: '3' } } },
-        ],
-        parentNode: {
-          append: jest.fn(),
-        },
-      }
+      expect(instance.statsInstance).toEqual(mockRankParameters.params.stats)
+
+      instance.statsInstance.getPlayerRank.mockReturnValue()
+
+      jest.spyOn(RankUtils, 'userRankFallback')
+
+      instance.execute(mockCurrentElement)
+
+      expect(RankUtils.userRankFallback).toHaveBeenCalled()
+      expect(instance.rankDisplayName).toBe('Gesamt')
+      expect(mockCurrentElement.parentNode.append).toHaveBeenCalled()
+    })
+
+    it('should have * added to the rankText if fallback method was used', () => {
+      const instance = new RankRecolor(mockData, mockRankParameters)
+
+      expect(instance.statsInstance).toEqual(mockRankParameters.params.stats)
+
+      instance.statsInstance.getPlayerRank.mockReturnValue()
+
+      jest.spyOn(RankUtils, 'userRankFallback')
+
+      instance.execute(mockCurrentElement)
+
+      expect(RankUtils.userRankFallback).toHaveBeenCalled()
+      expect(instance.rankDisplayName).toBe('Gesamt')
+
+      expect(HtmlElementFactory.create.mock.calls[2][1].textContent).toBe('Gesamt: 123 *')
+      expect(HtmlElementFactory.create).toHaveBeenCalledTimes(3)
+      expect(mockCurrentElement.parentNode.append).toHaveBeenCalled()
+    })
+
+    it('should recolor rank info on rank bigger than ranks in rankData', () => {
+      const instance = new RankRecolor(mockData, mockRankParameters)
 
       // Mock player rank that is bigger than the biggest rank in rankData
       instance.statsInstance.getPlayerRank.mockReturnValue(9999)
@@ -159,17 +177,9 @@ describe('RankRecolor', () => {
     })
 
     it('should add rank info but not recolor if no matching rankData found', () => {
-      const instance = new RankRecolor(mockData, mockRankParameters)
+      mockCurrentElement.childNodes[1].attributes.playerid.value = '3'
 
-      const mockCurrentElement = {
-        childNodes: [
-          {},
-          { attributes: { playerid: { value: '3' } } },
-        ],
-        parentNode: {
-          append: jest.fn(),
-        },
-      }
+      const instance = new RankRecolor(mockData, mockRankParameters)
 
       // Mock player rank that is smaller than the smallest rank in rankData
       instance.statsInstance.getPlayerRank.mockReturnValue(0)
@@ -187,12 +197,6 @@ describe('RankRecolor', () => {
 
   describe('userRankFallback', () => {
     it('should return total rank from tooltip content', () => {
-      const mockCurrentElement = {
-        dataset: {
-          tooltipContent: '<th>this looks like a rank 123</th>',
-        },
-      }
-
       const userRank = RankUtils.userRankFallback(mockCurrentElement)
 
       expect(userRank).toBe('123')

@@ -16,6 +16,7 @@ export default class RankRecolor {
    */
   constructor(configData = [], { params: parameters } = {}) {
     // parse parameters to make sure we have the expected types
+    this.usedFallback = false
     this.parseParameters(configData, parameters)
     this.getRankTypeAndDisplayName()
   }
@@ -74,7 +75,11 @@ export default class RankRecolor {
    */
   #createRankElement(userRank) {
     const rankElement = HtmlElementFactory.create('span', {})
-    const rankText    = `${ this.rankDisplayName }: ${ userRank }`
+    let rankText      = `${ this.rankDisplayName }: ${ userRank }`
+
+    if (this.usedFallback) {
+      rankText += ' *'
+    }
 
     rankElement.append(HtmlElementFactory.create('br', {}))
     rankElement.append(HtmlElementFactory.create('span', { textContent: rankText }))
@@ -89,12 +94,19 @@ export default class RankRecolor {
    * @private
    */
   #fetchUserRank(playerID, currentElement) {
-    try {
-      return this.statsInstance.getPlayerRank(Number.parseInt(playerID, 10), this.rankType)
-    } catch {
-      this.rankDisplayName = 'Gesamt'
-      return RankUtils.userRankFallback(currentElement)
+    // check if getPlayerRank method exists before calling it
+    let response
+    if (this.statsInstance.getPlayerRank) {
+      response = this.statsInstance.getPlayerRank(Number.parseInt(playerID, 10), this.rankType)
     }
+
+    if (Number.isInteger(response)) {
+      return response
+    }
+
+    this.rankDisplayName = 'Gesamt'
+    this.usedFallback    = true
+    return RankUtils.userRankFallback(currentElement)
   }
 
   /**

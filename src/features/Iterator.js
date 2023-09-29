@@ -19,7 +19,7 @@ export default class Iterator {
    * Creates a new Iterator instance and invokes the features.
    * @param   {object}  config          - The config for the features
    * @param   {Array}   config.features - The config of the individual features
-   * @param   {object}  stats           - The StatisticsInterface Instance
+   * @param   {object}  stats           - The StatsDataInterface Instance
    * @returns {Iterator}                - The Iterator instance
    * @class
    */
